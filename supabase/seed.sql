@@ -243,3 +243,24 @@ insert into public.cohort_activation_status (cohort_key, status)
 values ('en:America:fortnite', 'active_discovery')
 on conflict (cohort_key) do update set status = excluded.status;
 
+update public.feature_flags set enabled = true where key = 'messaging_enabled';
+
+-- Dev connection + conversation between dev-active and PeerOne for messaging smoke tests
+insert into public.connections (user_a_id, user_b_id, status)
+select least(a1.id, a2.id), greatest(a1.id, a2.id), 'connected'::public.connection_status
+from public.accounts a1
+cross join public.accounts a2
+where a1.auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+  and a2.auth_user_id = 'd1111111-1111-1111-1111-111111111111'
+on conflict (user_a_id, user_b_id) do nothing;
+
+select public.create_conversation_for_connection(c.id)
+from public.connections c
+where (c.user_a_id, c.user_b_id) = (
+  select least(a1.id, a2.id), greatest(a1.id, a2.id)
+  from public.accounts a1
+  cross join public.accounts a2
+  where a1.auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+    and a2.auth_user_id = 'd1111111-1111-1111-1111-111111111111'
+);
+

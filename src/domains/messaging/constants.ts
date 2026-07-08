@@ -1,0 +1,3 @@
+export const MAX_MESSAGE_LENGTH = 2000;
+export const MESSAGE_RATE_LIMIT_COUNT = 30;
+export const MESSAGE_RATE_LIMIT_WINDOW_MINUTES = 5;

@@ -3,9 +3,15 @@ import type { ConnectionView } from "@/domains/connections/types";
 
 type ConnectionListItemProps = {
   connection: ConnectionView;
+  conversationId?: string | null;
 };
 
-export function ConnectionListItem({ connection }: ConnectionListItemProps) {
+export function ConnectionListItem({
+  connection,
+  conversationId,
+}: ConnectionListItemProps) {
+  const messageHref = conversationId ? `/messages/${conversationId}` : null;
+
   return (
     <article className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-white p-5">
       <div className="flex items-center justify-between gap-3">
@@ -19,7 +25,17 @@ export function ConnectionListItem({ connection }: ConnectionListItemProps) {
             </Link>
           </h3>
           <p className="mt-1 text-sm text-[var(--color-text-slate)]">
-            Connected · Messaging ships in the next slice
+            Connected
+            {messageHref ? (
+              <>
+                {" · "}
+                <Link href={messageHref} className="text-[var(--color-lobby-teal)] underline">
+                  Open messages
+                </Link>
+              </>
+            ) : (
+              " · Conversation pending"
+            )}
           </p>
         </div>
       </div>

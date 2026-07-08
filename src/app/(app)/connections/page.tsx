@@ -9,6 +9,7 @@ import {
   getIncomingRequests,
   getOutgoingRequests,
 } from "@/domains/connections/queries";
+import { getConversationIdsForConnections } from "@/domains/messaging/queries";
 import { getGamerProfileForAccount } from "@/domains/profile/queries";
 import { isFeatureEnabled } from "@/lib/feature-flags";
 
@@ -29,6 +30,11 @@ export default async function ConnectionsPage() {
         getActiveConnections(account.id),
       ])
     : [[], [], []];
+
+  const conversationByConnection =
+    requestsEnabled && (await isFeatureEnabled("messaging_enabled"))
+      ? await getConversationIdsForConnections(connections.map((c) => c.id))
+      : new Map<string, string>();
 
   return (
     <div className="mx-auto max-w-2xl space-y-10">
@@ -107,7 +113,10 @@ export default async function ConnectionsPage() {
               <ul className="space-y-4">
                 {connections.map((connection) => (
                   <li key={connection.id}>
-                    <ConnectionListItem connection={connection} />
+                    <ConnectionListItem
+                      connection={connection}
+                      conversationId={conversationByConnection.get(connection.id)}
+                    />
                   </li>
                 ))}
               </ul>

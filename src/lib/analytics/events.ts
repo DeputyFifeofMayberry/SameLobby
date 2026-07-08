@@ -16,6 +16,8 @@ export const ANALYTICS_EVENTS = [
   "connection_request_sent",
   "connection_request_accepted",
   "block_created",
+  "message_sent",
+  "report_submitted",
 ] as const;
 
 export type AnalyticsEvent = (typeof ANALYTICS_EVENTS)[number];
