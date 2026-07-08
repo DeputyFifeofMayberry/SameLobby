@@ -2,6 +2,7 @@ export const POLICY_VERSIONS = {
   terms: "2026-07-08",
   privacy: "2026-07-08",
   communityStandards: "2026-07-08",
+  adultAttestation: "2026-07-08",
 } as const;
 
 export type AccountStatus =

@@ -38,9 +38,8 @@ export function AccountSettingsPanel({ account }: { account: Account }) {
         </h2>
         <p className="mt-2 text-sm text-[var(--color-text-slate)]">
           Your profile will be removed from discovery immediately. Safety and
-          block records may be retained as described in the Privacy Notice.
-          Full deletion processing is completed by automated jobs in a later
-          slice.
+          block records may be retained as described in the Privacy Notice. Full
+          deletion processing is completed by automated jobs in a later slice.
         </p>
         {state?.ok && (
           <Alert variant="success" className="mt-4">

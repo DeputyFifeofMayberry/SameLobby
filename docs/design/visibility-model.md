@@ -4,28 +4,28 @@
 
 ## Visibility classes
 
-| Class | Who sees it | Examples |
-|-------|-------------|----------|
-| **Public within SameLobby** | Signed-in verified 18+ members who meet discovery visibility rules | Display name, avatar, broad region/time zone, featured games/platforms, communication capabilities, current goal, introduction, user-selected interests/boundaries |
-| **Match-only** | Used for eligibility/ordering; shown only as overlap or capability, not underlying reason | General availability, intent timing, non-public preferences, accommodation needs, full game list, active search constraints |
-| **Connection-only** | After mutual connection or accepted group membership | External handles, direct availability detail, conversation, play invitations, optional age range if enabled |
-| **Private / admin** | Account owner or least-privilege admin with audit | Email, auth, billing, blocks, reports, moderation evidence |
+| Class                       | Who sees it                                                                               | Examples                                                                                                                                                           |
+| --------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Public within SameLobby** | Signed-in verified 18+ members who meet discovery visibility rules                        | Display name, avatar, broad region/time zone, featured games/platforms, communication capabilities, current goal, introduction, user-selected interests/boundaries |
+| **Match-only**              | Used for eligibility/ordering; shown only as overlap or capability, not underlying reason | General availability, intent timing, non-public preferences, accommodation needs, full game list, active search constraints                                        |
+| **Connection-only**         | After mutual connection or accepted group membership                                      | External handles, direct availability detail, conversation, play invitations, optional age range if enabled                                                        |
+| **Private / admin**         | Account owner or least-privilege admin with audit                                         | Email, auth, billing, blocks, reports, moderation evidence                                                                                                         |
 
 ## Field defaults (MVP)
 
-| Field | Default visibility |
-|-------|-------------------|
-| Display name | Public |
-| Abstract avatar | Public when selected |
-| Age range (optional) | Connection-only |
-| Time zone / broad region | Public (broad label only) |
-| Games / platforms | Public |
-| General availability | Match-only |
-| Current intent | Public while discoverable |
-| Environment preferences | Match-only |
-| Stage-of-life rhythm | Match-only |
-| Introduction | Public when provided |
-| External handles | Connection-only (never in discovery) |
+| Field                    | Default visibility                   |
+| ------------------------ | ------------------------------------ |
+| Display name             | Public                               |
+| Abstract avatar          | Public when selected                 |
+| Age range (optional)     | Connection-only                      |
+| Time zone / broad region | Public (broad label only)            |
+| Games / platforms        | Public                               |
+| General availability     | Match-only                           |
+| Current intent           | Public while discoverable            |
+| Environment preferences  | Match-only                           |
+| Stage-of-life rhythm     | Match-only                           |
+| Introduction             | Public when provided                 |
+| External handles         | Connection-only (never in discovery) |
 
 ## Rules
 

@@ -8,7 +8,10 @@ export const ANALYTICS_EVENTS = [
   "adult_attestation_completed",
   "onboarding_step_completed",
   "account_deletion_requested",
-  "sign_in_magic_link_sent",
+  "sign_up_started",
+  "sign_up_completed",
+  "sign_in_completed",
+  "password_reset_requested",
 ] as const;
 
 export type AnalyticsEvent = (typeof ANALYTICS_EVENTS)[number];

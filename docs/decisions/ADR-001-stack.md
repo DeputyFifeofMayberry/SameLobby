@@ -9,16 +9,16 @@ SameLobby requires a solo-founder-friendly stack that supports secure auth, Post
 
 ## Decision
 
-| Layer | Choice |
-|-------|--------|
-| Framework | Next.js 16.2.x (App Router, TypeScript strict) |
-| Styling | Tailwind CSS 4 + Slice 0 design tokens |
-| Database / Auth | Supabase (PostgreSQL, Auth magic link, RLS) |
-| Hosting | Vercel (preview + production) |
-| Email | Resend (transactional — wired in later slices) |
-| Analytics | PostHog allowlist registry (provider wired later) |
-| Errors | Sentry stub with scrub rules until DSN configured |
-| Tests | Vitest (unit), pgTAP via `supabase test db` (RLS) |
+| Layer           | Choice                                                      |
+| --------------- | ----------------------------------------------------------- |
+| Framework       | Next.js 16.2.x (App Router, TypeScript strict)              |
+| Styling         | Tailwind CSS 4 + Slice 0 design tokens                      |
+| Database / Auth | Supabase (PostgreSQL, Auth email+password per ADR-002, RLS) |
+| Hosting         | Vercel (preview + production)                               |
+| Email           | Resend (transactional — wired in later slices)              |
+| Analytics       | PostHog allowlist registry (provider wired later)           |
+| Errors          | Sentry stub with scrub rules until DSN configured           |
+| Tests           | Vitest (unit), pgTAP via `supabase test db` (RLS)           |
 
 ## Consequences
 

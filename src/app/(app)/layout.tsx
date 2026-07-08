@@ -1,6 +1,8 @@
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
-import { getSessionUser } from "@/domains/accounts/queries";
+import { getAccountRouteRedirect } from "@/domains/accounts/account-guard";
+import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
 
 export default async function AppLayout({
   children,
@@ -10,6 +12,13 @@ export default async function AppLayout({
   const user = await getSessionUser();
   if (!user) {
     redirect("/sign-in");
+  }
+
+  const account = await getAccountForUser(user.id);
+  const pathname = (await headers()).get("x-pathname") ?? "";
+  const routeRedirect = getAccountRouteRedirect(account, pathname);
+  if (routeRedirect) {
+    redirect(routeRedirect);
   }
 
   return <AppShell>{children}</AppShell>;

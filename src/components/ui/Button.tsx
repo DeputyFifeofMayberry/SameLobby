@@ -5,13 +5,11 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variants = {
-  primary:
-    "bg-[var(--color-lobby-teal)] text-white hover:opacity-90",
+  primary: "bg-[var(--color-lobby-teal)] text-white hover:opacity-90",
   secondary:
     "border border-[var(--color-lobby-teal)] text-[var(--color-lobby-teal)] bg-white hover:bg-[var(--color-signal-mint)]",
   ghost: "text-[var(--color-text-slate)] hover:bg-[var(--color-cloud)]",
-  destructive:
-    "bg-[var(--color-error)] text-white hover:opacity-90",
+  destructive: "bg-[var(--color-error)] text-white hover:opacity-90",
 };
 
 export function Button({

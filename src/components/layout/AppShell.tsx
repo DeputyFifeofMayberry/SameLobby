@@ -13,7 +13,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen flex-col md:flex-row">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2"
       >
         Skip to main content
       </a>
@@ -54,7 +54,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           >
             SameLobby
           </Link>
-          <Link href="/settings/account" className="text-sm text-[var(--color-lobby-teal)]">
+          <Link
+            href="/settings/account"
+            className="text-sm text-[var(--color-lobby-teal)]"
+          >
             Settings
           </Link>
         </header>
@@ -63,7 +66,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </main>
         <nav
           aria-label="Primary"
-          className="fixed bottom-0 left-0 right-0 flex border-t border-[var(--color-border)] bg-white md:hidden"
+          className="fixed right-0 bottom-0 left-0 flex border-t border-[var(--color-border)] bg-white md:hidden"
         >
           {navItems.map((item) => (
             <Link

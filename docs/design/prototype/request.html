@@ -1,47 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Connection request — SameLobby Prototype</title>
-  <link rel="stylesheet" href="prototype.css" />
-</head>
-<body>
-  <div class="proto-banner"><strong>Slice 0</strong> — J07 Connection request</div>
-  <a class="skip-link" href="#main">Skip to main content</a>
-  <header class="app-header">
-    <a class="logo" href="index.html">SameLobby</a>
-  </header>
-  <main id="main">
-    <div class="card">
-      <h1>PixelPilot</h1>
-      <p>Fortnite · PC · Pacific Time</p>
-      <ul class="reasons">
-        <li>Shared game and platform path</li>
-        <li>Overlapping schedule tonight</li>
-      </ul>
-      <p class="field">
-        <label for="note">Connection note (optional, 300 characters)</label>
-        <textarea id="note" rows="3">Hey — also looking for a chill duo tonight. Down to run a few?</textarea>
-      </p>
-      <button type="button" class="btn btn-primary" onclick="location.href='messages.html'">Send connection request</button>
-      <button type="button" class="btn btn-ghost" onclick="location.href='safety.html'">Safety actions</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Connection request — SameLobby Prototype</title>
+    <link rel="stylesheet" href="prototype.css" />
+  </head>
+  <body>
+    <div class="proto-banner">
+      <strong>Slice 0</strong> — J07 Connection request
     </div>
-    <div class="card">
-      <h2>Incoming request (mock)</h2>
-      <p><strong>QueueCalm</strong> wants to connect about Fortnite.</p>
-      <p><em>"Looking for someone interruption-friendly for short sessions."</em></p>
-      <button type="button" class="btn btn-primary" onclick="location.href='messages.html'">Accept</button>
-      <button type="button" class="btn btn-secondary">Decline</button>
-      <p><small>Declines are private. Messaging opens only after mutual acceptance.</small></p>
-    </div>
-  </main>
-  <nav class="bottom-nav" aria-label="Primary">
-    <a href="discover.html">Discover</a>
-    <a href="request.html" aria-current="page">Connections</a>
-    <a href="messages.html">Messages</a>
-    <a href="play.html">Play</a>
-    <a href="teammates.html">Teammates</a>
-  </nav>
-</body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="app-header">
+      <a class="logo" href="index.html">SameLobby</a>
+    </header>
+    <main id="main">
+      <div class="card">
+        <h1>PixelPilot</h1>
+        <p>Fortnite · PC · Pacific Time</p>
+        <ul class="reasons">
+          <li>Shared game and platform path</li>
+          <li>Overlapping schedule tonight</li>
+        </ul>
+        <p class="field">
+          <label for="note">Connection note (optional, 300 characters)</label>
+          <textarea id="note" rows="3">
+Hey — also looking for a chill duo tonight. Down to run a few?</textarea>
+        </p>
+        <button
+          type="button"
+          class="btn btn-primary"
+          onclick="location.href = 'messages.html'"
+        >
+          Send connection request
+        </button>
+        <button
+          type="button"
+          class="btn btn-ghost"
+          onclick="location.href = 'safety.html'"
+        >
+          Safety actions
+        </button>
+      </div>
+      <div class="card">
+        <h2>Incoming request (mock)</h2>
+        <p><strong>QueueCalm</strong> wants to connect about Fortnite.</p>
+        <p>
+          <em
+            >"Looking for someone interruption-friendly for short sessions."</em
+          >
+        </p>
+        <button
+          type="button"
+          class="btn btn-primary"
+          onclick="location.href = 'messages.html'"
+        >
+          Accept
+        </button>
+        <button type="button" class="btn btn-secondary">Decline</button>
+        <p>
+          <small
+            >Declines are private. Messaging opens only after mutual
+            acceptance.</small
+          >
+        </p>
+      </div>
+    </main>
+    <nav class="bottom-nav" aria-label="Primary">
+      <a href="discover.html">Discover</a>
+      <a href="request.html" aria-current="page">Connections</a>
+      <a href="messages.html">Messages</a>
+      <a href="play.html">Play</a>
+      <a href="teammates.html">Teammates</a>
+    </nav>
+  </body>
 </html>

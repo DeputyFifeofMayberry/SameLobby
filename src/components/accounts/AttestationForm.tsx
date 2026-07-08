@@ -11,7 +11,10 @@ import { Alert } from "@/components/ui/Alert";
 const initial: ActionResult | null = null;
 
 export function AttestationForm() {
-  const [state, formAction, pending] = useActionState(completeAttestation, initial);
+  const [state, formAction, pending] = useActionState(
+    completeAttestation,
+    initial,
+  );
 
   return (
     <form action={formAction} className="mx-auto max-w-lg space-y-6">
@@ -20,7 +23,12 @@ export function AttestationForm() {
           Confirm you are 18 or older
         </legend>
         <label className="flex gap-3 text-sm">
-          <input type="checkbox" name="adultConfirmed" className="mt-1" required />
+          <input
+            type="checkbox"
+            name="adultConfirmed"
+            className="mt-1"
+            required
+          />
           <span>
             I am 18 years of age or older and want to use SameLobby for platonic
             gaming friendships and teammates.
@@ -33,7 +41,10 @@ export function AttestationForm() {
           <input type="checkbox" name="termsAccepted" required />
           <span>
             I accept the{" "}
-            <a href="/safety" className="text-[var(--color-lobby-teal)] underline">
+            <a
+              href="/safety"
+              className="text-[var(--color-lobby-teal)] underline"
+            >
               Terms of Service
             </a>
             .
@@ -43,7 +54,10 @@ export function AttestationForm() {
           <input type="checkbox" name="privacyAccepted" required />
           <span>
             I accept the{" "}
-            <a href="/safety" className="text-[var(--color-lobby-teal)] underline">
+            <a
+              href="/safety"
+              className="text-[var(--color-lobby-teal)] underline"
+            >
               Privacy Notice
             </a>
             .
@@ -53,7 +67,10 @@ export function AttestationForm() {
           <input type="checkbox" name="communityStandardsAccepted" required />
           <span>
             I accept the{" "}
-            <a href="/safety" className="text-[var(--color-lobby-teal)] underline">
+            <a
+              href="/safety"
+              className="text-[var(--color-lobby-teal)] underline"
+            >
               Community Standards
             </a>
             .

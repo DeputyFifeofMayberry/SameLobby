@@ -34,7 +34,7 @@ When Slice 1 initializes Next.js, migrate tokens to `src/styles/tokens.css` and 
 
 ## Unresolved design choices (logged)
 
-| Item | Label | Notes |
-|------|-------|-------|
+| Item      | Label | Notes                                                 |
+| --------- | ----- | ----------------------------------------------------- |
 | Dark mode | WATCH | Light-first for MVP; dark mode post-MVP per final doc |
-| Storybook | WATCH | Optional; HTML prototype sufficient for Slice 0 |
+| Storybook | WATCH | Optional; HTML prototype sufficient for Slice 0       |

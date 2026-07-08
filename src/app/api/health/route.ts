@@ -9,7 +9,10 @@ export async function GET() {
 
   try {
     const supabase = await createClient();
-    const { error } = await supabase.from("feature_flags").select("key").limit(1);
+    const { error } = await supabase
+      .from("feature_flags")
+      .select("key")
+      .limit(1);
     checks.database = error ? "degraded" : "ok";
   } catch {
     checks.database = "unavailable";

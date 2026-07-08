@@ -19,10 +19,6 @@ export const attestationSchema = z.object({
   }),
 });
 
-export const signInSchema = z.object({
-  email: z.string().email("Enter a valid email address."),
-});
-
 export const deletionRequestSchema = z.object({
   confirm: z.literal(true, {
     errorMap: () => ({

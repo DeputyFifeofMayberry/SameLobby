@@ -1,6 +1,8 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { env } from "@/lib/env";
+import { resolvePostAuthRedirect } from "@/domains/accounts/account-guard";
+import type { AccountStatus } from "@/domains/accounts/types";
 
 const APP_PREFIXES = [
   "/discover",
@@ -13,8 +15,15 @@ const APP_PREFIXES = [
   "/admin",
 ];
 
+const AUTH_PAGES = ["/sign-in", "/sign-up", "/forgot-password"];
+
 export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", request.nextUrl.pathname);
+
+  let supabaseResponse = NextResponse.next({
+    request: { headers: requestHeaders },
+  });
 
   const supabase = createServerClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
@@ -24,11 +33,19 @@ export async function middleware(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
+        setAll(
+          cookiesToSet: {
+            name: string;
+            value: string;
+            options: CookieOptions;
+          }[],
+        ) {
           cookiesToSet.forEach(({ name, value }) => {
             request.cookies.set(name, value);
           });
-          supabaseResponse = NextResponse.next({ request });
+          supabaseResponse = NextResponse.next({
+            request: { headers: requestHeaders },
+          });
           cookiesToSet.forEach(({ name, value, options }) => {
             supabaseResponse.cookies.set(name, value, options);
           });
@@ -45,6 +62,9 @@ export async function middleware(request: NextRequest) {
   const isAppRoute = APP_PREFIXES.some(
     (prefix) => path === prefix || path.startsWith(`${prefix}/`),
   );
+  const isAuthPage = AUTH_PAGES.some(
+    (prefix) => path === prefix || path.startsWith(`${prefix}/`),
+  );
 
   if (isAppRoute && !user) {
     const url = request.nextUrl.clone();
@@ -53,9 +73,18 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (path === "/sign-in" && user) {
+  if (isAuthPage && user) {
+    const { data: account } = await supabase
+      .from("accounts")
+      .select("status")
+      .eq("auth_user_id", user.id)
+      .maybeSingle<{ status: AccountStatus }>();
+
+    const next = request.nextUrl.searchParams.get("next");
+    const destination = resolvePostAuthRedirect(account, next);
     const url = request.nextUrl.clone();
-    url.pathname = "/discover";
+    url.pathname = destination;
+    url.search = "";
     return NextResponse.redirect(url);
   }
 

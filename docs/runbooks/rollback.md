@@ -8,7 +8,7 @@
 
 ## Emergency feature disable (no deploy)
 
-1. Set `registration_open = false` in `feature_flags` (Supabase SQL editor or admin UI in Slice 8).
+1. Set `registration_open = false` in `feature_flags` (Supabase SQL editor or admin UI in Slice 8). This blocks new signups via the `hook_before_user_created` Auth hook and the `/sign-up` server action.
 2. Optionally disable `connection_requests_enabled` / `messaging_enabled`.
 3. Record action in `audit_events` when admin console is available.
 

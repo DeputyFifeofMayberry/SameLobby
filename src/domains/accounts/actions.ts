@@ -6,7 +6,10 @@ import { headers } from "next/headers";
 import { createHash } from "crypto";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { attestationSchema, deletionRequestSchema } from "@/domains/accounts/schemas";
+import {
+  attestationSchema,
+  deletionRequestSchema,
+} from "@/domains/accounts/schemas";
 import { POLICY_VERSIONS } from "@/domains/accounts/types";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
 import { trackEvent } from "@/lib/analytics/events";
@@ -16,9 +19,14 @@ function hashValue(value: string): string {
   return createHash("sha256").update(value).digest("hex");
 }
 
-export type ActionResult =
-  | { ok: true }
-  | { ok: false; error: string };
+function firstZodError(parsed: {
+  success: false;
+  error: { issues: { message?: string }[] };
+}): string {
+  return parsed.error.issues[0]?.message ?? "Invalid form";
+}
+
+export type ActionResult = { ok: true } | { ok: false; error: string };
 
 export async function completeAttestation(
   _prev: ActionResult | null,
@@ -33,7 +41,7 @@ export async function completeAttestation(
   });
 
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.errors[0]?.message ?? "Invalid form" };
+    return { ok: false, error: firstZodError(parsed) };
   }
 
   const user = await getSessionUser();
@@ -50,50 +58,37 @@ export async function completeAttestation(
     return { ok: false, error: "This account cannot be updated." };
   }
 
-  const supabase = await createClient();
+  if (account.status === "active" && account.adult_attested_at) {
+    redirect("/discover");
+  }
+
   const now = new Date().toISOString();
   const headerStore = await headers();
   const ipHash = hashValue(headerStore.get("x-forwarded-for") ?? "unknown");
   const uaHash = hashValue(headerStore.get("user-agent") ?? "unknown");
 
-  const { error: updateError } = await supabase
-    .from("accounts")
-    .update({
-      status: "active",
-      adult_attested_at: now,
-      terms_version: POLICY_VERSIONS.terms,
-      privacy_version: POLICY_VERSIONS.privacy,
-      community_standards_version: POLICY_VERSIONS.communityStandards,
-    })
-    .eq("auth_user_id", user.id);
-
-  if (updateError) {
-    logger.error("attestation_update_failed", { code: updateError.code });
+  let admin;
+  try {
+    admin = createAdminClient();
+  } catch {
+    logger.error("attestation_admin_unavailable");
     return { ok: false, error: "Could not save attestation. Try again." };
   }
 
-  const consentRows = [
-    { event_type: "adult_attestation", policy_version: POLICY_VERSIONS.terms },
-    { event_type: "terms_accepted", policy_version: POLICY_VERSIONS.terms },
-    { event_type: "privacy_accepted", policy_version: POLICY_VERSIONS.privacy },
-    {
-      event_type: "community_standards_accepted",
-      policy_version: POLICY_VERSIONS.communityStandards,
-    },
-  ] as const;
+  const { error: rpcError } = await admin.rpc("complete_account_attestation", {
+    p_account_id: account.id,
+    p_adult_attested_at: now,
+    p_terms_version: POLICY_VERSIONS.terms,
+    p_privacy_version: POLICY_VERSIONS.privacy,
+    p_community_standards_version: POLICY_VERSIONS.communityStandards,
+    p_adult_attestation_version: POLICY_VERSIONS.adultAttestation,
+    p_ip_hash: ipHash,
+    p_user_agent_hash: uaHash,
+  });
 
-  for (const row of consentRows) {
-    const { error: consentError } = await supabase.from("consent_events").insert({
-      account_id: account.id,
-      event_type: row.event_type,
-      policy_version: row.policy_version,
-      ip_hash: ipHash,
-      user_agent_hash: uaHash,
-    });
-    if (consentError) {
-      logger.error("consent_insert_failed", { code: consentError.code });
-      return { ok: false, error: "Could not record consent. Try again." };
-    }
+  if (rpcError) {
+    logger.error("attestation_rpc_failed", { code: rpcError.code });
+    return { ok: false, error: "Could not save attestation. Try again." };
   }
 
   trackEvent("adult_attestation_completed");
@@ -110,7 +105,7 @@ export async function requestAccountDeletion(
   });
 
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.errors[0]?.message ?? "Invalid form" };
+    return { ok: false, error: firstZodError(parsed) };
   }
 
   const user = await getSessionUser();
@@ -123,32 +118,41 @@ export async function requestAccountDeletion(
     return { ok: false, error: "Account not found." };
   }
 
-  const supabase = await createClient();
+  if (account.status === "deletion_pending") {
+    return { ok: true };
+  }
+
+  if (account.status === "deleted") {
+    return { ok: false, error: "This account has already been deleted." };
+  }
+
   const scheduled = new Date();
   scheduled.setDate(scheduled.getDate() + 30);
 
-  const { error: deletionError } = await supabase.from("deletion_requests").insert({
-    account_id: account.id,
-    status: "requested",
-    scheduled_purge_at: scheduled.toISOString(),
-  });
-
-  if (deletionError) {
-    logger.error("deletion_request_failed", { code: deletionError.code });
+  let admin;
+  try {
+    admin = createAdminClient();
+  } catch {
+    logger.error("deletion_admin_unavailable");
     return { ok: false, error: "Could not request deletion. Try again." };
   }
 
-  const { error: statusError } = await supabase
-    .from("accounts")
-    .update({ status: "deletion_pending" })
-    .eq("auth_user_id", user.id);
+  const { error: rpcError } = await admin.rpc("request_account_deletion", {
+    p_account_id: account.id,
+    p_scheduled_purge_at: scheduled.toISOString(),
+  });
 
-  if (statusError) {
+  if (rpcError) {
+    logger.error("deletion_rpc_failed", { code: rpcError.code });
+    return { ok: false, error: "Could not request deletion. Try again." };
+  }
+
+  const updated = await getAccountForUser(user.id);
+  if (updated?.status !== "deletion_pending") {
     return { ok: false, error: "Could not update account status." };
   }
 
   try {
-    const admin = createAdminClient();
     await admin.from("audit_events").insert({
       actor_account_id: account.id,
       action: "account.deletion_requested",
@@ -157,7 +161,7 @@ export async function requestAccountDeletion(
       metadata: { status: "requested" },
     });
   } catch {
-    logger.warn("audit_event_skipped", { reason: "no_service_role" });
+    logger.warn("audit_event_skipped", { reason: "audit_insert_failed" });
   }
 
   trackEvent("account_deletion_requested");

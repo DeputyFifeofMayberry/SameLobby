@@ -9,7 +9,8 @@ type AlertProps = {
 };
 
 const styles = {
-  error: "border-[var(--color-error)] bg-[var(--color-error-bg)] text-[var(--color-error)]",
+  error:
+    "border-[var(--color-error)] bg-[var(--color-error-bg)] text-[var(--color-error)]",
   info: "border-[var(--color-border)] bg-white text-[var(--color-text-slate)]",
   success:
     "border-[var(--color-lobby-teal)] bg-[var(--color-signal-mint)] text-[var(--color-night-navy)]",

@@ -4,12 +4,12 @@
 
 ## Surfaces
 
-| Surface | URL prefix | Audience | Auth |
-|---------|------------|----------|------|
-| Public website | `/`, `/how-it-works`, `/safety`, `/pricing`, `/help`, `/sign-in` | Anonymous + SEO | Optional sign-in entry |
-| Authenticated app | `/discover`, `/connections`, `/messages`, `/play`, `/teammates`, `/profile`, `/settings`, `/onboarding` | Verified 18+ members | Required |
-| Founder admin | `/admin/*` | Scoped founder accounts + MFA | Required + scope |
-| Design prototype | `docs/design/prototype/` (static HTML until Slice 1 `(prototype)/` routes) | Internal | N/A |
+| Surface           | URL prefix                                                                                              | Audience                      | Auth                   |
+| ----------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------- | ---------------------- |
+| Public website    | `/`, `/how-it-works`, `/safety`, `/pricing`, `/help`, `/sign-in`                                        | Anonymous + SEO               | Optional sign-in entry |
+| Authenticated app | `/discover`, `/connections`, `/messages`, `/play`, `/teammates`, `/profile`, `/settings`, `/onboarding` | Verified 18+ members          | Required               |
+| Founder admin     | `/admin/*`                                                                                              | Scoped founder accounts + MFA | Required + scope       |
+| Design prototype  | `docs/design/prototype/` (static HTML until Slice 1 `(prototype)/` routes)                              | Internal                      | N/A                    |
 
 ## Primary navigation (authenticated)
 

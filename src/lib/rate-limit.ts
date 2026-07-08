@@ -1,5 +1,5 @@
 /**
- * In-memory rate limit stub for Slice 1 (sign-up / magic link).
+ * In-memory rate limit stub for sign-up / sign-in (Slice 1).
  * Replace with durable store (Redis/Postgres) before public release.
  */
 

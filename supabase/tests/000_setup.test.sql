@@ -1,4 +1,7 @@
--- Test helpers for pgTAP RLS tests
+create extension if not exists pgtap with schema extensions;
+
+create schema if not exists tests;
+
 create or replace function tests.set_auth(user_id uuid)
 returns void
 language plpgsql
@@ -20,3 +23,9 @@ begin
   perform set_config('role', 'anon', true);
 end;
 $$;
+
+begin;
+select plan(1);
+select pass('test helpers installed');
+select * from finish();
+rollback;

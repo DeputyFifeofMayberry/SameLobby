@@ -13,17 +13,17 @@
 
 **Category: Empty repository (git initialized, zero commits, zero application files).**
 
-| Item | State |
-|------|-------|
-| Git | `main` branch, no commits |
-| Remote | `origin` → `https://github.com/DeputyFifeofMayberry/SameLobby.git` |
-| Application code | None |
-| `package.json` / lock files | None |
-| Framework config | None |
-| Supabase / migrations | None |
-| CI/CD | None |
-| Tests | None |
-| Documentation (besides this plan) | None |
+| Item                              | State                                                              |
+| --------------------------------- | ------------------------------------------------------------------ |
+| Git                               | `main` branch, no commits                                          |
+| Remote                            | `origin` → `https://github.com/DeputyFifeofMayberry/SameLobby.git` |
+| Application code                  | None                                                               |
+| `package.json` / lock files       | None                                                               |
+| Framework config                  | None                                                               |
+| Supabase / migrations             | None                                                               |
+| CI/CD                             | None                                                               |
+| Tests                             | None                                                               |
+| Documentation (besides this plan) | None                                                               |
 
 ### Recommended implementation approach
 
@@ -68,24 +68,24 @@ Outcome: A founder can sign up via magic link, attest 18+, land in an authentica
 
 ### Controlling final document
 
-| Document | Role |
-|----------|------|
+| Document                                                                     | Role                                                                                                                                                                                                                         |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `SameLobby_Comprehensive_Solo_Founder_Product_MVP_and_Build_Plan_FINAL.docx` | **Authoritative** — product identity, MVP scope, journeys, IA, screens, profile/discovery, messaging, play, continuity, trust/safety, privacy, monetization, brand, architecture, data model, admin, phases, testing, launch |
 
 ### Relevant repository sources
 
-| Source | Role |
-|--------|------|
+| Source                                         | Role                                                      |
+| ---------------------------------------------- | --------------------------------------------------------- |
 | `SAMELOBBY_IMPLEMENTATION_PLAN.md` (this file) | Engineering decomposition derived from the final document |
-| `docs/decisions/` (to be created in Slice 1) | Lightweight ADR log for material technical choices |
-| `docs/design/` (Slice 0) | Flows, tokens, terminology, visibility model |
+| `docs/decisions/` (to be created in Slice 1)   | Lightweight ADR log for material technical choices        |
+| `docs/design/` (Slice 0)                       | Flows, tokens, terminology, visibility model              |
 
 ### Conflicts found
 
-| Conflict | Resolution |
-|----------|------------|
+| Conflict                                                                                              | Resolution                                                                               |
+| ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | User query referenced `SameLobby_Comprehensive_Solo_Founder_Product_MVP_and_Build_Plan_FINAL(1).docx` | File on disk is `..._FINAL.docx` (no `(1)`). Treated as the same authoritative document. |
-| No prior SameLobby planning docs in repository | N/A — empty repo; final document controls without merge conflict. |
+| No prior SameLobby planning docs in repository                                                        | N/A — empty repo; final document controls without merge conflict.                        |
 
 ### Unresolved decisions materially affecting implementation
 
@@ -114,17 +114,17 @@ SameLobby/
 
 None in repository. **Planned baseline** (verify versions at Slice 1 implementation):
 
-| Technology | Planned version / note | Verification status |
-|------------|------------------------|---------------------|
-| Next.js | **16.2.x** (current stable per npm, July 2026) | Verified via npm registry; re-check before `create-next-app` |
-| React | Bundled with Next.js 16 | Confirm at init |
-| TypeScript | `strict: true` | Standard with Next.js template |
-| Node.js | LTS (22.x recommended) | Confirm local/CI at init |
-| Supabase CLI | Latest stable | Confirm at `supabase init` |
-| PostgreSQL | Supabase-managed | — |
-| Vitest or Jest | For unit/integration | Choose in Slice 1; Vitest preferred for speed |
-| Playwright | E2E (later slices) | Add in Slice 4+ |
-| pgTAP | RLS tests via `supabase test db` | [Supabase testing docs](https://supabase.com/docs/guides/local-development/testing/overview) |
+| Technology     | Planned version / note                         | Verification status                                                                          |
+| -------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Next.js        | **16.2.x** (current stable per npm, July 2026) | Verified via npm registry; re-check before `create-next-app`                                 |
+| React          | Bundled with Next.js 16                        | Confirm at init                                                                              |
+| TypeScript     | `strict: true`                                 | Standard with Next.js template                                                               |
+| Node.js        | LTS (22.x recommended)                         | Confirm local/CI at init                                                                     |
+| Supabase CLI   | Latest stable                                  | Confirm at `supabase init`                                                                   |
+| PostgreSQL     | Supabase-managed                               | —                                                                                            |
+| Vitest or Jest | For unit/integration                           | Choose in Slice 1; Vitest preferred for speed                                                |
+| Playwright     | E2E (later slices)                             | Add in Slice 4+                                                                              |
+| pgTAP          | RLS tests via `supabase test db`               | [Supabase testing docs](https://supabase.com/docs/guides/local-development/testing/overview) |
 
 ### Existing code to retain
 
@@ -170,42 +170,42 @@ None (greenfield).
 
 **Modular monolith** with domain modules under `src/domains/*`, shared infrastructure under `src/lib/*`, and route groups under `src/app/*`.
 
-| Surface | Path prefix | Auth | Purpose |
-|---------|-------------|------|---------|
-| Public site | `(public)/` | Anonymous | Marketing, safety center, pricing, help, sign-in entry |
-| Authenticated app | `(app)/` | Supabase session required | Discover, connections, messages, play, teammates, settings |
-| Founder admin | `(admin)/` | Session + admin scope + MFA | Moderation, catalog, audit, feature controls |
+| Surface           | Path prefix | Auth                        | Purpose                                                    |
+| ----------------- | ----------- | --------------------------- | ---------------------------------------------------------- |
+| Public site       | `(public)/` | Anonymous                   | Marketing, safety center, pricing, help, sign-in entry     |
+| Authenticated app | `(app)/`    | Supabase session required   | Discover, connections, messages, play, teammates, settings |
+| Founder admin     | `(admin)/`  | Session + admin scope + MFA | Moderation, catalog, audit, feature controls               |
 
 ### Server vs client component rules
 
-| Use Server Components | Use Client Components |
-|----------------------|----------------------|
+| Use Server Components            | Use Client Components                          |
+| -------------------------------- | ---------------------------------------------- |
 | Data fetching with authorization | Interactive forms with immediate validation UX |
-| Layout shells, static content | Realtime subscriptions (messages) |
-| Initial page data | Dialogs, toasts, focus traps |
-| SEO public pages | Bottom nav, keyboard shortcuts in app shell |
+| Layout shells, static content    | Realtime subscriptions (messages)              |
+| Initial page data                | Dialogs, toasts, focus traps                   |
+| SEO public pages                 | Bottom nav, keyboard shortcuts in app shell    |
 
 **Rule:** Never pass service-role keys or privileged tokens to client bundles. Realtime channels use user JWT only; server validates membership before subscribe.
 
 ### Server action vs API route rules
 
-| Server Actions | API Routes (`/api/*`) |
-|--------------|----------------------|
-| Form mutations from authenticated UI | Webhooks (Stripe, signed) |
-| Profile updates, connection accept/decline | Health check (`/api/health`) |
-| Idempotent user-initiated mutations with CSRF protection | Cron/scheduled job ingress (shared secret) |
-| Revalidation after mutation | External integrations requiring raw request body |
+| Server Actions                                           | API Routes (`/api/*`)                            |
+| -------------------------------------------------------- | ------------------------------------------------ |
+| Form mutations from authenticated UI                     | Webhooks (Stripe, signed)                        |
+| Profile updates, connection accept/decline               | Health check (`/api/health`)                     |
+| Idempotent user-initiated mutations with CSRF protection | Cron/scheduled job ingress (shared secret)       |
+| Revalidation after mutation                              | External integrations requiring raw request body |
 
 **Rule:** All mutations re-validate session server-side; never trust `user_id`, `role`, or `owner_id` from client body without matching `auth.uid()`.
 
 ### Database access rules
 
-| Context | Client |
-|---------|--------|
-| Browser (authenticated user) | `@supabase/ssr` with anon key + user JWT; RLS enforced |
-| Server Components / Actions | `@supabase/ssr` user-scoped client OR service role only in isolated `src/lib/supabase/admin.ts` |
-| Background jobs | Service role with explicit function allowlist |
-| Admin console | Service role via server-only routes; case-scoped queries |
+| Context                      | Client                                                                                          |
+| ---------------------------- | ----------------------------------------------------------------------------------------------- |
+| Browser (authenticated user) | `@supabase/ssr` with anon key + user JWT; RLS enforced                                          |
+| Server Components / Actions  | `@supabase/ssr` user-scoped client OR service role only in isolated `src/lib/supabase/admin.ts` |
+| Background jobs              | Service role with explicit function allowlist                                                   |
+| Admin console                | Service role via server-only routes; case-scoped queries                                        |
 
 **Deny-by-default:** Every new `public` table ships with `ENABLE ROW LEVEL SECURITY` and no permissive policies until slice requirements are defined.
 
@@ -256,12 +256,12 @@ None (greenfield).
 
 ### Environment separation
 
-| Environment | Database | Stripe | Email | Analytics |
-|-------------|----------|--------|-------|-----------|
-| Local | Supabase local (`supabase start`) | Test mode / disabled | Resend dev / Mailpit | Dev project |
-| Preview | Staging DB or branch DB | Test mode | Staging domain | Staging project |
-| Staging | Dedicated Supabase project | Test mode | Staging domain | Staging project |
-| Production | Dedicated Supabase project | Live mode | Production domain | Production project |
+| Environment | Database                          | Stripe               | Email                | Analytics          |
+| ----------- | --------------------------------- | -------------------- | -------------------- | ------------------ |
+| Local       | Supabase local (`supabase start`) | Test mode / disabled | Resend dev / Mailpit | Dev project        |
+| Preview     | Staging DB or branch DB           | Test mode            | Staging domain       | Staging project    |
+| Staging     | Dedicated Supabase project        | Test mode            | Staging domain       | Staging project    |
+| Production  | Dedicated Supabase project        | Live mode            | Production domain    | Production project |
 
 ### Feature-flag approach
 
@@ -441,19 +441,19 @@ SameLobby/
 
 ### Required outputs
 
-| Output | Description | Repository artifact |
-|--------|-------------|---------------------|
-| Low-fidelity flows | All 13 journeys (Section 19 of final doc) | `docs/design/flows/J01-*.md` … `J13-*.md` |
-| Responsive IA | Public + app nav model | `docs/design/information-architecture.md` |
-| Screen designs | One direction per MVP screen (Table 39) | Figma export **or** `docs/design/screens/` wireframes |
-| Design tokens | Colors, type, spacing (Table 71) | `docs/design/tokens.json` + CSS variables in `src/styles/tokens.css` |
-| Component inventory | Buttons, cards, nav, forms, chat bubble, etc. | `docs/design/component-inventory.md` |
-| Terminology library | Approved/forbidden terms (Table 72) | `docs/design/terminology.md` |
-| Privacy visibility model | Public / match-only / connection-only / private | `docs/design/visibility-model.md` |
-| Moderation workflow | Report → case → action → appeal | `docs/design/moderation-workflow.md` |
-| Empty / loading / error / safety states | Per screen | Annotations in flow docs + `docs/design/states.md` |
-| Accessibility annotations | Focus order, live regions, labels | Per flow in `docs/design/a11y/` |
-| Clickable prototype | Onboarding through subscription surfaces | `(prototype)/` routes with static mock data **or** Storybook stories |
+| Output                                  | Description                                     | Repository artifact                                                  |
+| --------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------- |
+| Low-fidelity flows                      | All 13 journeys (Section 19 of final doc)       | `docs/design/flows/J01-*.md` … `J13-*.md`                            |
+| Responsive IA                           | Public + app nav model                          | `docs/design/information-architecture.md`                            |
+| Screen designs                          | One direction per MVP screen (Table 39)         | Figma export **or** `docs/design/screens/` wireframes                |
+| Design tokens                           | Colors, type, spacing (Table 71)                | `docs/design/tokens.json` + CSS variables in `src/styles/tokens.css` |
+| Component inventory                     | Buttons, cards, nav, forms, chat bubble, etc.   | `docs/design/component-inventory.md`                                 |
+| Terminology library                     | Approved/forbidden terms (Table 72)             | `docs/design/terminology.md`                                         |
+| Privacy visibility model                | Public / match-only / connection-only / private | `docs/design/visibility-model.md`                                    |
+| Moderation workflow                     | Report → case → action → appeal                 | `docs/design/moderation-workflow.md`                                 |
+| Empty / loading / error / safety states | Per screen                                      | Annotations in flow docs + `docs/design/states.md`                   |
+| Accessibility annotations               | Focus order, live regions, labels               | Per flow in `docs/design/a11y/`                                      |
+| Clickable prototype                     | Onboarding through subscription surfaces        | `(prototype)/` routes with static mock data **or** Storybook stories |
 
 ### Prototype coverage (minimum)
 
@@ -468,12 +468,12 @@ SameLobby/
 
 ### Maintenance guidance for solo founder
 
-| Artifact type | Tool | When to update |
-|---------------|------|----------------|
-| Flows, terminology, visibility | Markdown in `docs/design/` | Any UX-impacting slice |
-| Tokens | JSON + CSS | Brand change only |
-| Interactive components | Storybook (`stories/`) optional | Complex a11y components (Dialog, ChatComposer) |
-| Prototype routes | Delete or gate behind `NODE_ENV` before public release | After Slice 2 UI replaces mocks |
+| Artifact type                  | Tool                                                   | When to update                                 |
+| ------------------------------ | ------------------------------------------------------ | ---------------------------------------------- |
+| Flows, terminology, visibility | Markdown in `docs/design/`                             | Any UX-impacting slice                         |
+| Tokens                         | JSON + CSS                                             | Brand change only                              |
+| Interactive components         | Storybook (`stories/`) optional                        | Complex a11y components (Dialog, ChatComposer) |
+| Prototype routes               | Delete or gate behind `NODE_ENV` before public release | After Slice 2 UI replaces mocks                |
 
 **Acceptance:** Every MVP screen has one selected design direction; navigation matches Table 37; unresolved choices logged in `docs/decisions/`.
 
@@ -483,157 +483,157 @@ SameLobby/
 
 ### Slice 0: Product design and content system
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Aligns build on SameLobby Loop before code diverges |
-| **Included** | Section 6 outputs |
-| **Excluded** | Production DB, auth, real data |
-| **Dependencies** | Final document |
-| **DB / RLS** | None |
-| **Routes** | `(prototype)/*` only |
-| **Tests** | Manual walkthrough checklist |
+| Dimension              | Detail                                                          |
+| ---------------------- | --------------------------------------------------------------- |
+| **User value**         | Aligns build on SameLobby Loop before code diverges             |
+| **Included**           | Section 6 outputs                                               |
+| **Excluded**           | Production DB, auth, real data                                  |
+| **Dependencies**       | Final document                                                  |
+| **DB / RLS**           | None                                                            |
+| **Routes**             | `(prototype)/*` only                                            |
+| **Tests**              | Manual walkthrough checklist                                    |
 | **Definition of done** | All 13 flows documented; prototype walkable; terminology locked |
 
 ---
 
 ### Slice 1: Repository foundation, deployment, shell, auth, attestation, deletion skeleton
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Secure account creation and sign-in; adult attestation; path to leave platform |
-| **Included** | Next.js init, CI/CD, env validation, magic link auth, session middleware, public + app layouts, 18+ attestation, consent events, account status model, deletion request skeleton, feature flags, health check, logging/analytics registry, founder admin permission table (no UI), deny-by-default RLS tests, synthetic seed users |
-| **Excluded** | Profile fields beyond account, discovery, messaging, moderation UI |
-| **Dependencies** | Slice 0 IA for nav labels |
-| **DB** | `accounts`, `consent_events`, `admin_users`, `feature_flags`, `deletion_requests`, `audit_events` (foundation) |
-| **RLS** | Deny all on user tables; service-role-only inserts for seed; user read own `accounts` |
-| **Routes** | Public home, sign-in, auth callback, `/app` shell (empty state), settings account stub |
-| **Jobs** | None yet |
-| **Tests** | pgTAP deny-default; auth integration; env schema unit tests |
-| **Rollback** | Disable `registration_open` flag; revert deploy |
+| Dimension        | Detail                                                                                                                                                                                                                                                                                                                             |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User value**   | Secure account creation and sign-in; adult attestation; path to leave platform                                                                                                                                                                                                                                                     |
+| **Included**     | Next.js init, CI/CD, env validation, magic link auth, session middleware, public + app layouts, 18+ attestation, consent events, account status model, deletion request skeleton, feature flags, health check, logging/analytics registry, founder admin permission table (no UI), deny-by-default RLS tests, synthetic seed users |
+| **Excluded**     | Profile fields beyond account, discovery, messaging, moderation UI                                                                                                                                                                                                                                                                 |
+| **Dependencies** | Slice 0 IA for nav labels                                                                                                                                                                                                                                                                                                          |
+| **DB**           | `accounts`, `consent_events`, `admin_users`, `feature_flags`, `deletion_requests`, `audit_events` (foundation)                                                                                                                                                                                                                     |
+| **RLS**          | Deny all on user tables; service-role-only inserts for seed; user read own `accounts`                                                                                                                                                                                                                                              |
+| **Routes**       | Public home, sign-in, auth callback, `/app` shell (empty state), settings account stub                                                                                                                                                                                                                                             |
+| **Jobs**         | None yet                                                                                                                                                                                                                                                                                                                           |
+| **Tests**        | pgTAP deny-default; auth integration; env schema unit tests                                                                                                                                                                                                                                                                        |
+| **Rollback**     | Disable `registration_open` flag; revert deploy                                                                                                                                                                                                                                                                                    |
 
-*Full file list in Section 8.*
+_Full file list in Section 8._
 
 ---
 
 ### Slice 2: Profile, games, platforms, availability, preferences, visibility, current intent
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Progressive onboarding; gaming identity; reach Discover with minimum fields |
-| **Included** | Onboarding wizard, `gamer_profiles`, `games`/`platforms` seed (150 identity + 8 anchor metadata), `user_games`, `availability`, `compatibility_preferences`, `current_intents`, visibility controls, profile preview |
-| **Excluded** | Active discovery recommendations, density gate enforcement |
-| **Dependencies** | Slice 1 |
-| **DB** | Profile domain tables; catalog seed migration |
-| **RLS** | Owner read/write profile; catalog public read; match-only fields hidden from anonymous cross-user select |
-| **Routes** | `/onboarding`, `/profile`, `/profile/preview` |
-| **Tests** | Profile validation; visibility leakage tests; onboarding E2E |
-| **A11y** | Form labels, error announcements, skip controls |
-| **Security** | No sensitive fields in analytics; server validates visibility enum |
+| Dimension        | Detail                                                                                                                                                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User value**   | Progressive onboarding; gaming identity; reach Discover with minimum fields                                                                                                                                          |
+| **Included**     | Onboarding wizard, `gamer_profiles`, `games`/`platforms` seed (150 identity + 8 anchor metadata), `user_games`, `availability`, `compatibility_preferences`, `current_intents`, visibility controls, profile preview |
+| **Excluded**     | Active discovery recommendations, density gate enforcement                                                                                                                                                           |
+| **Dependencies** | Slice 1                                                                                                                                                                                                              |
+| **DB**           | Profile domain tables; catalog seed migration                                                                                                                                                                        |
+| **RLS**          | Owner read/write profile; catalog public read; match-only fields hidden from anonymous cross-user select                                                                                                             |
+| **Routes**       | `/onboarding`, `/profile`, `/profile/preview`                                                                                                                                                                        |
+| **Tests**        | Profile validation; visibility leakage tests; onboarding E2E                                                                                                                                                         |
+| **A11y**         | Form labels, error announcements, skip controls                                                                                                                                                                      |
+| **Security**     | No sensitive fields in analytics; server validates visibility enum                                                                                                                                                   |
 
 ---
 
 ### Slice 3: Cohort density, discovery eligibility, recommendations, reasons, search, demand activation
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Find relevant gamers with transparent reasons or honest density state |
-| **Included** | `cohort_activation_status`, `discovery_recommendations`, reason codes, eligibility engine, search/filters, demand opt-in, pause discovery, block-aware queries |
-| **Excluded** | Saved searches (Plus), AI ordering |
-| **Dependencies** | Slice 2; sufficient seed users for local testing |
-| **DB** | `cohort_metrics`, `discovery_recommendations`, `demand_signals`, `recommendation_reason_codes` |
-| **RLS** | Discoverable profiles visible only to eligible viewers; no cross-user private preference reads |
-| **Routes** | `/discover`, `/discover/search` |
-| **Jobs** | Nightly cohort metrics rollup; intent expiry |
-| **Tests** | Hard eligibility never relaxes; block excludes; reason code reproducibility |
+| Dimension        | Detail                                                                                                                                                         |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User value**   | Find relevant gamers with transparent reasons or honest density state                                                                                          |
+| **Included**     | `cohort_activation_status`, `discovery_recommendations`, reason codes, eligibility engine, search/filters, demand opt-in, pause discovery, block-aware queries |
+| **Excluded**     | Saved searches (Plus), AI ordering                                                                                                                             |
+| **Dependencies** | Slice 2; sufficient seed users for local testing                                                                                                               |
+| **DB**           | `cohort_metrics`, `discovery_recommendations`, `demand_signals`, `recommendation_reason_codes`                                                                 |
+| **RLS**          | Discoverable profiles visible only to eligible viewers; no cross-user private preference reads                                                                 |
+| **Routes**       | `/discover`, `/discover/search`                                                                                                                                |
+| **Jobs**         | Nightly cohort metrics rollup; intent expiry                                                                                                                   |
+| **Tests**        | Hard eligibility never relaxes; block excludes; reason code reproducibility                                                                                    |
 
 ---
 
 ### Slice 4: Connection requests, mutual connection, decline, permissions, blocking
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Mutual consent before contact; immediate block |
-| **Included** | `connection_requests`, `connections`, `blocks`, request limits, 14-day expiry, decline privacy |
-| **Excluded** | Messaging |
-| **Dependencies** | Slice 3 |
-| **DB** | Connection graph; unordered pair uniqueness |
-| **RLS** | Participants only; block denies all cross paths |
-| **Routes** | `/connections`, request composer on profile |
-| **Tests** | Cross-user request forbidden after block; duplicate pair rejected |
+| Dimension        | Detail                                                                                         |
+| ---------------- | ---------------------------------------------------------------------------------------------- |
+| **User value**   | Mutual consent before contact; immediate block                                                 |
+| **Included**     | `connection_requests`, `connections`, `blocks`, request limits, 14-day expiry, decline privacy |
+| **Excluded**     | Messaging                                                                                      |
+| **Dependencies** | Slice 3                                                                                        |
+| **DB**           | Connection graph; unordered pair uniqueness                                                    |
+| **RLS**          | Participants only; block denies all cross paths                                                |
+| **Routes**       | `/connections`, request composer on profile                                                    |
+| **Tests**        | Cross-user request forbidden after block; duplicate pair rejected                              |
 
 ---
 
 ### Slice 5: One-to-one messaging, notifications, rate limits, safety controls
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Private realtime text after mutual connection |
-| **Included** | `conversations`, `conversation_members`, `messages`, Realtime, icebreakers, link warnings, rate limits, in-app + email notifications, report entry (routes to Slice 8 case creation stub) |
-| **Excluded** | Group chat (Slice 7), full-text search across bodies |
-| **Dependencies** | Slice 4 |
-| **Jobs** | Message retention scheduler |
-| **Tests** | No message before connection; realtime auth; spam rate limits |
+| Dimension        | Detail                                                                                                                                                                                    |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User value**   | Private realtime text after mutual connection                                                                                                                                             |
+| **Included**     | `conversations`, `conversation_members`, `messages`, Realtime, icebreakers, link warnings, rate limits, in-app + email notifications, report entry (routes to Slice 8 case creation stub) |
+| **Excluded**     | Group chat (Slice 7), full-text search across bodies                                                                                                                                      |
+| **Dependencies** | Slice 4                                                                                                                                                                                   |
+| **Jobs**         | Message retention scheduler                                                                                                                                                               |
+| **Tests**        | No message before connection; realtime auth; spam rate limits                                                                                                                             |
 
 ---
 
 ### Slice 6: Play invitations, time proposals, sessions, reminders, post-play continuation
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Conversation → shared play → continue relationship |
-| **Included** | `play_invitations`, `play_time_options`, `gaming_sessions`, `post_play_feedback`, .ics export, reminders, time-zone display |
-| **Excluded** | Google/MS calendar OAuth |
-| **Dependencies** | Slice 5 |
-| **Routes** | `/play`, invitation from chat |
-| **Tests** | TZ conversion; mutual confirmation; private non-mutual feedback |
+| Dimension        | Detail                                                                                                                      |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **User value**   | Conversation → shared play → continue relationship                                                                          |
+| **Included**     | `play_invitations`, `play_time_options`, `gaming_sessions`, `post_play_feedback`, .ics export, reminders, time-zone display |
+| **Excluded**     | Google/MS calendar OAuth                                                                                                    |
+| **Dependencies** | Slice 5                                                                                                                     |
+| **Routes**       | `/play`, invitation from chat                                                                                               |
+| **Tests**        | TZ conversion; mutual confirmation; private non-mutual feedback                                                             |
 
 ---
 
 ### Slice 7: Teammates, regular teammate, private groups, ownership, cross-game continuity
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Relationships persist across games and schedule changes |
-| **Included** | `teammate_relationships`, `private_groups`, `group_memberships`, `group_invitations`, one free complete group, unanimous/majority approval rules, group chat, open-seat foundation |
-| **Excluded** | Plus extra groups billing enforcement (Slice 9) |
-| **Dependencies** | Slices 5–6 |
-| **Tests** | Block prevents group contact; ownership transfer on owner delete |
+| Dimension        | Detail                                                                                                                                                                             |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User value**   | Relationships persist across games and schedule changes                                                                                                                            |
+| **Included**     | `teammate_relationships`, `private_groups`, `group_memberships`, `group_invitations`, one free complete group, unanimous/majority approval rules, group chat, open-seat foundation |
+| **Excluded**     | Plus extra groups billing enforcement (Slice 9)                                                                                                                                    |
+| **Dependencies** | Slices 5–6                                                                                                                                                                         |
+| **Tests**        | Block prevents group contact; ownership transfer on owner delete                                                                                                                   |
 
 ---
 
 ### Slice 8: Reporting, moderation, evidence, appeals, privacy rights, retention, deletion, audit
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Credible safety response; data rights |
-| **Included** | Full report intake, `moderation_cases`, `moderation_evidence`, `moderation_actions`, `appeals`, admin console, data export, staged deletion jobs, legal hold flags, emergency feature controls, admin MFA |
-| **Excluded** | Automated permanent ban without human review |
-| **Dependencies** | All user surfaces |
-| **Jobs** | Deletion pipeline, evidence retention, SLA alerts |
-| **Tests** | Case-scoped evidence access; deletion stages; audit immutability |
+| Dimension        | Detail                                                                                                                                                                                                    |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User value**   | Credible safety response; data rights                                                                                                                                                                     |
+| **Included**     | Full report intake, `moderation_cases`, `moderation_evidence`, `moderation_actions`, `appeals`, admin console, data export, staged deletion jobs, legal hold flags, emergency feature controls, admin MFA |
+| **Excluded**     | Automated permanent ban without human review                                                                                                                                                              |
+| **Dependencies** | All user surfaces                                                                                                                                                                                         |
+| **Jobs**         | Deletion pipeline, evidence retention, SLA alerts                                                                                                                                                         |
+| **Tests**        | Case-scoped evidence access; deletion stages; audit immutability                                                                                                                                          |
 
 ---
 
 ### Slice 9: Subscription, Stripe, entitlements, free-core enforcement
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Plus for organization — not access to people |
-| **Included** | Stripe products, Checkout, Portal, webhooks, `subscriptions`, entitlements, limits (games, intents, groups), downgrade read-only |
-| **Excluded** | Ranking advantages, safety paywalls |
-| **Dependencies** | Stable limits from Slices 2–7 |
-| **Tests** | Webhook idempotency; downgrade preserves relationships |
+| Dimension        | Detail                                                                                                                           |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **User value**   | Plus for organization — not access to people                                                                                     |
+| **Included**     | Stripe products, Checkout, Portal, webhooks, `subscriptions`, entitlements, limits (games, intents, groups), downgrade read-only |
+| **Excluded**     | Ranking advantages, safety paywalls                                                                                              |
+| **Dependencies** | Stable limits from Slices 2–7                                                                                                    |
+| **Tests**        | Webhook idempotency; downgrade preserves relationships                                                                           |
 
 ---
 
 ### Slice 10: Quality hardening, security, a11y, performance, launch controls, catalog, capped release
 
-| Dimension | Detail |
-|-----------|--------|
-| **User value** | Production-ready capped public release |
-| **Included** | Full E2E matrix, load test to 100 concurrent chat, WCAG 2.2 AA sign-off, pen test, backup restore rehearsal, registration cap, launch checklist |
-| **Dependencies** | Slices 1–9 (9 optional if billing deferred) |
-| **Tests** | All gates in Section 13 |
+| Dimension        | Detail                                                                                                                                          |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User value**   | Production-ready capped public release                                                                                                          |
+| **Included**     | Full E2E matrix, load test to 100 concurrent chat, WCAG 2.2 AA sign-off, pen test, backup restore rehearsal, registration cap, launch checklist |
+| **Dependencies** | Slices 1–9 (9 optional if billing deferred)                                                                                                     |
+| **Tests**        | All gates in Section 13                                                                                                                         |
 
 ---
 
@@ -653,55 +653,56 @@ npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --
 
 ### Exact proposed files (Slice 1)
 
-| Path | Purpose |
-|------|---------|
-| `package.json` | Dependencies: next, react, @supabase/ssr, @supabase/supabase-js, zod, resend (stub), sentry (stub) |
-| `next.config.ts` | Security headers scaffold (CSP to be tightened per slice) |
-| `tsconfig.json` | `strict: true` |
-| `eslint.config.mjs` | Next + TypeScript rules |
-| `prettier.config.mjs` | Formatting |
-| `vitest.config.ts` | Unit tests |
-| `.env.example` | All required vars documented |
-| `src/lib/env.ts` | Zod-validated environment |
-| `src/lib/supabase/client.ts` | Browser client |
-| `src/lib/supabase/server.ts` | Server client + cookie handling |
-| `src/lib/supabase/admin.ts` | Service role (server-only guard) |
-| `src/lib/logging.ts` | Structured logger, no PII |
-| `src/lib/analytics/events.ts` | Allowlist registry (empty implementations OK) |
-| `src/lib/feature-flags.ts` | Server-side flag reads |
-| `src/lib/rate-limit.ts` | Stub for sign-up limits |
-| `src/middleware.ts` | Session refresh; protect `(app)` and `(admin)` |
-| `src/app/layout.tsx` | Root layout, fonts (Inter, Manrope) |
-| `src/app/(public)/page.tsx` | Marketing stub |
-| `src/app/(public)/sign-in/page.tsx` | Magic link form |
-| `src/app/(auth)/auth/callback/route.ts` | OAuth/magic callback |
-| `src/app/(app)/layout.tsx` | Authenticated shell + nav placeholder |
-| `src/app/(app)/onboarding/attestation/page.tsx` | 18+ self-attestation + policy consent |
-| `src/app/(app)/settings/account/page.tsx` | Sign out, deletion request |
-| `src/app/api/health/route.ts` | Health check |
-| `src/components/ui/*` | Button, Input, Label, Alert (accessible primitives) |
-| `src/components/layout/AppShell.tsx` | Nav skeleton |
-| `src/domains/accounts/actions.ts` | `completeAttestation`, `requestDeletion` |
-| `src/domains/accounts/schemas.ts` | Zod schemas |
-| `supabase/config.toml` | Local dev config |
-| `supabase/migrations/20260708100000_extensions.sql` | `pgcrypto`, `pgtap` |
-| `supabase/migrations/20260708110000_accounts.sql` | `accounts`, `consent_events` |
-| `supabase/migrations/20260708120000_admin_foundation.sql` | `admin_users`, `audit_events` |
-| `supabase/migrations/20260708130000_feature_flags.sql` | `feature_flags` |
-| `supabase/migrations/20260708140000_deletion_requests.sql` | `deletion_requests` |
-| `supabase/migrations/20260708150000_rls_deny_default.sql` | Enable RLS, no permissive policies yet |
-| `supabase/migrations/20260708160000_rls_accounts_policies.sql` | User read/update own account |
-| `supabase/seed.sql` | 3 synthetic users (no real PII) |
-| `supabase/tests/helpers.sql` | `set_auth(user_id)` helper |
-| `supabase/tests/rls/accounts.test.sql` | Deny cross-user; allow self |
-| `supabase/tests/rls/deny_default.test.sql` | All tables have RLS enabled |
-| `.github/workflows/ci.yml` | lint, typecheck, vitest, supabase test db |
-| `docs/decisions/ADR-001-stack.md` | Stack choice record |
-| `docs/runbooks/rollback.md` | Rollback procedure |
+| Path                                                           | Purpose                                                                                            |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `package.json`                                                 | Dependencies: next, react, @supabase/ssr, @supabase/supabase-js, zod, resend (stub), sentry (stub) |
+| `next.config.ts`                                               | Security headers scaffold (CSP to be tightened per slice)                                          |
+| `tsconfig.json`                                                | `strict: true`                                                                                     |
+| `eslint.config.mjs`                                            | Next + TypeScript rules                                                                            |
+| `prettier.config.mjs`                                          | Formatting                                                                                         |
+| `vitest.config.ts`                                             | Unit tests                                                                                         |
+| `.env.example`                                                 | All required vars documented                                                                       |
+| `src/lib/env.ts`                                               | Zod-validated environment                                                                          |
+| `src/lib/supabase/client.ts`                                   | Browser client                                                                                     |
+| `src/lib/supabase/server.ts`                                   | Server client + cookie handling                                                                    |
+| `src/lib/supabase/admin.ts`                                    | Service role (server-only guard)                                                                   |
+| `src/lib/logging.ts`                                           | Structured logger, no PII                                                                          |
+| `src/lib/analytics/events.ts`                                  | Allowlist registry (empty implementations OK)                                                      |
+| `src/lib/feature-flags.ts`                                     | Server-side flag reads                                                                             |
+| `src/lib/rate-limit.ts`                                        | Stub for sign-up limits                                                                            |
+| `src/middleware.ts`                                            | Session refresh; protect `(app)` and `(admin)`                                                     |
+| `src/app/layout.tsx`                                           | Root layout, fonts (Inter, Manrope)                                                                |
+| `src/app/(public)/page.tsx`                                    | Marketing stub                                                                                     |
+| `src/app/(public)/sign-in/page.tsx`                            | Magic link form                                                                                    |
+| `src/app/(auth)/auth/callback/route.ts`                        | OAuth/magic callback                                                                               |
+| `src/app/(app)/layout.tsx`                                     | Authenticated shell + nav placeholder                                                              |
+| `src/app/(app)/onboarding/attestation/page.tsx`                | 18+ self-attestation + policy consent                                                              |
+| `src/app/(app)/settings/account/page.tsx`                      | Sign out, deletion request                                                                         |
+| `src/app/api/health/route.ts`                                  | Health check                                                                                       |
+| `src/components/ui/*`                                          | Button, Input, Label, Alert (accessible primitives)                                                |
+| `src/components/layout/AppShell.tsx`                           | Nav skeleton                                                                                       |
+| `src/domains/accounts/actions.ts`                              | `completeAttestation`, `requestDeletion`                                                           |
+| `src/domains/accounts/schemas.ts`                              | Zod schemas                                                                                        |
+| `supabase/config.toml`                                         | Local dev config                                                                                   |
+| `supabase/migrations/20260708100000_extensions.sql`            | `pgcrypto`, `pgtap`                                                                                |
+| `supabase/migrations/20260708110000_accounts.sql`              | `accounts`, `consent_events`                                                                       |
+| `supabase/migrations/20260708120000_admin_foundation.sql`      | `admin_users`, `audit_events`                                                                      |
+| `supabase/migrations/20260708130000_feature_flags.sql`         | `feature_flags`                                                                                    |
+| `supabase/migrations/20260708140000_deletion_requests.sql`     | `deletion_requests`                                                                                |
+| `supabase/migrations/20260708150000_rls_deny_default.sql`      | Enable RLS, no permissive policies yet                                                             |
+| `supabase/migrations/20260708160000_rls_accounts_policies.sql` | User read/update own account                                                                       |
+| `supabase/seed.sql`                                            | 3 synthetic users (no real PII)                                                                    |
+| `supabase/tests/helpers.sql`                                   | `set_auth(user_id)` helper                                                                         |
+| `supabase/tests/rls/accounts.test.sql`                         | Deny cross-user; allow self                                                                        |
+| `supabase/tests/rls/deny_default.test.sql`                     | All tables have RLS enabled                                                                        |
+| `.github/workflows/ci.yml`                                     | lint, typecheck, vitest, supabase test db                                                          |
+| `docs/decisions/ADR-001-stack.md`                              | Stack choice record                                                                                |
+| `docs/runbooks/rollback.md`                                    | Rollback procedure                                                                                 |
 
 ### Migrations (Slice 1 logical schema)
 
 **`accounts`**
+
 - `id` UUID PK
 - `auth_user_id` UUID UNIQUE → `auth.users`
 - `email` TEXT (denormalized for admin support; protect in RLS)
@@ -713,18 +714,23 @@ npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --
 - `created_at`, `updated_at`, `deleted_at`
 
 **`consent_events`**
+
 - Immutable: `account_id`, `event_type`, `policy_version`, `ip_hash`, `user_agent_hash`, `created_at`
 
 **`deletion_requests`**
+
 - `account_id`, `status` (`requested`, `confirmed`, `processing`, `completed`), `requested_at`, `scheduled_purge_at`
 
 **`admin_users`**
+
 - `account_id`, `scopes` TEXT[], `mfa_enrolled_at`, `disabled_at`
 
 **`audit_events`**
+
 - Append-only: `actor_account_id`, `action`, `resource_type`, `resource_id`, `metadata` JSONB (scrubbed), `correlation_id`, `created_at`
 
 **`feature_flags`**
+
 - `key`, `enabled`, `updated_at`, `updated_by`
 
 ### Verification commands (Slice 1)
@@ -741,6 +747,10 @@ npm run build
 curl -f https://staging.<domain>/api/health
 ```
 
+### Slice 1.1 — Auth surfaces (implemented)
+
+Separate `/sign-up` and `/sign-in` pages with email + password authentication. See [ADR-002](docs/decisions/ADR-002-auth-surfaces.md). Magic link removed as primary login; `/auth/callback` handles email confirmation and password recovery only. `registration_open` enforced server-side on sign-up.
+
 ### Rollback
 
 1. Set `registration_open=false` in `feature_flags`.
@@ -753,36 +763,37 @@ curl -f https://staging.<domain>/api/health
 
 ### Migration sequence (all MVP domains)
 
-| Order | Migration prefix | Domains |
-|-------|------------------|---------|
-| 001 | extensions | pgcrypto, pgtap |
-| 002 | accounts | accounts, consent_events |
-| 003 | admin_foundation | admin_users, audit_events |
-| 004 | feature_flags | feature_flags |
-| 005 | deletion | deletion_requests, deletion_job_runs |
-| 006 | profiles | gamer_profiles, disclosure_settings |
-| 007 | catalog | games, platforms, game_platforms, crossplay_sets, interests |
-| 008 | user_games | user_games |
-| 009 | availability_intent | availability_windows, current_intents |
-| 010 | preferences | compatibility_preferences, user_interests, environment_preferences |
-| 011 | cohort_discovery | cohort_metrics, cohort_activation_status, demand_signals |
-| 012 | recommendations | discovery_recommendations, recommendation_reason_codes |
-| 013 | connections | connection_requests, connections |
-| 014 | blocks | blocks, block_enforcement_keys |
-| 015 | messaging | conversations, conversation_members, messages |
-| 016 | notifications | notifications, notification_preferences |
-| 017 | play | play_invitations, play_time_options, gaming_sessions, post_play_feedback |
-| 018 | teammates | teammate_relationships, teammate_notes |
-| 019 | groups | private_groups, group_memberships, group_invitations, group_open_seats |
-| 020 | safety | reports, moderation_cases, moderation_evidence, moderation_actions, appeals |
-| 021 | retention | retention_policies, legal_holds |
-| 022 | billing | plans, subscriptions, entitlements, stripe_webhook_events |
-| 023 | jobs | job_runs |
-| 024+ | rls_policies_* | Per-domain RLS (may ship with each domain migration) |
+| Order | Migration prefix    | Domains                                                                     |
+| ----- | ------------------- | --------------------------------------------------------------------------- |
+| 001   | extensions          | pgcrypto, pgtap                                                             |
+| 002   | accounts            | accounts, consent_events                                                    |
+| 003   | admin_foundation    | admin_users, audit_events                                                   |
+| 004   | feature_flags       | feature_flags                                                               |
+| 005   | deletion            | deletion_requests, deletion_job_runs                                        |
+| 006   | profiles            | gamer_profiles, disclosure_settings                                         |
+| 007   | catalog             | games, platforms, game_platforms, crossplay_sets, interests                 |
+| 008   | user_games          | user_games                                                                  |
+| 009   | availability_intent | availability_windows, current_intents                                       |
+| 010   | preferences         | compatibility_preferences, user_interests, environment_preferences          |
+| 011   | cohort_discovery    | cohort_metrics, cohort_activation_status, demand_signals                    |
+| 012   | recommendations     | discovery_recommendations, recommendation_reason_codes                      |
+| 013   | connections         | connection_requests, connections                                            |
+| 014   | blocks              | blocks, block_enforcement_keys                                              |
+| 015   | messaging           | conversations, conversation_members, messages                               |
+| 016   | notifications       | notifications, notification_preferences                                     |
+| 017   | play                | play_invitations, play_time_options, gaming_sessions, post_play_feedback    |
+| 018   | teammates           | teammate_relationships, teammate_notes                                      |
+| 019   | groups              | private_groups, group_memberships, group_invitations, group_open_seats      |
+| 020   | safety              | reports, moderation_cases, moderation_evidence, moderation_actions, appeals |
+| 021   | retention           | retention_policies, legal_holds                                             |
+| 022   | billing             | plans, subscriptions, entitlements, stripe_webhook_events                   |
+| 023   | jobs                | job_runs                                                                    |
+| 024+  | rls_policies_*      | Per-domain RLS (may ship with each domain migration)                        |
 
 ### Domain reference (logical — no final SQL in this plan)
 
 #### Accounts and authentication mapping
+
 - **Ownership:** `accounts.auth_user_id` = `auth.users.id`
 - **Visibility:** User sees own; admin sees support fields with audit
 - **Constraints:** One account per auth user
@@ -790,55 +801,69 @@ curl -f https://staging.<domain>/api/health
 - **Blocks:** N/A
 
 #### Consent and adult attestation
+
 - **Retention:** Consent events immutable 7+ years (confirm with counsel)
 - **Audit:** All attestation changes logged
 
 #### Profiles (`gamer_profiles`)
+
 - **Visibility:** Field-level `visibility` enum per final doc Table 41
 - **Constraints:** `display_name` 3–24 chars unique per active account (case-insensitive)
 - **Blocks:** Blocked users cannot view discoverable profile
 
 #### Games and platforms
+
 - **Ownership:** System catalog; admin write
 - **Visibility:** Public read for active records
 
 #### User games
+
 - **Constraints:** UNIQUE (`user_id`, `game_id`, `platform_id`); free tier max 8 active (enforced server-side)
 
 #### Availability
+
 - **Visibility:** Match-only default; broad windows only
 
 #### Current intent
+
 - **State:** `active`, `paused`, `expired`
 - **Retention:** Expires at `expires_at` (14 days default)
 
 #### Discovery recommendations
+
 - **Constraints:** Store reason codes array; no score column
 - **Retention:** Snapshots expire 24h
 
 #### Connection requests
+
 - **UNIQUE:** Active request per ordered pair per intent context
 - **State:** `pending`, `accepted`, `declined`, `expired`, `cancelled`
 
 #### Connections
+
 - **UNIQUE:** `LEAST(user_a,user_b)`, `GREATEST(user_a,user_b)` pair
 
 #### Blocks
+
 - **Effect:** Deny discovery, requests, messages, invitations, groups
 - **Retention:** Survives deletion via `block_enforcement_keys`
 
 #### Messages
+
 - **Retention:** `retention_at`; 12 months after last activity
 - **RLS:** Conversation members only; admin case-scoped via function
 
 #### Moderation
+
 - **Evidence:** Encrypted storage path; case-scoped SELECT
 - **Audit:** Every evidence view logged
 
 #### Subscriptions
+
 - **Source of truth:** Stripe webhook → `subscriptions` → computed `entitlements`
 
 #### Deletion
+
 - **Stages:** `deletion_pending` → purge active data → backup expiry → retain safety/legal
 
 ---
@@ -853,9 +878,9 @@ active → deletion_pending → deleted (terminal)
 restricted/suspended → active (admin action)
 ```
 
-| Invalid | Notes |
-|---------|-------|
-| `deleted` → any | Terminal |
+| Invalid                           | Notes           |
+| --------------------------------- | --------------- |
+| `deleted` → any                   | Terminal        |
 | `deletion_pending` → `onboarding` | Use new account |
 
 **Transactions:** Status changes with audit event in one transaction.
@@ -968,44 +993,44 @@ none → requested → confirmed → processing → completed
 
 ### Public routes
 
-| Route | Auth | Primary action | Slice |
-|-------|------|----------------|-------|
-| `/` | No | Create account | 1 |
-| `/how-it-works` | No | Learn loop | 1 |
-| `/safety` | No | Read standards | 1 |
-| `/pricing` | No | Compare plans | 9 |
-| `/help` | No | Search FAQ | 10 |
-| `/sign-in` | No | Magic link | 1 |
+| Route           | Auth | Primary action | Slice |
+| --------------- | ---- | -------------- | ----- |
+| `/`             | No   | Create account | 1     |
+| `/how-it-works` | No   | Learn loop     | 1     |
+| `/safety`       | No   | Read standards | 1     |
+| `/pricing`      | No   | Compare plans  | 9     |
+| `/help`         | No   | Search FAQ     | 10    |
+| `/sign-in`      | No   | Magic link     | 1     |
 
 ### Authenticated routes
 
-| Route | Auth | Visibility | Primary action | Slice |
-|-------|------|------------|----------------|-------|
-| `/onboarding/*` | Yes | Self | Complete progressive profile | 2 |
-| `/discover` | Yes + discoverable | Cohort qualified | View recommendations | 3 |
-| `/discover/search` | Yes | Cohort | Filter search | 3 |
-| `/profile/[id]` | Yes | Discovery rules | Send request | 3–4 |
-| `/connections` | Yes | Participant | Manage requests | 4 |
-| `/messages` | Yes | Participant | Open chats | 5 |
-| `/messages/[id]` | Yes | Member | Send message | 5 |
-| `/play` | Yes | Participant | Manage invitations | 6 |
-| `/teammates` | Yes | Self | Manage relationships | 7 |
-| `/groups/[id]` | Yes | Member | Group home | 7 |
-| `/settings/*` | Yes | Self | Privacy, deletion, notif | 1–8 |
-| `/safety` (in-app) | Yes | Self | Reports, blocks | 8 |
-| `/subscription` | Yes | Self | Manage Plus | 9 |
+| Route              | Auth               | Visibility       | Primary action               | Slice |
+| ------------------ | ------------------ | ---------------- | ---------------------------- | ----- |
+| `/onboarding/*`    | Yes                | Self             | Complete progressive profile | 2     |
+| `/discover`        | Yes + discoverable | Cohort qualified | View recommendations         | 3     |
+| `/discover/search` | Yes                | Cohort           | Filter search                | 3     |
+| `/profile/[id]`    | Yes                | Discovery rules  | Send request                 | 3–4   |
+| `/connections`     | Yes                | Participant      | Manage requests              | 4     |
+| `/messages`        | Yes                | Participant      | Open chats                   | 5     |
+| `/messages/[id]`   | Yes                | Member           | Send message                 | 5     |
+| `/play`            | Yes                | Participant      | Manage invitations           | 6     |
+| `/teammates`       | Yes                | Self             | Manage relationships         | 7     |
+| `/groups/[id]`     | Yes                | Member           | Group home                   | 7     |
+| `/settings/*`      | Yes                | Self             | Privacy, deletion, notif     | 1–8   |
+| `/safety` (in-app) | Yes                | Self             | Reports, blocks              | 8     |
+| `/subscription`    | Yes                | Self             | Manage Plus                  | 9     |
 
 ### Admin routes
 
-| Route | Scope | Slice |
-|-------|-------|-------|
-| `/admin/dashboard` | support+ | 8 |
-| `/admin/reports` | safety_review | 8 |
-| `/admin/cases/[id]` | safety_review | 8 |
-| `/admin/users/[id]` | support / safety | 8 |
-| `/admin/catalog` | catalog | 3+ |
-| `/admin/audit` | security_break_glass | 8 |
-| `/admin/feature-controls` | security_break_glass | 8 |
+| Route                     | Scope                | Slice |
+| ------------------------- | -------------------- | ----- |
+| `/admin/dashboard`        | support+             | 8     |
+| `/admin/reports`          | safety_review        | 8     |
+| `/admin/cases/[id]`       | safety_review        | 8     |
+| `/admin/users/[id]`       | support / safety     | 8     |
+| `/admin/catalog`          | catalog              | 3+    |
+| `/admin/audit`            | security_break_glass | 8     |
+| `/admin/feature-controls` | security_break_glass | 8     |
 
 ### Per-screen requirements (summary)
 
@@ -1019,40 +1044,41 @@ Legend: ✅ allowed | ❌ denied | 🔒 admin case-scoped | ⚙️ service job
 
 ### Roles
 
-| Role | Description |
-|------|-------------|
-| Anonymous | Public site |
-| Auth incomplete | Signed in, onboarding incomplete |
-| Discoverable member | Active, attested, profile minimum met |
-| Connected member | Mutual connection exists |
-| Conversation participant | Member of conversation |
-| Group member / owner | Group role |
-| Restricted / suspended | Safety or spam restriction |
-| Founder scopes | support, safety_review, catalog, billing, security_break_glass |
-| Background service | Cron/webhooks |
+| Role                     | Description                                                    |
+| ------------------------ | -------------------------------------------------------------- |
+| Anonymous                | Public site                                                    |
+| Auth incomplete          | Signed in, onboarding incomplete                               |
+| Discoverable member      | Active, attested, profile minimum met                          |
+| Connected member         | Mutual connection exists                                       |
+| Conversation participant | Member of conversation                                         |
+| Group member / owner     | Group role                                                     |
+| Restricted / suspended   | Safety or spam restriction                                     |
+| Founder scopes           | support, safety_review, catalog, billing, security_break_glass |
+| Background service       | Cron/webhooks                                                  |
 
 ### Matrix (major tables)
 
-| Table / Action | Anonymous | Auth incomplete | Discoverable | Connected | Convo participant | Group member | Group owner | Restricted | Safety admin | Service |
-|----------------|-----------|-----------------|--------------|-----------|-------------------|--------------|-------------|------------|--------------|---------|
-| `gamer_profiles` SELECT (discoverable fields) | ❌ | Own only | ✅ eligible others | ✅ connection fields | ✅ | ✅ | ✅ | Own only | 🔒 | ⚙️ |
-| `gamer_profiles` UPDATE | ❌ | Own | Own | Own | Own | Own | Own | ❌ | ❌ | ❌ |
-| `current_intents` SELECT | ❌ | Own | Match-only rules | ✅ connection | ✅ | ✅ | ✅ | Own | 🔒 | ⚙️ |
-| `discovery_recommendations` SELECT | ❌ | Own viewer_id | Own | Own | Own | Own | ❌ | ❌ | ❌ | ⚙️ |
-| `connection_requests` INSERT | ❌ | ✅ limits | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `connection_requests` UPDATE (accept) | ❌ | Recipient | Recipient | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `connections` SELECT | ❌ | Participant | Participant | Participant | Participant | ❌ | ❌ | ❌ | 🔒 | ⚙️ |
-| `blocks` INSERT | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| `messages` SELECT | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ group | ✅ | ❌ | 🔒 | ❌ |
-| `messages` INSERT | ❌ | ❌ | ❌ | ❌ | ✅ not blocked | ✅ | ✅ | ❌ | ❌ | ❌ |
-| `reports` INSERT | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| `moderation_evidence` SELECT | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🔒 | ❌ |
-| `audit_events` INSERT | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ⚙️ |
-| `subscriptions` SELECT | ❌ | Own | Own | Own | Own | Own | Own | Own | billing | ⚙️ |
+| Table / Action                                | Anonymous | Auth incomplete | Discoverable       | Connected            | Convo participant | Group member | Group owner | Restricted | Safety admin | Service |
+| --------------------------------------------- | --------- | --------------- | ------------------ | -------------------- | ----------------- | ------------ | ----------- | ---------- | ------------ | ------- |
+| `gamer_profiles` SELECT (discoverable fields) | ❌        | Own only        | ✅ eligible others | ✅ connection fields | ✅                | ✅           | ✅          | Own only   | 🔒           | ⚙️      |
+| `gamer_profiles` UPDATE                       | ❌        | Own             | Own                | Own                  | Own               | Own          | Own         | ❌         | ❌           | ❌      |
+| `current_intents` SELECT                      | ❌        | Own             | Match-only rules   | ✅ connection        | ✅                | ✅           | ✅          | Own        | 🔒           | ⚙️      |
+| `discovery_recommendations` SELECT            | ❌        | Own viewer_id   | Own                | Own                  | Own               | Own          | ❌          | ❌         | ❌           | ⚙️      |
+| `connection_requests` INSERT                  | ❌        | ✅ limits       | ✅                 | ✅                   | ❌                | ❌           | ❌          | ❌         | ❌           | ❌      |
+| `connection_requests` UPDATE (accept)         | ❌        | Recipient       | Recipient          | ❌                   | ❌                | ❌           | ❌          | ❌         | ❌           | ❌      |
+| `connections` SELECT                          | ❌        | Participant     | Participant        | Participant          | Participant       | ❌           | ❌          | ❌         | 🔒           | ⚙️      |
+| `blocks` INSERT                               | ❌        | ✅              | ✅                 | ✅                   | ✅                | ✅           | ✅          | ❌         | ❌           | ❌      |
+| `messages` SELECT                             | ❌        | ❌              | ❌                 | ❌                   | ✅                | ✅ group     | ✅          | ❌         | 🔒           | ❌      |
+| `messages` INSERT                             | ❌        | ❌              | ❌                 | ❌                   | ✅ not blocked    | ✅           | ✅          | ❌         | ❌           | ❌      |
+| `reports` INSERT                              | ❌        | ✅              | ✅                 | ✅                   | ✅                | ✅           | ✅          | ❌         | ❌           | ❌      |
+| `moderation_evidence` SELECT                  | ❌        | ❌              | ❌                 | ❌                   | ❌                | ❌           | ❌          | ❌         | 🔒           | ❌      |
+| `audit_events` INSERT                         | ❌        | ❌              | ❌                 | ❌                   | ❌                | ❌           | ❌          | ❌         | ✅           | ⚙️      |
+| `subscriptions` SELECT                        | ❌        | Own             | Own                | Own                  | Own               | Own          | Own         | Own        | billing      | ⚙️      |
 
 ### Block behavior
 
 When A blocks B:
+
 - B cannot SELECT A's discoverable profile
 - No new `connection_requests` either direction (B→A always denied; A→B denied)
 - Existing conversation hidden; INSERT denied
@@ -1074,42 +1100,42 @@ When A blocks B:
 
 ### Test layers
 
-| Layer | Tool | Scope |
-|-------|------|-------|
-| Unit | Vitest | Pure functions, validators, reason-code builders |
-| Schema | pgTAP + SQL | Constraints, enums, unique indexes |
-| RLS | pgTAP `supabase test db` | Every table, every role |
-| Authorization | Vitest + test DB | `canX()` functions |
-| Integration | Vitest | Server actions with test Supabase |
-| Server/API | Vitest + supertest pattern | Routes, webhooks |
-| Realtime | Integration | Subscribe auth rejection |
-| Background jobs | Integration | Idempotency, expiry |
-| Email | Mock Resend | Template render, no body leak |
-| Stripe | Stripe CLI fixtures | Webhook signature, idempotency |
-| A11y automation | axe-core in Playwright | Critical routes |
-| Manual a11y | NVDA/VoiceOver | Chat, dialogs, onboarding |
-| Responsive | Playwright viewports | Mobile nav, reflow |
-| E2E | Playwright | 13 journeys |
-| Security | OWASP ZAP baseline (staging) | Before public |
-| Rate limits | Integration | Burst requests |
-| Deletion | Integration + job | Staged purge |
-| Backup restore | Manual quarterly | Staging restore drill |
-| Production smoke | Post-deploy script | Health + auth |
+| Layer            | Tool                         | Scope                                            |
+| ---------------- | ---------------------------- | ------------------------------------------------ |
+| Unit             | Vitest                       | Pure functions, validators, reason-code builders |
+| Schema           | pgTAP + SQL                  | Constraints, enums, unique indexes               |
+| RLS              | pgTAP `supabase test db`     | Every table, every role                          |
+| Authorization    | Vitest + test DB             | `canX()` functions                               |
+| Integration      | Vitest                       | Server actions with test Supabase                |
+| Server/API       | Vitest + supertest pattern   | Routes, webhooks                                 |
+| Realtime         | Integration                  | Subscribe auth rejection                         |
+| Background jobs  | Integration                  | Idempotency, expiry                              |
+| Email            | Mock Resend                  | Template render, no body leak                    |
+| Stripe           | Stripe CLI fixtures          | Webhook signature, idempotency                   |
+| A11y automation  | axe-core in Playwright       | Critical routes                                  |
+| Manual a11y      | NVDA/VoiceOver               | Chat, dialogs, onboarding                        |
+| Responsive       | Playwright viewports         | Mobile nav, reflow                               |
+| E2E              | Playwright                   | 13 journeys                                      |
+| Security         | OWASP ZAP baseline (staging) | Before public                                    |
+| Rate limits      | Integration                  | Burst requests                                   |
+| Deletion         | Integration + job            | Staged purge                                     |
+| Backup restore   | Manual quarterly             | Staging restore drill                            |
+| Production smoke | Post-deploy script           | Health + auth                                    |
 
 ### Minimum gates per slice
 
-| Slice | Required before merge |
-|-------|----------------------|
-| 1 | RLS deny-default; auth smoke; CI green |
-| 2 | Profile visibility leakage tests |
-| 3 | Eligibility hard-rule tests |
-| 4 | Block + request tests |
-| 5 | Message permission tests |
-| 6 | TZ + invitation state tests |
-| 7 | Group permission tests |
-| 8 | Moderation access + deletion tests |
-| 9 | Webhook tests |
-| 10 | Full E2E + a11y audit |
+| Slice | Required before merge                  |
+| ----- | -------------------------------------- |
+| 1     | RLS deny-default; auth smoke; CI green |
+| 2     | Profile visibility leakage tests       |
+| 3     | Eligibility hard-rule tests            |
+| 4     | Block + request tests                  |
+| 5     | Message permission tests               |
+| 6     | TZ + invitation state tests            |
+| 7     | Group permission tests                 |
+| 8     | Moderation access + deletion tests     |
+| 9     | Webhook tests                          |
+| 10    | Full E2E + a11y audit                  |
 
 ---
 
@@ -1117,21 +1143,21 @@ When A blocks B:
 
 **Target:** WCAG 2.2 Level AA on all 13 journeys.
 
-| Requirement | Implementation |
-|-------------|----------------|
-| Keyboard | All interactive elements tabbable; no keyboard traps except focus-trapped modals |
-| Focus | Visible `:focus-visible`; move focus to dialog on open |
-| Dialogs | `role="dialog"`, `aria-modal`, labelled by `aria-labelledby` |
-| Forms | `<label>` or `aria-label`; errors linked via `aria-describedby`; `aria-live="polite"` for submit errors |
-| Status | `aria-live` for new messages (configurable), request accepted |
-| Contrast | 4.5:1 text; 3:1 UI components (verify tokens) |
-| Reduced motion | `prefers-reduced-motion` disables non-essential animation |
-| Touch targets | Minimum 44×44px |
-| Reflow | 320px width usable at 200% zoom |
-| Chat | Messages in `role="log"` or list; composer labelled; timestamps machine-readable |
-| Time zones | Display local time with zone abbreviation; `datetime` attributes |
-| Safety actions | Block/report reachable by keyboard from profile, chat menu |
-| Non-voice | Communication modes equal in UI copy and forms |
+| Requirement    | Implementation                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------- |
+| Keyboard       | All interactive elements tabbable; no keyboard traps except focus-trapped modals                        |
+| Focus          | Visible `:focus-visible`; move focus to dialog on open                                                  |
+| Dialogs        | `role="dialog"`, `aria-modal`, labelled by `aria-labelledby`                                            |
+| Forms          | `<label>` or `aria-label`; errors linked via `aria-describedby`; `aria-live="polite"` for submit errors |
+| Status         | `aria-live` for new messages (configurable), request accepted                                           |
+| Contrast       | 4.5:1 text; 3:1 UI components (verify tokens)                                                           |
+| Reduced motion | `prefers-reduced-motion` disables non-essential animation                                               |
+| Touch targets  | Minimum 44×44px                                                                                         |
+| Reflow         | 320px width usable at 200% zoom                                                                         |
+| Chat           | Messages in `role="log"` or list; composer labelled; timestamps machine-readable                        |
+| Time zones     | Display local time with zone abbreviation; `datetime` attributes                                        |
+| Safety actions | Block/report reachable by keyboard from profile, chat menu                                              |
+| Non-voice      | Communication modes equal in UI copy and forms                                                          |
 
 **Testing:** axe on every PR for touched routes; manual screen-reader pass before beta and public release.
 
@@ -1141,15 +1167,15 @@ When A blocks B:
 
 Incremental introduction:
 
-| Slice | Safety capability |
-|-------|-------------------|
-| 1 | Adult attestation, consent audit, account restriction status |
-| 2 | Profile text moderation hooks (prohibited terms list) |
-| 4 | Block (immediate) |
-| 5 | Report entry → case stub; message rate limits; link warnings |
-| 6 | Report on invitations |
-| 7 | Group safety resolution on block |
-| 8 | Full moderation console, evidence, appeals, emergency pauses |
+| Slice | Safety capability                                            |
+| ----- | ------------------------------------------------------------ |
+| 1     | Adult attestation, consent audit, account restriction status |
+| 2     | Profile text moderation hooks (prohibited terms list)        |
+| 4     | Block (immediate)                                            |
+| 5     | Report entry → case stub; message rate limits; link warnings |
+| 6     | Report on invitations                                        |
+| 7     | Group safety resolution on block                             |
+| 8     | Full moderation console, evidence, appeals, emergency pauses |
 
 **Serious reports:** P0/P1 human review before permanent ban.
 
@@ -1213,43 +1239,43 @@ Quarterly staging restore from production backup snapshot (post-real-users).
 
 ## 18. Requirement traceability
 
-| Requirement (final doc) | Slice | DB objects | UI | Auth | Tests |
-|-------------------------|-------|------------|-----|------|-------|
-| 18+ self-attestation | 1 | accounts, consent_events | onboarding/attestation | RLS self | attestation unit |
-| Progressive onboarding | 2 | gamer_profiles, user_games | /onboarding | field visibility | E2E J01 |
-| 150-game catalog / 8 anchors | 2–3 | games, platforms | profile, discover | catalog public read | seed integrity |
-| Density gate 40/12 | 3 | cohort_* | discover empty state | eligibility fn | cohort tests |
-| Transparent reasons | 3 | recommendation_reason_codes | discover cards | no hidden score | reason reproducibility |
-| Mutual connection | 4 | connection_requests, connections | /connections | no message pre-accept | J07 |
-| 1:1 realtime chat | 5 | messages, conversations | /messages | member RLS | J07 |
-| Play invitations | 6 | play_invitations | /play, chat | participant | J08 |
-| Post-play continuation | 6 | post_play_feedback | completion prompt | private responses | J09 |
-| Teammates + 1 free group | 7 | teammate_*, private_groups | /teammates | group consent | J10 |
-| Block/report | 4–8 | blocks, reports | safety menus | block override | J12 |
-| Moderation human review | 8 | moderation_* | /admin | case scope | P1 workflow |
-| Account deletion | 1–8 | deletion_requests | settings | staged jobs | deletion integration |
-| Free core + Plus | 9 | subscriptions | /subscription | entitlements server | webhook |
-| WCAG 2.2 AA | all | — | all screens | — | axe + manual |
-| No swipe/popularity | all | no score columns | UI review | — | design checklist |
+| Requirement (final doc)      | Slice | DB objects                       | UI                     | Auth                  | Tests                  |
+| ---------------------------- | ----- | -------------------------------- | ---------------------- | --------------------- | ---------------------- |
+| 18+ self-attestation         | 1     | accounts, consent_events         | onboarding/attestation | RLS self              | attestation unit       |
+| Progressive onboarding       | 2     | gamer_profiles, user_games       | /onboarding            | field visibility      | E2E J01                |
+| 150-game catalog / 8 anchors | 2–3   | games, platforms                 | profile, discover      | catalog public read   | seed integrity         |
+| Density gate 40/12           | 3     | cohort_*                         | discover empty state   | eligibility fn        | cohort tests           |
+| Transparent reasons          | 3     | recommendation_reason_codes      | discover cards         | no hidden score       | reason reproducibility |
+| Mutual connection            | 4     | connection_requests, connections | /connections           | no message pre-accept | J07                    |
+| 1:1 realtime chat            | 5     | messages, conversations          | /messages              | member RLS            | J07                    |
+| Play invitations             | 6     | play_invitations                 | /play, chat            | participant           | J08                    |
+| Post-play continuation       | 6     | post_play_feedback               | completion prompt      | private responses     | J09                    |
+| Teammates + 1 free group     | 7     | teammate_*, private_groups       | /teammates             | group consent         | J10                    |
+| Block/report                 | 4–8   | blocks, reports                  | safety menus           | block override        | J12                    |
+| Moderation human review      | 8     | moderation_*                     | /admin                 | case scope            | P1 workflow            |
+| Account deletion             | 1–8   | deletion_requests                | settings               | staged jobs           | deletion integration   |
+| Free core + Plus             | 9     | subscriptions                    | /subscription          | entitlements server   | webhook                |
+| WCAG 2.2 AA                  | all   | —                                | all screens            | —                     | axe + manual           |
+| No swipe/popularity          | all   | no score columns                 | UI review              | —                     | design checklist       |
 
-*(Full table covers all Table 20 capabilities; abbreviated for readability — every MVP row in final doc Table 20 maps to slices 1–10.)*
+_(Full table covers all Table 20 capabilities; abbreviated for readability — every MVP row in final doc Table 20 maps to slices 1–10.)_
 
 ---
 
 ## 19. Risks and unresolved decisions
 
-| ID | Label | Issue | Impact | Recommended decision | Timing | Founder confirm? |
-|----|-------|-------|--------|----------------------|--------|------------------|
-| R01 | ELEVATED | Admin MFA mechanism (Supabase MFA vs app TOTP) | Admin surface security | Use Supabase MFA for admin accounts when available; enforce before admin UI | Slice 8 | Yes |
-| R02 | ELEVATED | Recent-auth pattern for deletion | UX vs security | Magic link re-auth challenge before deletion confirm | Slice 1–8 | No |
-| R03 | ELEVATED | Message encryption at rest (app-level vs provider-only) | Privacy posture | Provider at-rest + RLS for MVP; app-level cipher for evidence fields | Slice 5–8 | Yes |
-| R04 | ELEVATED | Cohort region granularity (US timezone bands vs state) | Density accuracy | Start with US timezone region bands + game/platform/time | Slice 3 | Yes |
-| R05 | WATCH | Next.js 16.3 upgrade during build | Churn risk | Pin 16.2.x at init; evaluate 16.3 at Slice 10 | Slice 10 | No |
-| R06 | CRITICAL | Legal counsel before public registration | Regulatory exposure | Do not open public reg until counsel signs privacy/terms/age/moderation | Before Slice 10 public | **Yes** |
-| R07 | ELEVATED | Game cross-play matrix sourcing | Wrong compatibility | Manual admin verification for 8 anchors with `reviewed_at` | Slice 2–3 | Yes |
-| R08 | WATCH | PostHog vs alternative | Cost/privacy | PostHog with replay disabled on private routes | Slice 1 | No |
-| R09 | ELEVATED | Stripe Tax configuration | Billing compliance | Enable Stripe Tax after accounting review | Slice 9 | Yes |
-| R10 | WATCH | Vitest vs Jest | DX only | Vitest | Slice 1 | No |
+| ID  | Label    | Issue                                                   | Impact                 | Recommended decision                                                        | Timing                 | Founder confirm? |
+| --- | -------- | ------------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------- | ---------------------- | ---------------- |
+| R01 | ELEVATED | Admin MFA mechanism (Supabase MFA vs app TOTP)          | Admin surface security | Use Supabase MFA for admin accounts when available; enforce before admin UI | Slice 8                | Yes              |
+| R02 | ELEVATED | Recent-auth pattern for deletion                        | UX vs security         | Magic link re-auth challenge before deletion confirm                        | Slice 1–8              | No               |
+| R03 | ELEVATED | Message encryption at rest (app-level vs provider-only) | Privacy posture        | Provider at-rest + RLS for MVP; app-level cipher for evidence fields        | Slice 5–8              | Yes              |
+| R04 | ELEVATED | Cohort region granularity (US timezone bands vs state)  | Density accuracy       | Start with US timezone region bands + game/platform/time                    | Slice 3                | Yes              |
+| R05 | WATCH    | Next.js 16.3 upgrade during build                       | Churn risk             | Pin 16.2.x at init; evaluate 16.3 at Slice 10                               | Slice 10               | No               |
+| R06 | CRITICAL | Legal counsel before public registration                | Regulatory exposure    | Do not open public reg until counsel signs privacy/terms/age/moderation     | Before Slice 10 public | **Yes**          |
+| R07 | ELEVATED | Game cross-play matrix sourcing                         | Wrong compatibility    | Manual admin verification for 8 anchors with `reviewed_at`                  | Slice 2–3              | Yes              |
+| R08 | WATCH    | PostHog vs alternative                                  | Cost/privacy           | PostHog with replay disabled on private routes                              | Slice 1                | No               |
+| R09 | ELEVATED | Stripe Tax configuration                                | Billing compliance     | Enable Stripe Tax after accounting review                                   | Slice 9                | Yes              |
+| R10 | WATCH    | Vitest vs Jest                                          | DX only                | Vitest                                                                      | Slice 1                | No               |
 
 **CRITICAL for coding:** R06 blocks **public registration** only — does **not** block Slice 1 staging development.
 
@@ -1283,6 +1309,7 @@ You are implementing **Slice 1** of SameLobby. Read `SAMELOBBY_IMPLEMENTATION_PL
 **Before writing code:** Inspect the repository again (`git status`, directory listing). Confirm whether Slice 0 design docs exist; if not, use plan defaults for nav labels and public home stub copy.
 
 **Scope — implement ONLY Slice 1:**
+
 - Initialize Next.js 16.2.x + TypeScript strict + ESLint + Prettier + Vitest
 - Environment validation (`src/lib/env.ts`) from `.env.example`
 - Supabase local setup + migrations listed in Section 8
@@ -1304,6 +1331,7 @@ You are implementing **Slice 1** of SameLobby. Read `SAMELOBBY_IMPLEMENTATION_PL
 **Exact files:** Create all files listed in Section 8 "Exact proposed files". If a file already exists, extend rather than duplicate.
 
 **Tests required:**
+
 - `supabase/tests/rls/deny_default.test.sql` — all public tables have RLS enabled
 - `supabase/tests/rls/accounts.test.sql` — cross-user access denied
 - Unit tests for env schema and attestation validator
@@ -1312,6 +1340,7 @@ You are implementing **Slice 1** of SameLobby. Read `SAMELOBBY_IMPLEMENTATION_PL
 **Verification:** Run all commands in Section 8 "Verification commands" and report results.
 
 **PROHIBITED in this task:**
+
 - Profile/gamer fields beyond account (Slice 2)
 - Discovery, connections, messaging, play, groups, moderation UI, Stripe
 - Any feature from Slices 2–10
@@ -1321,4 +1350,4 @@ You are implementing **Slice 1** of SameLobby. Read `SAMELOBBY_IMPLEMENTATION_PL
 
 ---
 
-*End of SameLobby Implementation Plan*
+_End of SameLobby Implementation Plan_

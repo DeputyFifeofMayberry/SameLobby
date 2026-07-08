@@ -12,7 +12,7 @@ export default function HomePage() {
       </p>
       <div className="mt-8 flex flex-wrap gap-4">
         <Link
-          href="/sign-in"
+          href="/sign-up"
           className="inline-flex min-h-[var(--touch-min)] items-center rounded-[var(--radius-md)] bg-[var(--color-lobby-teal)] px-6 py-3 font-medium text-white"
         >
           Create your free profile
@@ -24,7 +24,16 @@ export default function HomePage() {
           See how SameLobby works
         </Link>
       </div>
-      <p className="mt-6 text-sm text-[var(--color-text-slate)]">
+      <p className="mt-4 text-sm text-[var(--color-text-slate)]">
+        Already have an account?{" "}
+        <Link
+          href="/sign-in"
+          className="text-[var(--color-lobby-teal)] underline"
+        >
+          Sign in
+        </Link>
+      </p>
+      <p className="mt-4 text-sm text-[var(--color-text-slate)]">
         Adults 18+ · Private connections · No swiping · No paid boosts
       </p>
     </main>

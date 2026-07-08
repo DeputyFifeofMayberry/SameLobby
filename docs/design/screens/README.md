@@ -4,25 +4,25 @@
 
 Low-fidelity ASCII wireframes. Interactive HTML prototype: `docs/design/prototype/index.html`.
 
-| Screen | Journey refs | Wireframe file |
-|--------|--------------|----------------|
-| Home | — | Below |
-| Onboarding | J01 | `flows/J01-new-user-profile.md` |
-| Discover home | J02–J06 | `flows/J02-specific-game.md` |
-| Search & filters | J02–J06 | flows J02–J06 |
-| Gamer profile | All discovery | flows |
-| Connection requests | J07 | `flows/J07-connect-conversation.md` |
-| Messages list | J07 | J07 |
-| Conversation | J07–J08 | J07, J08 |
-| Play tab | J08–J09 | J08, J09 |
-| Teammates | J10, J13 | J10, J13 |
-| Private group | J10 | J10 |
-| Profile editor | J11 | J11 |
-| Notifications | — | IA doc |
-| Safety Center | J12 | `flows/J12-block-report.md` |
-| Settings | J11, J12 | J11, J12 |
-| Subscription | Slice 9 | prototype `subscription.html` |
-| Admin console | Slice 8 | Out of user prototype scope |
+| Screen              | Journey refs  | Wireframe file                      |
+| ------------------- | ------------- | ----------------------------------- |
+| Home                | —             | Below                               |
+| Onboarding          | J01           | `flows/J01-new-user-profile.md`     |
+| Discover home       | J02–J06       | `flows/J02-specific-game.md`        |
+| Search & filters    | J02–J06       | flows J02–J06                       |
+| Gamer profile       | All discovery | flows                               |
+| Connection requests | J07           | `flows/J07-connect-conversation.md` |
+| Messages list       | J07           | J07                                 |
+| Conversation        | J07–J08       | J07, J08                            |
+| Play tab            | J08–J09       | J08, J09                            |
+| Teammates           | J10, J13      | J10, J13                            |
+| Private group       | J10           | J10                                 |
+| Profile editor      | J11           | J11                                 |
+| Notifications       | —             | IA doc                              |
+| Safety Center       | J12           | `flows/J12-block-report.md`         |
+| Settings            | J11, J12      | J11, J12                            |
+| Subscription        | Slice 9       | prototype `subscription.html`       |
+| Admin console       | Slice 8       | Out of user prototype scope         |
 
 ## Home (public)
 

@@ -28,12 +28,12 @@ Report or block entry point (profile, request, chat, invitation, teammate, group
 
 ## Severity model
 
-| Level | Examples | Immediate system action | Review target |
-|-------|----------|-------------------------|---------------|
+| Level  | Examples                                                                    | Immediate system action                      | Review target                      |
+| ------ | --------------------------------------------------------------------------- | -------------------------------------------- | ---------------------------------- |
 | **P0** | Imminent violence, active doxxing, CSAM indicators, credible suicide threat | Restrict + preserve evidence + founder alert | Immediate restriction; review ASAP |
-| **P1** | Sexual coercion, hate targeting, serious threats, scams | Restrict messaging/discovery pending review | 24 hours |
-| **P2** | Repeated harassment, boundary violations | Limit contact; queue case | 72 hours |
-| **P3** | Spam, ordinary conflict, support | Route to conduct/support | 5 business days |
+| **P1** | Sexual coercion, hate targeting, serious threats, scams                     | Restrict messaging/discovery pending review  | 24 hours                           |
+| **P2** | Repeated harassment, boundary violations                                    | Limit contact; queue case                    | 72 hours                           |
+| **P3** | Spam, ordinary conflict, support                                            | Route to conduct/support                     | 5 business days                    |
 
 ## Automation limits
 
@@ -42,9 +42,9 @@ Report or block entry point (profile, request, chat, invitation, teammate, group
 
 ## Block vs report
 
-| Action | User experience |
-|--------|-----------------|
-| **Block** | One tap + confirm; other user not notified; all contact paths stop |
+| Action     | User experience                                                                   |
+| ---------- | --------------------------------------------------------------------------------- |
+| **Block**  | One tap + confirm; other user not notified; all contact paths stop                |
 | **Report** | Structured categories; does not auto-notify blocked party; may combine with block |
 
 ## Evidence access

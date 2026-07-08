@@ -10,7 +10,7 @@ export function PublicNav() {
         >
           SameLobby
         </Link>
-        <nav aria-label="Public" className="flex items-center gap-4 text-sm">
+        <nav aria-label="Public" className="flex items-center gap-3 text-sm">
           <Link href="/how-it-works" className="hidden sm:inline">
             How it works
           </Link>
@@ -19,9 +19,15 @@ export function PublicNav() {
           </Link>
           <Link
             href="/sign-in"
-            className="rounded-[var(--radius-md)] bg-[var(--color-lobby-teal)] px-4 py-2 font-medium text-white"
+            className="rounded-[var(--radius-md)] px-3 py-2 font-medium text-[var(--color-lobby-teal)]"
           >
             Sign in
+          </Link>
+          <Link
+            href="/sign-up"
+            className="rounded-[var(--radius-md)] bg-[var(--color-lobby-teal)] px-4 py-2 font-medium text-white"
+          >
+            Create account
           </Link>
         </nav>
       </div>

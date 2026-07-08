@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { attestationSchema, signInSchema } from "@/domains/accounts/schemas";
+import {
+  attestationSchema,
+  deletionRequestSchema,
+} from "@/domains/accounts/schemas";
 
 describe("attestationSchema", () => {
   it("accepts valid attestation", () => {
@@ -21,16 +24,26 @@ describe("attestationSchema", () => {
     });
     expect(result.success).toBe(false);
   });
+
+  it("rejects missing terms acceptance", () => {
+    const result = attestationSchema.safeParse({
+      adultConfirmed: true,
+      termsAccepted: false,
+      privacyAccepted: true,
+      communityStandardsAccepted: true,
+    });
+    expect(result.success).toBe(false);
+  });
 });
 
-describe("signInSchema", () => {
-  it("accepts valid email", () => {
-    const result = signInSchema.safeParse({ email: "user@example.com" });
+describe("deletionRequestSchema", () => {
+  it("accepts confirmed deletion", () => {
+    const result = deletionRequestSchema.safeParse({ confirm: true });
     expect(result.success).toBe(true);
   });
 
-  it("rejects invalid email", () => {
-    const result = signInSchema.safeParse({ email: "not-an-email" });
+  it("rejects unconfirmed deletion", () => {
+    const result = deletionRequestSchema.safeParse({ confirm: false });
     expect(result.success).toBe(false);
   });
 });
