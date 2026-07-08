@@ -13,6 +13,9 @@ export const ANALYTICS_EVENTS = [
   "sign_up_completed",
   "sign_in_completed",
   "password_reset_requested",
+  "connection_request_sent",
+  "connection_request_accepted",
+  "block_created",
 ] as const;
 
 export type AnalyticsEvent = (typeof ANALYTICS_EVENTS)[number];

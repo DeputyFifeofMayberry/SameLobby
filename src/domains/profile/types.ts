@@ -45,6 +45,7 @@ export type GamerProfile = {
   introduction: string | null;
   onboarding_step: OnboardingStep;
   onboarding_completed_at: string | null;
+  discovery_paused_at: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -62,6 +63,9 @@ export type CurrentIntent = {
   goal: IntentGoal;
   status: "active" | "paused" | "expired";
   expires_at: string;
+  game_id: string | null;
+  platform_id: string | null;
+  voice_preferred: boolean;
 };
 
 export type AvailabilityWindow = {
