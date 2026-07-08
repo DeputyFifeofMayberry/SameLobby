@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { getAccountRouteRedirect } from "@/domains/accounts/account-guard";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { getGamerProfileForAccount } from "@/domains/profile/queries";
 
 export default async function AppLayout({
   children,
@@ -15,8 +16,11 @@ export default async function AppLayout({
   }
 
   const account = await getAccountForUser(user.id);
+  const profile = account
+    ? await getGamerProfileForAccount(account.id)
+    : null;
   const pathname = (await headers()).get("x-pathname") ?? "";
-  const routeRedirect = getAccountRouteRedirect(account, pathname);
+  const routeRedirect = getAccountRouteRedirect(account, profile, pathname);
   if (routeRedirect) {
     redirect(routeRedirect);
   }

@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { safeRedirectPath } from "@/lib/auth/safe-redirect";
 import { getAccountForUser } from "@/domains/accounts/queries";
 import { resolvePostAuthRedirect } from "@/domains/accounts/account-guard";
+import { getGamerProfileForAccount } from "@/domains/profile/queries";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -22,7 +23,10 @@ export async function GET(request: Request) {
         data: { user },
       } = await supabase.auth.getUser();
       const account = user ? await getAccountForUser(user.id) : null;
-      const destination = resolvePostAuthRedirect(account, next);
+      const profile = account
+        ? await getGamerProfileForAccount(account.id)
+        : null;
+      const destination = resolvePostAuthRedirect(account, profile, next);
       return NextResponse.redirect(`${origin}${destination}`);
     }
   }

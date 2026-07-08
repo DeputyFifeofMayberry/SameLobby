@@ -1,5 +1,6 @@
 import { AttestationForm } from "@/components/accounts/AttestationForm";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { getGamerProfileForAccount } from "@/domains/profile/queries";
 import { redirect } from "next/navigation";
 
 export default async function AttestationPage() {
@@ -8,7 +9,11 @@ export default async function AttestationPage() {
 
   const account = await getAccountForUser(user.id);
   if (account?.status === "active" && account.adult_attested_at) {
-    redirect("/discover");
+    const profile = await getGamerProfileForAccount(account.id);
+    if (profile?.onboarding_completed_at) {
+      redirect("/discover");
+    }
+    redirect("/onboarding/identity");
   }
 
   return (

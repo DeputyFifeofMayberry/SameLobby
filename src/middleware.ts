@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { env } from "@/lib/env";
 import { resolvePostAuthRedirect } from "@/domains/accounts/account-guard";
 import type { AccountStatus } from "@/domains/accounts/types";
+import type { OnboardingStep } from "@/domains/profile/types";
 
 const APP_PREFIXES = [
   "/discover",
@@ -11,6 +12,7 @@ const APP_PREFIXES = [
   "/play",
   "/teammates",
   "/onboarding",
+  "/profile",
   "/settings",
   "/admin",
 ];
@@ -76,12 +78,29 @@ export async function middleware(request: NextRequest) {
   if (isAuthPage && user) {
     const { data: account } = await supabase
       .from("accounts")
-      .select("status")
+      .select("id, status")
       .eq("auth_user_id", user.id)
-      .maybeSingle<{ status: AccountStatus }>();
+      .maybeSingle<{ id: string; status: AccountStatus }>();
+
+    let profile: {
+      onboarding_step: OnboardingStep;
+      onboarding_completed_at: string | null;
+    } | null = null;
+
+    if (account?.id) {
+      const { data: profileRow } = await supabase
+        .from("gamer_profiles")
+        .select("onboarding_step, onboarding_completed_at")
+        .eq("account_id", account.id)
+        .maybeSingle<{
+          onboarding_step: OnboardingStep;
+          onboarding_completed_at: string | null;
+        }>();
+      profile = profileRow;
+    }
 
     const next = request.nextUrl.searchParams.get("next");
-    const destination = resolvePostAuthRedirect(account, next);
+    const destination = resolvePostAuthRedirect(account, profile, next);
     const url = request.nextUrl.clone();
     url.pathname = destination;
     url.search = "";

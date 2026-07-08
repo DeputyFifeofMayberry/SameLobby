@@ -120,3 +120,46 @@ where auth_user_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb';
 update public.accounts
 set status = 'restricted'
 where auth_user_id = 'cccccccc-cccc-cccc-cccc-cccccccccccc';
+
+-- Complete profile for dev-active fixture
+update public.accounts
+set time_zone = 'America/Los_Angeles'
+where auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
+
+update public.gamer_profiles
+set
+  display_name = 'DevActive',
+  communication_modes = array['same_lobby_text', 'voice_chat']::public.communication_mode[],
+  onboarding_step = 'preview',
+  onboarding_completed_at = now()
+where account_id = (
+  select id from public.accounts where auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+);
+
+insert into public.user_games (account_id, game_id, platform_id, is_active, sort_order)
+select
+  a.id,
+  g.id,
+  p.id,
+  true,
+  0
+from public.accounts a
+cross join public.games g
+cross join public.platforms p
+where a.auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+  and g.slug = 'fortnite'
+  and p.slug = 'pc'
+on conflict (account_id, game_id, platform_id) do nothing;
+
+insert into public.current_intents (account_id, goal, status, expires_at)
+select
+  a.id,
+  'gaming_friendship'::public.intent_goal,
+  'active'::public.intent_status,
+  now() + interval '14 days'
+from public.accounts a
+where a.auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+  and not exists (
+    select 1 from public.current_intents ci where ci.account_id = a.id and ci.status = 'active'
+  );
+

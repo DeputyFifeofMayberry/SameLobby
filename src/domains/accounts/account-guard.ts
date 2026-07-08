@@ -1,9 +1,15 @@
-import type { Account, AccountStatus } from "@/domains/accounts/types";
+import type { Account } from "@/domains/accounts/types";
+import type { GamerProfile } from "@/domains/profile/types";
+import { onboardingStepPath } from "@/domains/onboarding/constants";
 import { safeRedirectPath } from "@/lib/auth/safe-redirect";
 
 type AccountForRedirect = Pick<Account, "status"> | null;
+type ProfileForRedirect = Pick<
+  GamerProfile,
+  "onboarding_step" | "onboarding_completed_at"
+> | null;
 
-const BLOCKED_STATUSES = new Set<AccountStatus>([
+const BLOCKED_STATUSES = new Set<Account["status"]>([
   "suspended",
   "restricted",
   "deleted",
@@ -24,12 +30,23 @@ function isAttestationRoute(pathname: string): boolean {
   );
 }
 
+function isOnboardingRoute(pathname: string): boolean {
+  return (
+    pathname === "/onboarding" || pathname.startsWith("/onboarding/")
+  );
+}
+
+function isProfileEditRoute(pathname: string): boolean {
+  return pathname === "/profile" || pathname.startsWith("/profile/");
+}
+
 function isSettingsRoute(pathname: string): boolean {
   return pathname === blockedAccountPath() || pathname.startsWith("/settings/");
 }
 
 export function getAccountRouteRedirect(
   account: Account | null,
+  profile: ProfileForRedirect,
   pathname: string,
 ): string | null {
   if (!account) {
@@ -48,11 +65,34 @@ export function getAccountRouteRedirect(
     return isSettingsRoute(pathname) ? null : blockedAccountPath();
   }
 
+  if (account.status === "active" && !profile?.onboarding_completed_at) {
+    const target = onboardingStepPath(
+      profile?.onboarding_step ?? "identity",
+    );
+    if (isAttestationRoute(pathname)) {
+      return target;
+    }
+    if (isOnboardingRoute(pathname)) {
+      return null;
+    }
+    return target;
+  }
+
+  if (
+    account.status === "active" &&
+    profile?.onboarding_completed_at &&
+    isOnboardingRoute(pathname) &&
+    !isProfileEditRoute(pathname)
+  ) {
+    return "/discover";
+  }
+
   return null;
 }
 
 export function resolvePostAuthRedirect(
   account: AccountForRedirect,
+  profile: ProfileForRedirect,
   next?: string | null,
 ): string {
   if (!account) {
@@ -63,6 +103,9 @@ export function resolvePostAuthRedirect(
     case "onboarding":
       return attestationPath();
     case "active":
+      if (!profile?.onboarding_completed_at) {
+        return onboardingStepPath(profile?.onboarding_step ?? "identity");
+      }
       return safeRedirectPath(next, "/discover");
     case "deletion_pending":
     case "suspended":

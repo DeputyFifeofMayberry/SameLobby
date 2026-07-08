@@ -12,6 +12,7 @@ import {
 } from "@/domains/accounts/schemas";
 import { POLICY_VERSIONS } from "@/domains/accounts/types";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { getGamerProfileForAccount } from "@/domains/profile/queries";
 import { trackEvent } from "@/lib/analytics/events";
 import { logger } from "@/lib/logging";
 
@@ -59,7 +60,11 @@ export async function completeAttestation(
   }
 
   if (account.status === "active" && account.adult_attested_at) {
-    redirect("/discover");
+    const profile = await getGamerProfileForAccount(account.id);
+    if (profile?.onboarding_completed_at) {
+      redirect("/discover");
+    }
+    redirect("/onboarding/identity");
   }
 
   const now = new Date().toISOString();
@@ -93,7 +98,7 @@ export async function completeAttestation(
 
   trackEvent("adult_attestation_completed");
   revalidatePath("/", "layout");
-  redirect("/discover");
+  redirect("/onboarding/identity");
 }
 
 export async function requestAccountDeletion(

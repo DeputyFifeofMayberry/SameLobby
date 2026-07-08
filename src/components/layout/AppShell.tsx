@@ -39,8 +39,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
         <div className="mt-8 px-4">
           <Link
+            href="/profile"
+            className="block text-sm text-[var(--color-lobby-teal)]"
+          >
+            Profile
+          </Link>
+          <Link
             href="/settings/account"
-            className="text-sm text-[var(--color-lobby-teal)]"
+            className="mt-2 block text-sm text-[var(--color-lobby-teal)]"
           >
             Settings
           </Link>
@@ -53,6 +59,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             className="font-[family-name:var(--font-display)] font-bold"
           >
             SameLobby
+          </Link>
+          <Link
+            href="/profile"
+            className="text-sm text-[var(--color-lobby-teal)]"
+          >
+            Profile
           </Link>
           <Link
             href="/settings/account"

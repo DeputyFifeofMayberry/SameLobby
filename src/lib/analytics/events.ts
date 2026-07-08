@@ -7,6 +7,7 @@ export const ANALYTICS_EVENTS = [
   "account_created",
   "adult_attestation_completed",
   "onboarding_step_completed",
+  "onboarding_completed",
   "account_deletion_requested",
   "sign_up_started",
   "sign_up_completed",

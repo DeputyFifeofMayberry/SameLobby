@@ -8,6 +8,7 @@ import { isFeatureEnabled } from "@/lib/feature-flags";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { resolvePostAuthRedirect } from "@/domains/accounts/account-guard";
 import { getAccountForUser } from "@/domains/accounts/queries";
+import { getGamerProfileForAccount } from "@/domains/profile/queries";
 import {
   forgotPasswordSchema,
   signInSchema,
@@ -97,7 +98,10 @@ export async function signUpWithPassword(
     trackEvent("sign_up_completed");
     trackEvent("account_created");
     const account = data.user ? await getAccountForUser(data.user.id) : null;
-    redirect(resolvePostAuthRedirect(account));
+    const profile = account
+      ? await getGamerProfileForAccount(account.id)
+      : null;
+    redirect(resolvePostAuthRedirect(account, profile));
   }
 
   trackEvent("sign_up_completed");
@@ -147,7 +151,10 @@ export async function signInWithPassword(
       ? next
       : null;
   const account = await getAccountForUser(data.user.id);
-  redirect(resolvePostAuthRedirect(account, nextPath));
+  const profile = account
+    ? await getGamerProfileForAccount(account.id)
+    : null;
+  redirect(resolvePostAuthRedirect(account, profile, nextPath));
 }
 
 export async function requestPasswordReset(
