@@ -1,0 +1,22 @@
+-- Test helpers for pgTAP RLS tests
+create or replace function tests.set_auth(user_id uuid)
+returns void
+language plpgsql
+as $$
+begin
+  perform set_config('request.jwt.claims', json_build_object('sub', user_id::text)::text, true);
+  perform set_config('request.jwt.claim.sub', user_id::text, true);
+  perform set_config('role', 'authenticated', true);
+end;
+$$;
+
+create or replace function tests.clear_auth()
+returns void
+language plpgsql
+as $$
+begin
+  perform set_config('request.jwt.claims', '', true);
+  perform set_config('request.jwt.claim.sub', '', true);
+  perform set_config('role', 'anon', true);
+end;
+$$;
