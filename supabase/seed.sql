@@ -48,6 +48,61 @@ values
   )
 on conflict (id) do nothing;
 
+insert into auth.identities (
+  id,
+  user_id,
+  identity_data,
+  provider,
+  provider_id,
+  last_sign_in_at,
+  created_at,
+  updated_at
+)
+values
+  (
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+    jsonb_build_object(
+      'sub', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+      'email', 'dev-active@test.local',
+      'email_verified', true
+    ),
+    'email',
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+    now(),
+    now(),
+    now()
+  ),
+  (
+    'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+    'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+    jsonb_build_object(
+      'sub', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+      'email', 'dev-onboarding@test.local',
+      'email_verified', true
+    ),
+    'email',
+    'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+    now(),
+    now(),
+    now()
+  ),
+  (
+    'cccccccc-cccc-cccc-cccc-cccccccccccc',
+    'cccccccc-cccc-cccc-cccc-cccccccccccc',
+    jsonb_build_object(
+      'sub', 'cccccccc-cccc-cccc-cccc-cccccccccccc',
+      'email', 'dev-restricted@test.local',
+      'email_verified', true
+    ),
+    'email',
+    'cccccccc-cccc-cccc-cccc-cccccccccccc',
+    now(),
+    now(),
+    now()
+  )
+on conflict (id) do nothing;
+
 -- handle_new_user trigger creates accounts rows; set dev fixture statuses
 update public.accounts
 set
