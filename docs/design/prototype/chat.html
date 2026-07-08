@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conversation — SameLobby Prototype</title>
+  <link rel="stylesheet" href="prototype.css" />
+</head>
+<body>
+  <div class="proto-banner"><strong>Slice 0</strong> — J07–J08 Chat</div>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="app-header">
+    <a class="logo" href="messages.html">← Messages</a>
+    <button type="button" class="btn btn-ghost" onclick="location.href='safety.html'">Safety actions</button>
+  </header>
+  <main id="main">
+    <h1>PixelPilot</h1>
+    <p>Shared: Fortnite · PC cross-play</p>
+    <div role="log" aria-live="polite" aria-label="Message history">
+      <div class="message message-them">Hey! Down to run a few tonight?</div>
+      <div class="message message-me">Yeah — maybe 8pm PT?</div>
+      <div class="message message-them">Works for me.</div>
+    </div>
+    <p><strong>Icebreakers</strong></p>
+    <button type="button" class="btn btn-secondary">What are you playing lately?</button>
+    <button type="button" class="btn btn-secondary">Favorite Fortnite mode?</button>
+    <div class="composer">
+      <label class="visually-hidden" for="msg">Message</label>
+      <input id="msg" type="text" placeholder="Message" />
+      <button type="button" class="btn btn-primary">Send message</button>
+    </div>
+    <p><a class="btn btn-primary" href="play.html">Invite to play</a></p>
+  </main>
+  <nav class="bottom-nav" aria-label="Primary">
+    <a href="discover.html">Discover</a>
+    <a href="request.html">Connections</a>
+    <a href="messages.html" aria-current="page">Messages</a>
+    <a href="play.html">Play</a>
+    <a href="teammates.html">Teammates</a>
+  </nav>
+</body>
+</html>

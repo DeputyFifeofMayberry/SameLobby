@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Onboarding — SameLobby Prototype</title>
+  <link rel="stylesheet" href="prototype.css" />
+</head>
+<body>
+  <div class="proto-banner"><strong>Slice 0</strong> — J01 New user creates a profile</div>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="app-header">
+    <a class="logo" href="index.html">SameLobby</a>
+  </header>
+  <main id="main">
+    <p aria-live="polite">Step 2 of 5 — Display name and time zone</p>
+    <div class="card">
+      <h1>Create your profile</h1>
+      <fieldset class="field">
+        <legend>Confirm you are 18 or older</legend>
+        <label><input type="checkbox" checked /> I am 18 or older and agree to the <a href="#">Terms</a>, <a href="#">Privacy Notice</a>, and <a href="#">Community Standards</a>.</label>
+      </fieldset>
+      <div class="field">
+        <label for="name">Display name</label>
+        <input id="name" type="text" value="NightOwl_42" />
+      </div>
+      <div class="field">
+        <label for="tz">Time zone</label>
+        <select id="tz"><option>Pacific Time (US)</option></select>
+      </div>
+      <div class="field">
+        <label for="game">First game</label>
+        <select id="game"><option>Fortnite</option></select>
+      </div>
+      <div class="field">
+        <label for="platform">Playable platform</label>
+        <select id="platform"><option>PC</option></select>
+        <small id="crossplay">Cross-play: playable with PC, Xbox, PlayStation</small>
+      </div>
+      <fieldset class="field">
+        <legend>Communication capability (choose at least one)</legend>
+        <label><input type="checkbox" checked /> SameLobby text</label>
+        <label><input type="checkbox" /> In-game text</label>
+        <label><input type="checkbox" /> Voice chat (optional)</label>
+      </fieldset>
+      <div class="field">
+        <label for="goal">What are you looking for now?</label>
+        <select id="goal"><option>Regular duo for a specific game</option></select>
+      </div>
+      <p><span class="badge">Public</span> fields shown to discoverable members. Optional details can be added later.</p>
+      <a class="btn btn-primary" href="discover.html">Continue to Discover</a>
+      <button type="button" class="btn btn-ghost">Skip optional steps for now</button>
+    </div>
+  </main>
+</body>
+</html>

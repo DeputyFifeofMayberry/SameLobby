@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Play — SameLobby Prototype</title>
+  <link rel="stylesheet" href="prototype.css" />
+</head>
+<body>
+  <div class="proto-banner"><strong>Slice 0</strong> — J08 Play invitation</div>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="app-header">
+    <a class="logo" href="index.html">SameLobby</a>
+  </header>
+  <main id="main">
+    <h1>Play</h1>
+    <div class="card">
+      <h2>Create play invitation</h2>
+      <div class="field">
+        <label for="pgame">Game</label>
+        <select id="pgame"><option>Fortnite</option></select>
+      </div>
+      <div class="field">
+        <label for="pplat">Platform</label>
+        <select id="pplat"><option>PC (cross-play)</option></select>
+      </div>
+      <fieldset class="field">
+        <legend>When</legend>
+        <label><input type="radio" name="when" checked /> Play now</label>
+        <label><input type="radio" name="when" /> Pick a time</label>
+        <label><input type="radio" name="when" /> Suggest in chat</label>
+      </fieldset>
+      <div class="field">
+        <label for="len">Expected length</label>
+        <select id="len"><option>~90 minutes</option></select>
+      </div>
+      <button type="button" class="btn btn-primary">Send invitation</button>
+    </div>
+    <div class="card">
+      <h2>Upcoming</h2>
+      <p><strong>Fortnite</strong> with PixelPilot<br />
+      Tonight 8:00 PM PT · Proposed</p>
+      <button type="button" class="btn btn-secondary">Accept</button>
+      <button type="button" class="btn btn-ghost">Counter time</button>
+    </div>
+    <div class="card">
+      <h2>After play</h2>
+      <p>Keep this connection going?</p>
+      <button type="button" class="btn btn-secondary" onclick="location.href='teammates.html'">Play again</button>
+      <button type="button" class="btn btn-secondary" onclick="location.href='teammates.html'">Add as teammate</button>
+      <button type="button" class="btn btn-ghost">Not now</button>
+    </div>
+  </main>
+  <nav class="bottom-nav" aria-label="Primary">
+    <a href="discover.html">Discover</a>
+    <a href="request.html">Connections</a>
+    <a href="messages.html">Messages</a>
+    <a href="play.html" aria-current="page">Play</a>
+    <a href="teammates.html">Teammates</a>
+  </nav>
+</body>
+</html>

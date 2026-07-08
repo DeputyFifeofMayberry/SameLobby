@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Safety — SameLobby Prototype</title>
+  <link rel="stylesheet" href="prototype.css" />
+</head>
+<body>
+  <div class="proto-banner"><strong>Slice 0</strong> — J12 Block &amp; report</div>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="app-header">
+    <a class="logo" href="index.html">SameLobby</a>
+  </header>
+  <main id="main">
+    <h1>Safety actions</h1>
+    <div class="card">
+      <h2>Block PixelPilot</h2>
+      <p>Blocking takes effect immediately. They will not be notified. You will not see each other in discovery, requests, or messages.</p>
+      <button type="button" class="btn btn-primary" style="background:var(--color-error)">Block</button>
+    </div>
+    <div class="card">
+      <h2>Report</h2>
+      <div class="field">
+        <label for="cat">Category</label>
+        <select id="cat">
+          <option>Harassment or unwanted contact</option>
+          <option>Spam</option>
+          <option>Sexual solicitation</option>
+          <option>Scam or phishing</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="desc">Description (optional)</label>
+        <textarea id="desc" rows="4"></textarea>
+      </div>
+      <button type="button" class="btn btn-primary">Submit report</button>
+      <p role="status"><small>Reports are reviewed proportionately. SameLobby does not provide emergency monitoring.</small></p>
+    </div>
+    <a href="request.html">← Back to profile</a>
+  </main>
+</body>
+</html>
