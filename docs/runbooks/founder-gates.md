@@ -13,7 +13,7 @@ Track manual sign-offs required before widening beta or enabling public registra
 | Age attestation copy | | ☐ | | |
 | Community standards / moderation policy | | ☐ | | |
 
-**Engineering posture:** `registration_open` remains **false** on staging until this table is complete.
+**Engineering posture:** `registration_open` remains **false** on staging until this table is complete. Staging configured 2026-07-09 (`registration_cap.max_accounts=100`).
 
 ## R07 — Catalog anchors
 

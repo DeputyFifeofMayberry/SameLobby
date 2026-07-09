@@ -4,13 +4,13 @@ Use this runbook before a capped public release. Engineering gates should be gre
 
 ## CI / engineering gates
 
-- [ ] `npm run typecheck` passes
-- [ ] `npm run test` (Vitest) passes
-- [ ] `npm run test:db` (pgTAP) passes
-- [ ] `npm run build` passes with `SKIP_ENV_VALIDATION=true`
-- [ ] Playwright E2E job green (`npm run test:e2e`)
+- [x] `npm run typecheck` passes (CI quality job, run `29056717943`)
+- [x] `npm run test` (Vitest) passes
+- [x] `npm run test:db` (pgTAP) passes
+- [x] `npm run build` passes with `SKIP_ENV_VALIDATION=true`
+- [ ] Playwright E2E job green (`npm run test:e2e`) — in progress on `main`
 - [ ] axe accessibility specs green (`npm run test:a11y`)
-- [ ] Post-deploy smoke script passes (`npm run smoke:post-deploy`)
+- [x] Post-deploy smoke script passes (`npm run smoke:post-deploy` on staging, 2026-07-09)
 
 ## Stripe / billing
 
@@ -21,10 +21,10 @@ Use this runbook before a capped public release. Engineering gates should be gre
 
 ## Launch controls
 
-- [ ] `registration_open` remains **false** until R06 legal sign-off
-- [ ] Registration numeric cap set on `/admin/feature-controls`
+- [x] `registration_open` remains **false** until R06 legal sign-off (staging verified)
+- [x] Registration numeric cap set on `/admin/feature-controls` (staging: `max_accounts=100`)
 - [ ] Registration cap utilization visible on admin dashboard
-- [ ] Feature flags reviewed (messaging, discovery, reporting)
+- [x] Feature flags reviewed (messaging, discovery, reporting enabled on staging)
 
 ## Security & compliance
 
@@ -34,7 +34,7 @@ Use this runbook before a capped public release. Engineering gates should be gre
 
 ## Data & catalog
 
-- [ ] Catalog ≥150 games in seed/migrations
+- [x] Catalog ≥150 games in seed/migrations (staging: 150)
 - [ ] 8 anchor games crossplay metadata verified (R07)
 - [ ] Backup restore rehearsal scheduled (quarterly)
 

@@ -19,13 +19,18 @@ supabase link --project-ref <STAGING_PROJECT_REF>
 supabase db push
 ```
 
-New migrations (Slices 9–10):
+New migrations (Slices 9–10 + launch CI fixes):
 
 - `20260716000000_billing.sql`
 - `20260717000000_catalog_admin_rls.sql`
 - `20260717010000_moderation_case_notes.sql`
 - `20260717020000_registration_cap.sql`
 - `20260717030000_catalog_seed_expansion.sql`
+- `20260718000000_fix_direct_conversation_upsert.sql`
+- `20260718010000_pgtap_table_grants.sql`
+- `20260718020000_pgtap_auth_and_retention_fixes.sql`
+- `20260718030000_conversation_and_auth_fixes.sql`
+- `20260718040000_fix_deletion_session_purge.sql`
 
 Verify:
 
