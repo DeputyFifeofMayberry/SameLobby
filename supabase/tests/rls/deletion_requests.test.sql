@@ -6,6 +6,8 @@ select plan(3);
 \set user_a 'd6666666-6666-6666-6666-666666666666'
 \set user_b 'd7777777-7777-7777-7777-777777777777'
 
+select tests.as_postgres();
+
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values
   (:'user_a', 'delete-a@test.local', crypt('TestPass123!', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),

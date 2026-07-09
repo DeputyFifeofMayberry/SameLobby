@@ -5,6 +5,8 @@ select plan(6);
 \set user_b 'd1111111-1111-1111-1111-111111111111'
 \set outsider 'b2222222-2222-2222-2222-222222222222'
 
+select tests.as_postgres();
+
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values
   (:'outsider', 'teammate-outsider@test.local', crypt('test', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated')
@@ -46,7 +48,10 @@ select lives_ok(
 select tests.set_auth(:'user_b'::uuid);
 
 select is(
-  (select count(*)::int from public.teammate_notes),
+  (select count(*)::int from public.teammate_notes tn
+   join public.teammate_relationships tr on tr.id = tn.relationship_id
+   join public.accounts a on a.id in (tr.user_a_id, tr.user_b_id)
+   where a.auth_user_id in (:'user_a'::uuid, :'user_b'::uuid)),
   0,
   'other participant cannot read teammate notes'
 );
@@ -54,7 +59,12 @@ select is(
 select tests.set_auth(:'outsider'::uuid);
 
 select is(
-  (select count(*)::int from public.teammate_relationships),
+  (select count(*)::int
+   from public.teammate_relationships tr
+   join public.accounts a on a.auth_user_id = :'user_a'::uuid
+   join public.accounts b on b.auth_user_id = :'user_b'::uuid
+   where tr.user_a_id in (a.id, b.id)
+     and tr.user_b_id in (a.id, b.id)),
   0,
   'non-participant cannot read teammate relationships'
 );
@@ -69,7 +79,12 @@ where a.auth_user_id = :'user_a'::uuid
 select tests.set_auth(:'user_b'::uuid);
 
 select is(
-  (select count(*)::int from public.teammate_relationships),
+  (select count(*)::int
+   from public.teammate_relationships tr
+   join public.accounts a on a.auth_user_id = :'user_a'::uuid
+   join public.accounts b on b.auth_user_id = :'user_b'::uuid
+   where tr.user_a_id in (a.id, b.id)
+     and tr.user_b_id in (a.id, b.id)),
   0,
   'blocked participant cannot read teammate relationship'
 );

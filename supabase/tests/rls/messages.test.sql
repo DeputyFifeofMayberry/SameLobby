@@ -5,6 +5,8 @@ select plan(5);
 \set user_b 'b2222222-2222-2222-2222-222222222222'
 \set user_c 'b3333333-3333-3333-3333-333333333333'
 
+select tests.as_postgres();
+
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values
   (:'user_a', 'msg-a@test.local', crypt('test', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),
@@ -56,7 +58,16 @@ select lives_ok(
 select tests.set_auth(:'user_c'::uuid);
 
 select is(
-  (select count(*)::int from public.messages),
+  (
+    select count(*)::int
+    from public.messages m
+    join public.conversations c on c.id = m.conversation_id
+    join public.connections conn on conn.id = c.connection_id
+    join public.accounts a on a.auth_user_id = :'user_a'::uuid
+    join public.accounts b on b.auth_user_id = :'user_b'::uuid
+    where conn.user_a_id in (a.id, b.id)
+      and conn.user_b_id in (a.id, b.id)
+  ),
   0,
   'non-member cannot read messages'
 );
@@ -71,7 +82,15 @@ where a.auth_user_id = :'user_a'::uuid
   and b.auth_user_id = :'user_b'::uuid;
 
 select is(
-  (select count(*)::int from public.conversations),
+  (
+    select count(*)::int
+    from public.conversations c
+    join public.connections conn on conn.id = c.connection_id
+    join public.accounts a on a.auth_user_id = :'user_a'::uuid
+    join public.accounts b on b.auth_user_id = :'user_b'::uuid
+    where conn.user_a_id in (a.id, b.id)
+      and conn.user_b_id in (a.id, b.id)
+  ),
   0,
   'blocked conversation hidden from member'
 );

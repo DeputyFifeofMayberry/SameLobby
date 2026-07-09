@@ -4,6 +4,8 @@ select plan(5);
 \set sender 'a1111111-1111-1111-1111-111111111111'
 \set recipient 'a2222222-2222-2222-2222-222222222222'
 
+select tests.as_postgres();
+
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values
   (:'sender', 'conn-sender@test.local', crypt('test', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),
@@ -67,7 +69,14 @@ select lives_ok(
 );
 
 select is(
-  (select count(*)::int from public.connections),
+  (
+    select count(*)::int
+    from public.connections c
+    join public.accounts s on s.auth_user_id = :'sender'::uuid
+    join public.accounts r on r.auth_user_id = :'recipient'::uuid
+    where c.user_a_id in (s.id, r.id)
+      and c.user_b_id in (s.id, r.id)
+  ),
   1,
   'accept creates mutual connection row'
 );

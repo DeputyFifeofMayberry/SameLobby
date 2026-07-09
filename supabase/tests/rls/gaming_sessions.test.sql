@@ -5,6 +5,8 @@ select plan(2);
 \set user_b 'c4222222-2222-2222-2222-222222222222'
 \set user_c 'c4333333-3333-3333-3333-333333333333'
 
+select tests.as_postgres();
+
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values
   (:'user_a', 'sess-a@test.local', crypt('test', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),
@@ -57,12 +59,21 @@ select pi.id, pi.conversation_id, pi.game_id, pi.platform_id,
   least(pi.proposer_account_id, pi.recipient_account_id),
   greatest(pi.proposer_account_id, pi.recipient_account_id)
 from public.play_invitations pi
+where not exists (
+  select 1 from public.gaming_sessions gs where gs.invitation_id = pi.id
+)
 limit 1;
 
 select tests.set_auth(:'user_c'::uuid);
 
 select is(
-  (select count(*)::int from public.gaming_sessions),
+  (
+    select count(*)::int
+    from public.gaming_sessions gs
+    join public.play_invitations pi on pi.id = gs.invitation_id
+    join public.accounts proposer on proposer.id = pi.proposer_account_id
+    where proposer.auth_user_id = :'user_a'::uuid
+  ),
   0,
   'non-participant cannot read sessions'
 );
@@ -70,7 +81,13 @@ select is(
 select tests.set_auth(:'user_a'::uuid);
 
 select is(
-  (select count(*)::int from public.gaming_sessions),
+  (
+    select count(*)::int
+    from public.gaming_sessions gs
+    join public.play_invitations pi on pi.id = gs.invitation_id
+    join public.accounts proposer on proposer.id = pi.proposer_account_id
+    where proposer.auth_user_id = :'user_a'::uuid
+  ),
   1,
   'participant can read session'
 );

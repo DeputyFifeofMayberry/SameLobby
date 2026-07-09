@@ -25,9 +25,13 @@ select lives_ok(
 select tests.set_auth(:'member'::uuid);
 
 select is(
-  (select count(*)::int
-   from public.conversations c
-   where c.kind = 'group'),
+  (
+    select count(*)::int
+    from public.conversations c
+    join public.private_groups g on g.id = c.group_id
+    where c.kind = 'group'
+      and g.name = 'Chat Squad'
+  ),
   0,
   'non-member cannot read group conversation before joining'
 );

@@ -1,8 +1,10 @@
 begin;
 select plan(3);
 
-\set user_id 'g1111111-1111-1111-1111-111111111111'
-\set held_user_id 'g2222222-2222-2222-2222-222222222222'
+\set user_id 'a8111111-1111-1111-1111-111111111111'
+\set held_user_id 'a8222222-2222-2222-2222-222222222222'
+
+select tests.as_postgres();
 
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values

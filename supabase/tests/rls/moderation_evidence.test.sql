@@ -6,6 +6,8 @@ select plan(3);
 \set bystander 'e3333333-3333-3333-3333-333333333333'
 \set admin_user 'e4444444-4444-4444-4444-444444444444'
 
+select tests.as_postgres();
+
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values
   (:'reporter', 'ev-reporter@test.local', crypt('test', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),

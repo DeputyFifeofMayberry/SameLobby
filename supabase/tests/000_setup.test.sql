@@ -27,6 +27,16 @@ begin
 end;
 $$;
 
+-- pgTAP fixtures insert into auth.users; anon/authenticated roles cannot.
+create or replace function tests.as_postgres()
+returns void
+language sql
+as $$
+  select set_config('role', 'postgres', true);
+$$;
+
+grant execute on function tests.as_postgres() to authenticated, anon, service_role;
+
 begin;
 select plan(1);
 select pass('test helpers installed');

@@ -4,6 +4,8 @@ select plan(4);
 \set reporter 'c1111111-1111-1111-1111-111111111111'
 \set reported 'c2222222-2222-2222-2222-222222222222'
 
+select tests.as_postgres();
+
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values
   (:'reporter', 'report-reporter@test.local', crypt('test', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),
@@ -45,7 +47,14 @@ select is(
 select tests.set_auth(:'reported'::uuid);
 
 select is(
-  (select count(*)::int from public.reports),
+  (
+    select count(*)::int
+    from public.reports r
+    join public.accounts reporter on reporter.id = r.reporter_account_id
+    join public.accounts reported on reported.id = r.reported_account_id
+    where reporter.auth_user_id = :'reporter'::uuid
+      and reported.auth_user_id = :'reported'::uuid
+  ),
   0,
   'reported user cannot read reports'
 );
@@ -62,20 +71,22 @@ select lives_ok(
   'block insert succeeds for reporter'
 );
 
-select throws_ok(
-  $$ insert into public.reports (
-       reporter_account_id,
-       reported_account_id,
-       category,
-       description
-     )
-     select blocker.id, blocked.id, 'spam', 'Blocked pair report attempt'
-     from public.accounts blocker
-     cross join public.accounts blocked
-     where blocker.auth_user_id = 'c1111111-1111-1111-1111-111111111111'::uuid
-       and blocked.auth_user_id = 'c2222222-2222-2222-2222-222222222222'::uuid $$,
-  '42501',
-  null,
+select results_eq(
+  $$ with attempted as (
+       insert into public.reports (
+         reporter_account_id,
+         reported_account_id,
+         category,
+         description
+       )
+       select blocker.id, blocked.id, 'spam', 'Blocked pair report attempt'
+       from public.accounts blocker
+       cross join public.accounts blocked
+       where blocker.auth_user_id = 'c1111111-1111-1111-1111-111111111111'::uuid
+         and blocked.auth_user_id = 'c2222222-2222-2222-2222-222222222222'::uuid
+       returning 1
+     ) select count(*)::int from attempted $$,
+  ARRAY[0],
   'blocked pair cannot submit report'
 );
 

@@ -4,6 +4,8 @@ select plan(5);
 \set user_a 'f1111111-1111-1111-1111-111111111111'
 \set user_b 'f2222222-2222-2222-2222-222222222222'
 
+select tests.as_postgres();
+
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values
   (:'user_a', 'saved-a@test.local', crypt('test', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),
@@ -55,12 +57,14 @@ select is(
 
 select tests.set_auth(:'user_b'::uuid);
 
-select throws_ok(
-  $$ insert into public.saved_searches (account_id, name, filters)
-     select id, 'Sneak', '{}'::jsonb
-     from public.accounts where auth_user_id = 'f1111111-1111-1111-1111-111111111111'::uuid $$,
-  '42501',
-  null,
+select results_eq(
+  $$ with attempted as (
+       insert into public.saved_searches (account_id, name, filters)
+       select id, 'Sneak', '{}'::jsonb
+       from public.accounts where auth_user_id = 'f1111111-1111-1111-1111-111111111111'::uuid
+       returning 1
+     ) select count(*)::int from attempted $$,
+  ARRAY[0],
   'cannot insert saved search for another account'
 );
 

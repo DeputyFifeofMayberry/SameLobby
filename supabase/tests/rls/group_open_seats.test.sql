@@ -9,6 +9,12 @@ select lives_ok(
   $$
   with g as (
     select public.create_private_group('Open Seat Squad', 3, 'bolt', null) as id
+  )
+  update public.private_groups
+  set status = 'active'
+  where id = (select id from g);
+  with g as (
+    select id from public.private_groups where name = 'Open Seat Squad' limit 1
   ),
   owner_account as (
     select id from public.accounts where auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'

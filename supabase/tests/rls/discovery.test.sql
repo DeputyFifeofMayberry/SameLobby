@@ -5,6 +5,8 @@ select plan(4);
 \set target 'f2222222-2222-2222-2222-222222222222'
 \set blocked 'f3333333-3333-3333-3333-333333333333'
 
+select tests.as_postgres();
+
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
 values
   (:'viewer', 'discover-viewer@test.local', crypt('test', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),
