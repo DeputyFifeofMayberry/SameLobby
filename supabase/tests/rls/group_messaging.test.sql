@@ -1,5 +1,5 @@
 begin;
-select plan(2);
+select plan(3);
 
 \set owner 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
 \set member 'd1111111-1111-1111-1111-111111111111'
@@ -7,18 +7,18 @@ select plan(2);
 select tests.set_auth(:'owner'::uuid);
 
 select lives_ok(
-  $$
-  with g as (
-    select public.create_private_group('Chat Squad', 3, 'leaf', null) as id
-  )
-  update public.private_groups
-  set status = 'active'
-  where id = (select id from g);
-  with g as (
-    select id from public.private_groups where name = 'Chat Squad' limit 1
-  )
-  select public.create_conversation_for_group((select id from g))
-  $$,
+  $$ select public.create_private_group('Chat Squad', 3, 'leaf', null) $$,
+  'owner can create private group'
+);
+
+update public.private_groups
+set status = 'active'
+where name = 'Chat Squad';
+
+select lives_ok(
+  $$ select public.create_conversation_for_group(
+       (select id from public.private_groups where name = 'Chat Squad' limit 1)
+     ) $$,
   'active group can get a conversation'
 );
 

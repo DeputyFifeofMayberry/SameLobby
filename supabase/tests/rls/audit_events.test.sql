@@ -8,10 +8,12 @@ values ('test.immutable', 'test', '1', '{}'::jsonb);
 
 select tests.set_auth('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'::uuid);
 
-select throws_ok(
-  $$ update public.audit_events set action = 'tampered' where action = 'test.immutable' $$,
-  '42501',
-  null,
+select results_eq(
+  $$ with updated as (
+       update public.audit_events set action = 'tampered' where action = 'test.immutable'
+       returning 1
+     ) select count(*)::int from updated $$,
+  ARRAY[0],
   'audit events cannot be updated by default roles'
 );
 
