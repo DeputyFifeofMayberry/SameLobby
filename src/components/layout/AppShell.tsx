@@ -51,6 +51,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             Safety Center
           </Link>
           <Link
+            href="/subscription"
+            className="mt-2 block text-sm text-[var(--color-lobby-teal)]"
+          >
+            Subscription
+          </Link>
+          <Link
             href="/settings/account"
             className="mt-2 block text-sm text-[var(--color-lobby-teal)]"
           >

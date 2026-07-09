@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { requireWritableAccount } from "@/domains/billing/entitlements";
 import { orderedPair } from "@/domains/connections/helpers";
 import { hasBlockBetween } from "@/domains/connections/queries";
 import { createTeammateProposalNotification } from "@/domains/notifications/service";
@@ -17,12 +18,10 @@ import { trackEvent } from "@/lib/analytics/events";
 import type { Account } from "@/domains/accounts/types";
 
 export type ActionResult =
-  | { ok: true; matched?: boolean }
-  | { ok: false; error: string };
+  { ok: true; matched?: boolean } | { ok: false; error: string };
 
 type TeammateAccountContext =
-  | { ok: false; error: string }
-  | { ok: true; account: Account };
+  { ok: false; error: string } | { ok: true; account: Account };
 
 async function requireTeammateAccount(): Promise<TeammateAccountContext> {
   const user = await getSessionUser();
@@ -32,6 +31,8 @@ async function requireTeammateAccount(): Promise<TeammateAccountContext> {
   if (account.status !== "active") {
     return { ok: false, error: "Complete attestation before continuing." };
   }
+  const writable = await requireWritableAccount(account.id);
+  if (!writable.ok) return { ok: false, error: writable.error };
   const enabled = await isFeatureEnabled("teammates_enabled");
   if (!enabled) {
     return { ok: false, error: "Teammates are not enabled yet." };
@@ -70,9 +71,12 @@ export async function proposeTeammate(
   }
 
   const supabase = await createClient();
-  const { data: relationshipId, error } = await supabase.rpc("propose_teammate", {
-    p_other_account_id: otherAccountId,
-  });
+  const { data: relationshipId, error } = await supabase.rpc(
+    "propose_teammate",
+    {
+      p_other_account_id: otherAccountId,
+    },
+  );
 
   if (error) {
     const message = error.message.includes("no completed session")
@@ -106,9 +110,12 @@ export async function affirmTeammateProposal(
   if (!ctx.ok) return { ok: false, error: ctx.error };
 
   const supabase = await createClient();
-  const { data: matched, error } = await supabase.rpc("affirm_teammate_proposal", {
-    p_relationship_id: relationshipId,
-  });
+  const { data: matched, error } = await supabase.rpc(
+    "affirm_teammate_proposal",
+    {
+      p_relationship_id: relationshipId,
+    },
+  );
 
   if (error) return { ok: false, error: "Could not affirm request." };
 

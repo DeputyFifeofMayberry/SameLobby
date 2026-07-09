@@ -31,9 +31,7 @@ function isAttestationRoute(pathname: string): boolean {
 }
 
 function isOnboardingRoute(pathname: string): boolean {
-  return (
-    pathname === "/onboarding" || pathname.startsWith("/onboarding/")
-  );
+  return pathname === "/onboarding" || pathname.startsWith("/onboarding/");
 }
 
 function isProfileEditRoute(pathname: string): boolean {
@@ -42,6 +40,14 @@ function isProfileEditRoute(pathname: string): boolean {
 
 function isSettingsRoute(pathname: string): boolean {
   return pathname === blockedAccountPath() || pathname.startsWith("/settings/");
+}
+
+function isSubscriptionRoute(pathname: string): boolean {
+  return pathname === "/subscription" || pathname.startsWith("/subscription/");
+}
+
+function isBillingSelfServiceRoute(pathname: string): boolean {
+  return isSettingsRoute(pathname) || isSubscriptionRoute(pathname);
 }
 
 export function getAccountRouteRedirect(
@@ -58,17 +64,15 @@ export function getAccountRouteRedirect(
   }
 
   if (account.status === "deletion_pending") {
-    return isSettingsRoute(pathname) ? null : blockedAccountPath();
+    return isBillingSelfServiceRoute(pathname) ? null : blockedAccountPath();
   }
 
   if (BLOCKED_STATUSES.has(account.status)) {
-    return isSettingsRoute(pathname) ? null : blockedAccountPath();
+    return isBillingSelfServiceRoute(pathname) ? null : blockedAccountPath();
   }
 
   if (account.status === "active" && !profile?.onboarding_completed_at) {
-    const target = onboardingStepPath(
-      profile?.onboarding_step ?? "identity",
-    );
+    const target = onboardingStepPath(profile?.onboarding_step ?? "identity");
     if (isAttestationRoute(pathname)) {
       return target;
     }

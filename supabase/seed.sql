@@ -401,7 +401,7 @@ on conflict (user_a_id, user_b_id) do nothing;
 update public.feature_flags set enabled = true where key = 'reporting_enabled';
 
 insert into public.admin_users (account_id, scopes, mfa_enrolled_at)
-select id, array['safety_review', 'support', 'security_break_glass']::text[], now()
+select id, array['safety_review', 'support', 'security_break_glass', 'catalog']::text[], now()
 from public.accounts
 where auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
 on conflict (account_id) do update
@@ -440,4 +440,8 @@ update public.reports r
 set moderation_case_id = new_case.id
 from new_case
 where r.id = new_case.report_id;
+
+-- Slice 9: billing plans seeded in migration; enable Stripe only after smoke test
+-- Set stripe_price_id on plans to match Stripe Dashboard test mode prices before enabling checkout.
+-- update public.plans set stripe_price_id = 'price_...' where key = 'plus_monthly';
 

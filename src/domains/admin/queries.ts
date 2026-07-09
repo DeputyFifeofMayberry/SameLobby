@@ -1,6 +1,5 @@
 import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
 import type { ModerationSeverity } from "@/domains/moderation/types";
 
 export type AdminCaseListItem = {
@@ -39,7 +38,8 @@ export async function getAdminDashboardStats(): Promise<AdminDashboardStats> {
   for (const row of cases ?? []) {
     const severity = row.severity as ModerationSeverity;
     openBySeverity[severity] += 1;
-    const ageHours = (now - new Date(row.created_at as string).getTime()) / 3_600_000;
+    const ageHours =
+      (now - new Date(row.created_at as string).getTime()) / 3_600_000;
     if (severity === "p1" && ageHours > 24) overdueP1 += 1;
     if (severity === "p2" && ageHours > 72) overdueP2 += 1;
   }
@@ -61,7 +61,8 @@ export async function listOpenCases(): Promise<AdminCaseListItem[]> {
     const ageHours =
       (now - new Date(row.created_at as string).getTime()) / 3_600_000;
     const isOverdue =
-      (severity === "p1" && ageHours > 24) || (severity === "p2" && ageHours > 72);
+      (severity === "p1" && ageHours > 24) ||
+      (severity === "p2" && ageHours > 72);
     return {
       id: row.id as string,
       reportId: row.report_id as string,
@@ -86,7 +87,11 @@ export async function getCaseDetail(caseId: string) {
 
   const [{ data: report }, { data: evidence }, { data: actions }] =
     await Promise.all([
-      admin.from("reports").select("*").eq("id", caseRow.report_id).maybeSingle(),
+      admin
+        .from("reports")
+        .select("*")
+        .eq("id", caseRow.report_id)
+        .maybeSingle(),
       admin
         .from("moderation_evidence")
         .select("*")
@@ -99,7 +104,12 @@ export async function getCaseDetail(caseId: string) {
         .order("created_at", { ascending: false }),
     ]);
 
-  return { case: caseRow, report, evidence: evidence ?? [], actions: actions ?? [] };
+  return {
+    case: caseRow,
+    report,
+    evidence: evidence ?? [],
+    actions: actions ?? [],
+  };
 }
 
 export async function listAuditEvents(limit = 50) {
@@ -116,14 +126,48 @@ export async function listFeatureFlags() {
   const admin = createAdminClient();
   const { data } = await admin
     .from("feature_flags")
-    .select("key, enabled")
+    .select("key, enabled, metadata")
     .in("key", [
       "registration_open",
+      "registration_cap",
       "connection_requests_enabled",
       "links_in_messages",
       "reporting_enabled",
+      "stripe_enabled",
     ]);
   return data ?? [];
+}
+
+export async function getRegistrationCapUtilization() {
+  const admin = createAdminClient();
+  const { data } = await admin.rpc("registration_cap_utilization");
+  if (!data || typeof data !== "object") {
+    return { maxAccounts: 10000, currentCount: 0 };
+  }
+  const row = data as { max_accounts?: number; current_count?: number };
+  return {
+    maxAccounts: row.max_accounts ?? 10000,
+    currentCount: row.current_count ?? 0,
+  };
+}
+
+export async function getCaseNotes(caseId: string) {
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from("moderation_case_notes")
+    .select("id, body, created_at, author_account_id")
+    .eq("case_id", caseId)
+    .order("created_at", { ascending: true });
+  return data ?? [];
+}
+
+export async function canReleaseCase(caseId: string): Promise<boolean> {
+  const admin = createAdminClient();
+  const { data, error } = await admin.rpc("moderation_case_release_eligible", {
+    p_case_id: caseId,
+  });
+  if (error) return false;
+  return data === true;
 }
 
 export async function getAppealsForCase(caseId: string) {
@@ -171,14 +215,42 @@ export async function getUserAdminSummary(accountId: string) {
   const { data: reports } = await admin
     .from("reports")
     .select("id, status, category, created_at, moderation_case_id")
-    .or(`reported_account_id.eq.${accountId},reporter_account_id.eq.${accountId}`)
+    .or(
+      `reported_account_id.eq.${accountId},reporter_account_id.eq.${accountId}`,
+    )
     .order("created_at", { ascending: false })
     .limit(20);
+
+  const [{ data: subscription }, { data: entitlements }] = await Promise.all([
+    admin
+      .from("subscriptions")
+      .select("status, plan_key, current_period_end, cancel_at_period_end")
+      .eq("account_id", accountId)
+      .maybeSingle(),
+    admin
+      .from("entitlements")
+      .select(
+        "tier, read_only, max_active_games, max_active_groups_owned, max_saved_searches",
+      )
+      .eq("account_id", accountId)
+      .maybeSingle(),
+  ]);
 
   return {
     account,
     displayName: (profile?.display_name as string) ?? "Unknown",
     actions: actions ?? [],
     reports: reports ?? [],
+    billing:
+      subscription || entitlements
+        ? {
+            subscriptionStatus: (subscription?.status as string) ?? "none",
+            tier: (entitlements?.tier as string) ?? "free",
+            currentPeriodEnd:
+              (subscription?.current_period_end as string) ?? null,
+            cancelAtPeriodEnd: Boolean(subscription?.cancel_at_period_end),
+            readOnly: Boolean(entitlements?.read_only),
+          }
+        : null,
   };
 }

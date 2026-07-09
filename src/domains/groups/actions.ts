@@ -2,17 +2,18 @@
 
 import { revalidatePath } from "next/cache";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { requireWritableAccount } from "@/domains/billing/entitlements";
 import { createGroupSchema } from "@/domains/groups/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { isFeatureEnabled } from "@/lib/feature-flags";
 import { trackEvent } from "@/lib/analytics/events";
 import type { Account } from "@/domains/accounts/types";
 
-export type ActionResult = { ok: true; groupId?: string } | { ok: false; error: string };
+export type ActionResult =
+  { ok: true; groupId?: string } | { ok: false; error: string };
 
 type GroupAccountContext =
-  | { ok: false; error: string }
-  | { ok: true; account: Account };
+  { ok: false; error: string } | { ok: true; account: Account };
 
 async function requireGroupAccount(): Promise<GroupAccountContext> {
   const user = await getSessionUser();
@@ -22,6 +23,8 @@ async function requireGroupAccount(): Promise<GroupAccountContext> {
   if (account.status !== "active") {
     return { ok: false, error: "Complete attestation before continuing." };
   }
+  const writable = await requireWritableAccount(account.id);
+  if (!writable.ok) return { ok: false, error: writable.error };
   const enabled = await isFeatureEnabled("private_groups_enabled");
   if (!enabled) {
     return { ok: false, error: "Private groups are not enabled yet." };
@@ -91,9 +94,12 @@ export async function acceptGroupInvitation(
   if (!ctx.ok) return { ok: false, error: ctx.error };
 
   const supabase = await createClient();
-  const { data: activated, error } = await supabase.rpc("accept_group_invitation", {
-    p_invitation_id: invitationId,
-  });
+  const { data: activated, error } = await supabase.rpc(
+    "accept_group_invitation",
+    {
+      p_invitation_id: invitationId,
+    },
+  );
 
   if (error) return { ok: false, error: "Could not accept invitation." };
 
@@ -113,10 +119,13 @@ export async function voteGroupInvitation(
   if (!ctx.ok) return { ok: false, error: ctx.error };
 
   const supabase = await createClient();
-  const { data: activated, error } = await supabase.rpc("vote_group_invitation", {
-    p_invitation_id: invitationId,
-    p_approved: approved,
-  });
+  const { data: activated, error } = await supabase.rpc(
+    "vote_group_invitation",
+    {
+      p_invitation_id: invitationId,
+      p_approved: approved,
+    },
+  );
 
   if (error) return { ok: false, error: "Could not record vote." };
 
@@ -138,7 +147,9 @@ export async function voteGroupInvitation(
   return { ok: true };
 }
 
-export async function ensureGroupConversation(groupId: string): Promise<string | null> {
+export async function ensureGroupConversation(
+  groupId: string,
+): Promise<string | null> {
   const ctx = await requireGroupAccount();
   if (!ctx.ok) return null;
 

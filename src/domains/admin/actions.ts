@@ -38,18 +38,20 @@ export async function applyCaseAction(
   if (!ctx.ok) return { ok: false, error: ctx.error };
 
   const supabase = await createClient();
-  const { data: actionId, error } = await supabase.rpc("apply_moderation_action", {
-    p_case_id: caseId,
-    p_action_type: actionType,
-    p_subject_account_id: subjectAccountId,
-    p_reason_code: reasonCode,
-  });
+  const { data: actionId, error } = await supabase.rpc(
+    "apply_moderation_action",
+    {
+      p_case_id: caseId,
+      p_action_type: actionType,
+      p_subject_account_id: subjectAccountId,
+      p_reason_code: reasonCode,
+    },
+  );
 
   if (error) return { ok: false, error: "Could not apply action." };
 
-  const { createModerationOutcomeNotification } = await import(
-    "@/domains/notifications/service"
-  );
+  const { createModerationOutcomeNotification } =
+    await import("@/domains/notifications/service");
   await createModerationOutcomeNotification({
     recipientAccountId: subjectAccountId,
   });
@@ -89,6 +91,44 @@ export async function setFeatureFlag(
   });
 
   revalidatePath("/admin/feature-controls");
+  return { ok: true };
+}
+
+export async function setRegistrationCap(
+  maxAccounts: number,
+): Promise<AdminActionResult> {
+  const ctx = await requireAdmin("security_break_glass");
+  if (!ctx.ok) return { ok: false, error: ctx.error };
+
+  if (
+    !Number.isFinite(maxAccounts) ||
+    maxAccounts < 1 ||
+    maxAccounts > 1_000_000
+  ) {
+    return { ok: false, error: "Cap must be between 1 and 1,000,000." };
+  }
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("feature_flags")
+    .update({
+      metadata: { max_accounts: Math.floor(maxAccounts) },
+      updated_at: new Date().toISOString(),
+    })
+    .eq("key", "registration_cap");
+
+  if (error) return { ok: false, error: error.message };
+
+  await logAdminAudit({
+    actorAccountId: ctx.accountId,
+    action: "registration_cap_updated",
+    resourceType: "feature_flag",
+    resourceId: "registration_cap",
+    metadata: { maxAccounts: Math.floor(maxAccounts) },
+  });
+
+  revalidatePath("/admin/feature-controls");
+  revalidatePath("/admin/dashboard");
   return { ok: true };
 }
 
@@ -153,6 +193,63 @@ export async function resolveAppeal(
     resourceType: "appeal",
     resourceId: appealId,
     metadata: { decision, caseId },
+  });
+
+  revalidatePath(`/admin/cases/${caseId}`);
+  return { ok: true };
+}
+
+export async function releaseCase(caseId: string): Promise<AdminActionResult> {
+  const ctx = await requireAdmin("safety_review");
+  if (!ctx.ok) return { ok: false, error: ctx.error };
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("release_moderation_case", {
+    p_case_id: caseId,
+  });
+
+  if (error) {
+    if (error.message.includes("reversed appeal or expired penalty")) {
+      return {
+        ok: false,
+        error:
+          "This case can only be released after an appeal reverses the action or its penalty expires.",
+      };
+    }
+    return { ok: false, error: "Could not release case." };
+  }
+
+  revalidatePath(`/admin/cases/${caseId}`);
+  revalidatePath("/admin/reports");
+  return { ok: true };
+}
+
+export async function addCaseNote(
+  caseId: string,
+  body: string,
+): Promise<AdminActionResult> {
+  const ctx = await requireAdmin("safety_review");
+  if (!ctx.ok) return { ok: false, error: ctx.error };
+
+  const trimmed = body.trim();
+  if (trimmed.length < 1 || trimmed.length > 4000) {
+    return { ok: false, error: "Note must be 1–4000 characters." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("moderation_case_notes").insert({
+    case_id: caseId,
+    author_account_id: ctx.accountId,
+    body: trimmed,
+  });
+
+  if (error) return { ok: false, error: "Could not save note." };
+
+  await logAdminAudit({
+    actorAccountId: ctx.accountId,
+    action: "note.added",
+    resourceType: "moderation_case",
+    resourceId: caseId,
   });
 
   revalidatePath(`/admin/cases/${caseId}`);

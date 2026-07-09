@@ -1,8 +1,3 @@
-/**
- * Sentry stub — aggressive PII scrub rules documented for Slice 1.
- * Install @sentry/nextjs when DSN is configured.
- */
-
 const SCRUB_PATTERNS = [
   /password/i,
   /token/i,
@@ -22,6 +17,21 @@ export function captureException(
   error: unknown,
   context?: Record<string, unknown>,
 ): void {
+  const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN ?? process.env.SENTRY_DSN;
+
+  if (dsn) {
+    void import("@sentry/nextjs").then((Sentry) => {
+      Sentry.captureException(error, {
+        extra: context
+          ? Object.fromEntries(
+              Object.entries(context).map(([k, v]) => [k, scrubValue(k, v)]),
+            )
+          : undefined,
+      });
+    });
+    return;
+  }
+
   if (process.env.NODE_ENV === "development") {
     console.error(
       JSON.stringify({

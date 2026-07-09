@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { requireWritableAccount } from "@/domains/billing/entitlements";
 import {
   getCohortSnapshot,
   refreshRecommendations,
@@ -15,8 +16,7 @@ import type { Account } from "@/domains/accounts/types";
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
 type DiscoveryAccountContext =
-  | { ok: false; error: string }
-  | { ok: true; account: Account };
+  { ok: false; error: string } | { ok: true; account: Account };
 
 async function requireActiveDiscoveryAccount(): Promise<DiscoveryAccountContext> {
   const user = await getSessionUser();
@@ -26,6 +26,8 @@ async function requireActiveDiscoveryAccount(): Promise<DiscoveryAccountContext>
   if (account.status !== "active") {
     return { ok: false, error: "Complete attestation before using discovery." };
   }
+  const writable = await requireWritableAccount(account.id);
+  if (!writable.ok) return { ok: false, error: writable.error };
   const enabled = await isFeatureEnabled("discovery_enabled");
   if (!enabled) {
     return { ok: false, error: "Discovery is not enabled yet." };
@@ -103,9 +105,8 @@ export async function searchDiscoveryAction(filters: {
   const ctx = await requireActiveDiscoveryAccount();
   if (!ctx.ok) return { error: ctx.error, results: [] as const };
 
-  const { searchDiscoverableProfiles } = await import(
-    "@/domains/discovery/queries"
-  );
+  const { searchDiscoverableProfiles } =
+    await import("@/domains/discovery/queries");
   const results = await searchDiscoverableProfiles(ctx.account.id, filters);
   return { results, error: null };
 }

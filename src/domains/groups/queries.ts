@@ -1,4 +1,5 @@
 import "server-only";
+import { countOwnedGroupsFormingOrActive as countOwnedGroups } from "@/domains/billing/queries";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import type {
@@ -73,7 +74,7 @@ export async function listGroupsForAccount(
       sizeGoal: group.size_goal as number,
       emblemKey: (group.emblem_key as string) ?? null,
       gameName: group.shared_game_id
-        ? gameNames.get(group.shared_game_id as string) ?? null
+        ? (gameNames.get(group.shared_game_id as string) ?? null)
         : null,
     });
   }
@@ -130,7 +131,9 @@ export async function getGroupDetail(
     .eq("group_id", groupId)
     .eq("status", "pending");
 
-  const inviteeIds = (invitations ?? []).map((i) => i.invitee_account_id as string);
+  const inviteeIds = (invitations ?? []).map(
+    (i) => i.invitee_account_id as string,
+  );
   const inviteeNames = await displayNamesForAccounts(inviteeIds);
 
   const pendingMembers = (members ?? []).filter(
@@ -146,7 +149,9 @@ export async function getGroupDetail(
     .eq("status", "accepted")
     .in(
       "invitee_account_id",
-      pendingMemberIds.length ? pendingMemberIds : ["00000000-0000-0000-0000-000000000000"],
+      pendingMemberIds.length
+        ? pendingMemberIds
+        : ["00000000-0000-0000-0000-000000000000"],
     );
 
   const invitationByInvitee = new Map(
@@ -156,7 +161,9 @@ export async function getGroupDetail(
     ]),
   );
 
-  const invitationIds = (acceptedInvitations ?? []).map((inv) => inv.id as string);
+  const invitationIds = (acceptedInvitations ?? []).map(
+    (inv) => inv.id as string,
+  );
   const { data: viewerVotes } = invitationIds.length
     ? await supabase
         .from("group_invitation_approvals")
@@ -252,12 +259,8 @@ export async function listIncomingGroupInvitations(
   }));
 }
 
-export async function countActiveGroupsOwned(accountId: string): Promise<number> {
-  const supabase = await createClient();
-  const { count } = await supabase
-    .from("private_groups")
-    .select("id", { count: "exact", head: true })
-    .eq("owner_account_id", accountId)
-    .eq("status", "active");
-  return count ?? 0;
+export async function countActiveGroupsOwned(
+  accountId: string,
+): Promise<number> {
+  return countOwnedGroups(accountId);
 }

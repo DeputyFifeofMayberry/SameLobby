@@ -15,6 +15,7 @@ import {
   signUpSchema,
 } from "@/domains/auth/schemas";
 import { trackEvent } from "@/lib/analytics/events";
+import { isRegistrationCapReached } from "@/lib/registration-cap";
 import { logger } from "@/lib/logging";
 
 export type AuthActionResult = { ok: true } | { ok: false; error: string };
@@ -53,6 +54,13 @@ export async function signUpWithPassword(
     return {
       ok: false,
       error: "New registration is temporarily paused. Try again later.",
+    };
+  }
+
+  if (await isRegistrationCapReached()) {
+    return {
+      ok: false,
+      error: "Registration is full. Try again later.",
     };
   }
 
@@ -151,9 +159,7 @@ export async function signInWithPassword(
       ? next
       : null;
   const account = await getAccountForUser(data.user.id);
-  const profile = account
-    ? await getGamerProfileForAccount(account.id)
-    : null;
+  const profile = account ? await getGamerProfileForAccount(account.id) : null;
   redirect(resolvePostAuthRedirect(account, profile, nextPath));
 }
 

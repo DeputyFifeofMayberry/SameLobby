@@ -5,10 +5,7 @@ import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Select } from "@/components/ui/Select";
-import {
-  submitReport,
-  type ActionResult,
-} from "@/domains/moderation/actions";
+import { submitReport, type ActionResult } from "@/domains/moderation/actions";
 import { shortCaseRef } from "@/domains/moderation/format";
 
 type ReportFormProps = {
@@ -29,10 +26,10 @@ export function ReportForm({
   showMessageContextOption = false,
 }: ReportFormProps) {
   const [open, setOpen] = useState(false);
-  const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
-    submitReport,
-    null,
-  );
+  const [state, formAction, pending] = useActionState<
+    ActionResult | null,
+    FormData
+  >(submitReport, null);
 
   if (!open) {
     return (
@@ -46,7 +43,8 @@ export function ReportForm({
     const ref = state.caseId ? shortCaseRef(state.caseId) : "pending";
     return (
       <Alert variant="success" role="status">
-        Report received. Case reference {ref}. Blocking is separate from moderation.
+        Report received. Case reference {ref}. Blocking is separate from
+        moderation.
       </Alert>
     );
   }
@@ -54,9 +52,14 @@ export function ReportForm({
   return (
     <form
       action={formAction}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="report-form-title"
       className="space-y-3 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-cloud)] p-4"
     >
-      <p className="text-sm font-medium">Report {reportedDisplayName}</p>
+      <p id="report-form-title" className="text-sm font-medium">
+        Report {reportedDisplayName}
+      </p>
       <input type="hidden" name="reportedAccountId" value={reportedAccountId} />
       {conversationId && (
         <input type="hidden" name="conversationId" value={conversationId} />
@@ -100,7 +103,11 @@ export function ReportForm({
         </label>
       )}
 
-      {state && !state.ok && <Alert variant="error">{state.error}</Alert>}
+      {state && !state.ok && (
+        <Alert variant="error" role="alert" aria-live="assertive">
+          {state.error}
+        </Alert>
+      )}
 
       <div className="flex gap-2">
         <Button type="submit" disabled={pending}>

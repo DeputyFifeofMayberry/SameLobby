@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -24,19 +24,20 @@ export function MessageComposer({
   draft,
   onDraftChange,
 }: MessageComposerProps) {
-  const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
-    sendMessage,
-    null,
-  );
   const [linkWarning, setLinkWarning] = useState(false);
   const [allowLinks, setAllowLinks] = useState(false);
-  useEffect(() => {
-    if (state?.ok) {
-      onDraftChange("");
-      setLinkWarning(false);
-      setAllowLinks(false);
-    }
-  }, [state, onDraftChange]);
+  const [state, formAction, pending] = useActionState<
+    ActionResult | null,
+    FormData
+  >(async (previousState, formData) => {
+    const result = await sendMessage(previousState, formData);
+    if (!result.ok) return result;
+
+    onDraftChange("");
+    setLinkWarning(false);
+    setAllowLinks(false);
+    return result;
+  }, null);
 
   function handleSubmit(formData: FormData) {
     const text = formData.get("body")?.toString() ?? "";
@@ -48,7 +49,10 @@ export function MessageComposer({
   }
 
   return (
-    <form action={handleSubmit} className="space-y-3 border-t border-[var(--color-border)] pt-4">
+    <form
+      action={handleSubmit}
+      className="space-y-3 border-t border-[var(--color-border)] pt-4"
+    >
       <input type="hidden" name="conversationId" value={conversationId} />
       {allowLinks && <input type="hidden" name="allowLinks" value="true" />}
 
@@ -79,7 +83,11 @@ export function MessageComposer({
             >
               Send anyway
             </Button>
-            <Button type="button" variant="ghost" onClick={() => setLinkWarning(false)}>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setLinkWarning(false)}
+            >
               Edit message
             </Button>
           </div>

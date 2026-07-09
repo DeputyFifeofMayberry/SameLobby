@@ -27,9 +27,12 @@ export function OpenSeatForm({
         Open seat
       </h2>
       <p className="text-sm text-[var(--color-text-slate)]">
-        {unavailableDisplayName} is unavailable. Mark an open seat so your group can look
-        for a replacement on{" "}
-        <Link href="/discover" className="text-[var(--color-lobby-teal)] underline">
+        {unavailableDisplayName} is unavailable. Mark an open seat so your group
+        can look for another player on{" "}
+        <Link
+          href="/discover"
+          className="text-[var(--color-lobby-teal)] underline"
+        >
           Discover
         </Link>
         .
@@ -44,7 +47,13 @@ export function OpenSeatForm({
         <fieldset className="space-y-2">
           <legend className="text-sm font-medium">Duration</legend>
           <label className="flex items-center gap-2 text-sm">
-            <input type="radio" name="kind" value="temporary" defaultChecked required />
+            <input
+              type="radio"
+              name="kind"
+              value="temporary"
+              defaultChecked
+              required
+            />
             Temporary
           </label>
           <label className="flex items-center gap-2 text-sm">

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { requireWritableAccount } from "@/domains/billing/entitlements";
 import { createPlayInvitationNotification } from "@/domains/notifications/service";
 import { PLAY_INVITATION_TTL_DAYS } from "@/domains/play/constants";
 import {
@@ -19,12 +20,10 @@ import { recordTeammateIntentFromSession as recordIntent } from "@/domains/teamm
 import type { Account } from "@/domains/accounts/types";
 
 export type ActionResult =
-  | { ok: true; sessionId?: string }
-  | { ok: false; error: string };
+  { ok: true; sessionId?: string } | { ok: false; error: string };
 
 type PlayAccountContext =
-  | { ok: false; error: string }
-  | { ok: true; account: Account };
+  { ok: false; error: string } | { ok: true; account: Account };
 
 async function requirePlayAccount(): Promise<PlayAccountContext> {
   const user = await getSessionUser();
@@ -34,6 +33,8 @@ async function requirePlayAccount(): Promise<PlayAccountContext> {
   if (account.status !== "active") {
     return { ok: false, error: "Complete attestation before continuing." };
   }
+  const writable = await requireWritableAccount(account.id);
+  if (!writable.ok) return { ok: false, error: writable.error };
   const enabled = await isFeatureEnabled("play_invitations_enabled");
   if (!enabled) {
     return { ok: false, error: "Play invitations are not enabled yet." };
@@ -99,7 +100,10 @@ export async function proposePlayInvitation(
     .single();
 
   if (invError || !invitation) {
-    return { ok: false, error: invError?.message ?? "Could not send invitation." };
+    return {
+      ok: false,
+      error: invError?.message ?? "Could not send invitation.",
+    };
   }
 
   if (data.schedulingMode === "scheduled") {
@@ -165,10 +169,13 @@ export async function acceptPlayInvitation(
   }
 
   const supabase = await createClient();
-  const { data: sessionId, error } = await supabase.rpc("accept_play_invitation", {
-    p_invitation_id: parsed.data.invitationId,
-    p_time_option_id: parsed.data.timeOptionId ?? null,
-  });
+  const { data: sessionId, error } = await supabase.rpc(
+    "accept_play_invitation",
+    {
+      p_invitation_id: parsed.data.invitationId,
+      p_time_option_id: parsed.data.timeOptionId ?? null,
+    },
+  );
 
   if (error) {
     const message = error.message.includes("blocked")
@@ -241,7 +248,9 @@ export async function confirmSessionOccurred(
   const supabase = await createClient();
   const { data: session } = await supabase
     .from("gaming_sessions")
-    .select("participant_a_id, participant_b_id, occurred_a, occurred_b, status")
+    .select(
+      "participant_a_id, participant_b_id, occurred_a, occurred_b, status",
+    )
     .eq("id", sessionId)
     .maybeSingle();
 

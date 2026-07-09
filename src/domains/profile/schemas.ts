@@ -47,4 +47,6 @@ export const availabilityWindowSchema = z.object({
   endTime: z.string().regex(/^\d{2}:\d{2}$/),
 });
 
-export const MAX_ACTIVE_USER_GAMES = 8;
+import { FREE_LIMITS } from "@/domains/billing/constants";
+
+export const MAX_ACTIVE_USER_GAMES = FREE_LIMITS.maxActiveGames;

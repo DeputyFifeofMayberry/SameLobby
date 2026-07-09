@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { FREE_LIMITS } from "@/domains/billing/constants";
 import {
   displayNameSchema,
   communicationStepSchema,
@@ -22,7 +23,9 @@ describe("displayNameSchema", () => {
 
 describe("communicationStepSchema", () => {
   it("requires at least one mode", () => {
-    expect(communicationStepSchema.safeParse({ modes: [] }).success).toBe(false);
+    expect(communicationStepSchema.safeParse({ modes: [] }).success).toBe(
+      false,
+    );
     expect(
       communicationStepSchema.safeParse({ modes: ["voice_chat"] }).success,
     ).toBe(true);
@@ -55,7 +58,7 @@ describe("profile completeness", () => {
 });
 
 describe("MAX_ACTIVE_USER_GAMES", () => {
-  it("is 8", () => {
-    expect(MAX_ACTIVE_USER_GAMES).toBe(8);
+  it("re-exports free tier limit", () => {
+    expect(MAX_ACTIVE_USER_GAMES).toBe(FREE_LIMITS.maxActiveGames);
   });
 });

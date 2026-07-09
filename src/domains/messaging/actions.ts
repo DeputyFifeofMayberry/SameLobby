@@ -4,18 +4,19 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { requireWritableAccount } from "@/domains/billing/entitlements";
 import { blockAccount } from "@/domains/connections/actions";
-import { canSendMessages, permissionAfterBlock } from "@/domains/messaging/permissions";
+import {
+  canSendMessages,
+  permissionAfterBlock,
+} from "@/domains/messaging/permissions";
 import {
   countRecentMessages,
   getConversationThread,
   markConversationRead,
 } from "@/domains/messaging/queries";
 import { messageRateLimitError } from "@/domains/messaging/rate-limits";
-import {
-  containsLink,
-  sendMessageSchema,
-} from "@/domains/messaging/schemas";
+import { containsLink, sendMessageSchema } from "@/domains/messaging/schemas";
 import { createNewMessageNotification } from "@/domains/notifications/service";
 import { isFeatureEnabled } from "@/lib/feature-flags";
 import { trackEvent } from "@/lib/analytics/events";
@@ -24,8 +25,7 @@ import type { Account } from "@/domains/accounts/types";
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
 type MessagingAccountContext =
-  | { ok: false; error: string }
-  | { ok: true; account: Account };
+  { ok: false; error: string } | { ok: true; account: Account };
 
 async function requireMessagingAccount(): Promise<MessagingAccountContext> {
   const user = await getSessionUser();
@@ -35,6 +35,8 @@ async function requireMessagingAccount(): Promise<MessagingAccountContext> {
   if (account.status !== "active") {
     return { ok: false, error: "Complete attestation before messaging." };
   }
+  const writable = await requireWritableAccount(account.id);
+  if (!writable.ok) return { ok: false, error: writable.error };
   const enabled = await isFeatureEnabled("messaging_enabled");
   if (!enabled) {
     return { ok: false, error: "Messaging is not enabled yet." };
@@ -73,7 +75,8 @@ export async function sendMessage(
   if (!linksEnabled && !allowLinks && containsLink(body)) {
     return {
       ok: false,
-      error: "Links are not allowed in messages yet. Remove the link or confirm to send.",
+      error:
+        "Links are not allowed in messages yet. Remove the link or confirm to send.",
     };
   }
 
@@ -82,7 +85,10 @@ export async function sendMessage(
     return { ok: false, error: "Conversation not found." };
   }
   if (!canSendMessages(thread.conversation.permission)) {
-    return { ok: false, error: "You cannot send messages in this conversation." };
+    return {
+      ok: false,
+      error: "You cannot send messages in this conversation.",
+    };
   }
 
   const rateError = messageRateLimitError({
@@ -111,7 +117,8 @@ export async function sendMessage(
   if (thread.otherAccountId) {
     await createNewMessageNotification({
       recipientAccountId: thread.otherAccountId,
-      senderDisplayName: (senderProfile?.display_name as string) ?? "A connection",
+      senderDisplayName:
+        (senderProfile?.display_name as string) ?? "A connection",
       conversationId,
     });
   }

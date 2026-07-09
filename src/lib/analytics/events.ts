@@ -1,6 +1,5 @@
 /**
  * Allowlisted analytics events — no message bodies, preferences, or PII.
- * PostHog integration deferred; registry enforced at call sites.
  */
 
 export const ANALYTICS_EVENTS = [
@@ -22,6 +21,8 @@ export const ANALYTICS_EVENTS = [
   "play_invitation_accepted",
   "teammate_added",
   "group_created",
+  "subscription_checkout_started",
+  "subscription_active",
 ] as const;
 
 export type AnalyticsEvent = (typeof ANALYTICS_EVENTS)[number];
@@ -33,6 +34,46 @@ export type SafeEventProperties = Record<
   string | number | boolean | null
 >;
 
+type PostHogClient = {
+  capture: (event: string, properties?: Record<string, unknown>) => void;
+  init: (
+    key: string,
+    options?: {
+      api_host?: string;
+      disable_session_recording?: boolean;
+    },
+  ) => void;
+};
+
+let posthogClient: PostHogClient | null = null;
+let posthogInitAttempted = false;
+
+async function getPostHogClient(): Promise<PostHogClient | null> {
+  if (typeof window === "undefined") return null;
+  if (posthogClient) return posthogClient;
+  if (posthogInitAttempted) return null;
+
+  const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+  if (!key) return null;
+
+  posthogInitAttempted = true;
+  try {
+    const mod = await import("posthog-js");
+    const client = mod.default as PostHogClient;
+    client.init(key, {
+      api_host:
+        process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com",
+      // Keep replay off globally so client-side navigation can never begin recording
+      // sensitive messaging or admin screens.
+      disable_session_recording: true,
+    });
+    posthogClient = client;
+    return client;
+  } catch {
+    return null;
+  }
+}
+
 export function trackEvent(
   event: AnalyticsEvent,
   properties?: SafeEventProperties,
@@ -40,6 +81,7 @@ export function trackEvent(
   if (!allowlist.has(event)) {
     throw new Error(`Analytics event not allowlisted: ${event}`);
   }
+
   if (process.env.NODE_ENV === "development") {
     console.log(
       JSON.stringify({
@@ -49,5 +91,14 @@ export function trackEvent(
       }),
     );
   }
-  // PostHog capture wired in a later slice when provider is configured
+
+  if (typeof window !== "undefined") {
+    void getPostHogClient().then((client) => {
+      client?.capture(event, properties ?? {});
+    });
+  }
+}
+
+export async function initClientAnalytics(): Promise<void> {
+  await getPostHogClient();
 }

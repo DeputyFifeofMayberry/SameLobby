@@ -15,6 +15,7 @@ const APP_PREFIXES = [
   "/onboarding",
   "/profile",
   "/settings",
+  "/subscription",
   "/admin",
 ];
 

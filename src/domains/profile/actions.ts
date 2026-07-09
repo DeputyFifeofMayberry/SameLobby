@@ -5,20 +5,29 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
 import {
-  communicationStepSchema,
-  displayNameSchema,
-  goalStepSchema,
-  identityStepSchema,
-  MAX_ACTIVE_USER_GAMES,
-} from "@/domains/profile/schemas";
+  getEntitlements,
+  requireWritableAccount,
+} from "@/domains/billing/entitlements";
 import {
   isProfileComplete,
   profileCompletenessErrors,
 } from "@/domains/profile/completeness";
-import { getCurrentIntent, getGamerProfileForAccount } from "@/domains/profile/queries";
+import {
+  communicationStepSchema,
+  displayNameSchema,
+  goalStepSchema,
+  identityStepSchema,
+} from "@/domains/profile/schemas";
 import { getUserGamesForAccount } from "@/domains/games/queries";
+import {
+  getCurrentIntent,
+  getGamerProfileForAccount,
+} from "@/domains/profile/queries";
 import { onboardingStepPath } from "@/domains/onboarding/constants";
-import type { CommunicationMode, OnboardingStep } from "@/domains/profile/types";
+import type {
+  CommunicationMode,
+  OnboardingStep,
+} from "@/domains/profile/types";
 import { trackEvent } from "@/lib/analytics/events";
 
 export type ActionResult = { ok: true } | { ok: false; error: string };
@@ -34,8 +43,7 @@ import type { Account } from "@/domains/accounts/types";
 import type { User } from "@supabase/supabase-js";
 
 type ActiveAccountContext =
-  | { error: string }
-  | { user: User; account: Account };
+  { error: string } | { user: User; account: Account };
 
 async function requireActiveAccount(): Promise<ActiveAccountContext> {
   const user = await getSessionUser();
@@ -48,6 +56,10 @@ async function requireActiveAccount(): Promise<ActiveAccountContext> {
   }
   if (account.status !== "active") {
     return { error: "Complete attestation before continuing." as const };
+  }
+  const writable = await requireWritableAccount(account.id);
+  if (!writable.ok) {
+    return { error: writable.error };
   }
   return { user, account };
 }
@@ -119,10 +131,11 @@ export async function saveGamesStep(
   }
 
   const existing = await getUserGamesForAccount(ctx.account.id);
-  if (existing.length >= MAX_ACTIVE_USER_GAMES) {
+  const entitlements = await getEntitlements(ctx.account.id);
+  if (existing.length >= entitlements.maxActiveGames) {
     return {
       ok: false,
-      error: `You can have at most ${MAX_ACTIVE_USER_GAMES} active games.`,
+      error: `You can have at most ${entitlements.maxActiveGames} active games.`,
     };
   }
 
@@ -387,6 +400,115 @@ export async function updateProfileCommunication(
   }
 
   revalidatePath("/profile");
+  return { ok: true };
+}
+
+export async function addUserGame(
+  _prev: ActionResult | null,
+  formData: FormData,
+): Promise<ActionResult> {
+  const ctx = await requireActiveAccount();
+  if ("error" in ctx) return { ok: false, error: ctx.error };
+
+  const gameId = String(formData.get("gameId") ?? "");
+  const platformId = String(formData.get("platformId") ?? "");
+  if (!gameId || !platformId) {
+    return { ok: false, error: "Select a game and platform." };
+  }
+
+  const existing = await getUserGamesForAccount(ctx.account.id);
+  const entitlements = await getEntitlements(ctx.account.id);
+  if (existing.length >= entitlements.maxActiveGames) {
+    return {
+      ok: false,
+      error: `You can have at most ${entitlements.maxActiveGames} active games.`,
+    };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("user_games").upsert(
+    {
+      account_id: ctx.account.id,
+      game_id: gameId,
+      platform_id: platformId,
+      is_active: true,
+      sort_order: existing.length,
+    },
+    { onConflict: "account_id,game_id,platform_id" },
+  );
+
+  if (error) {
+    return { ok: false, error: "Could not add game. Try again." };
+  }
+
+  revalidatePath("/profile");
+  revalidatePath("/discover");
+  return { ok: true };
+}
+
+export async function removeUserGame(
+  _prev: ActionResult | null,
+  formData: FormData,
+): Promise<ActionResult> {
+  const ctx = await requireActiveAccount();
+  if ("error" in ctx) return { ok: false, error: ctx.error };
+
+  const userGameId = String(formData.get("userGameId") ?? "");
+  if (!userGameId) {
+    return { ok: false, error: "Invalid game selection." };
+  }
+
+  const existing = await getUserGamesForAccount(ctx.account.id);
+  if (existing.length <= 1) {
+    return {
+      ok: false,
+      error: "Keep at least one active game on your profile.",
+    };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("user_games")
+    .update({ is_active: false })
+    .eq("id", userGameId)
+    .eq("account_id", ctx.account.id);
+
+  if (error) {
+    return { ok: false, error: "Could not remove game. Try again." };
+  }
+
+  revalidatePath("/profile");
+  revalidatePath("/discover");
+  return { ok: true };
+}
+
+export async function renewCurrentIntent(): Promise<ActionResult> {
+  const ctx = await requireActiveAccount();
+  if ("error" in ctx) return { ok: false, error: ctx.error };
+
+  const existing = await getCurrentIntent(ctx.account.id);
+  if (!existing) {
+    return { ok: false, error: "Set a current goal before renewing intent." };
+  }
+
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 14);
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("current_intents")
+    .update({
+      status: "active",
+      expires_at: expiresAt.toISOString(),
+    })
+    .eq("id", existing.id);
+
+  if (error) {
+    return { ok: false, error: "Could not renew intent." };
+  }
+
+  revalidatePath("/profile");
+  revalidatePath("/discover");
   return { ok: true };
 }
 

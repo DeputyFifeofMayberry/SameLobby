@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { requireWritableAccount } from "@/domains/billing/entitlements";
 import { CONNECTION_REQUEST_TTL_DAYS } from "@/domains/connections/constants";
 import {
   connectionRequestLimitError,
@@ -22,8 +23,7 @@ import type { Account } from "@/domains/accounts/types";
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
 type ConnectionAccountContext =
-  | { ok: false; error: string }
-  | { ok: true; account: Account };
+  { ok: false; error: string } | { ok: true; account: Account };
 
 async function requireConnectionAccount(): Promise<ConnectionAccountContext> {
   const user = await getSessionUser();
@@ -33,6 +33,8 @@ async function requireConnectionAccount(): Promise<ConnectionAccountContext> {
   if (account.status !== "active") {
     return { ok: false, error: "Complete attestation before continuing." };
   }
+  const writable = await requireWritableAccount(account.id);
+  if (!writable.ok) return { ok: false, error: writable.error };
   const enabled = await isFeatureEnabled("connection_requests_enabled");
   if (!enabled) {
     return { ok: false, error: "Connection requests are not enabled yet." };
@@ -135,14 +137,13 @@ export async function acceptConnectionRequest(
   });
 
   if (error) {
-    const message =
-      error.message.includes("blocked")
-        ? "This request is no longer available."
-        : error.message.includes("expired")
-          ? "This request has expired."
-          : error.message.includes("forbidden")
-            ? "You cannot accept this request."
-            : "Could not accept request. Try again.";
+    const message = error.message.includes("blocked")
+      ? "This request is no longer available."
+      : error.message.includes("expired")
+        ? "This request has expired."
+        : error.message.includes("forbidden")
+          ? "You cannot accept this request."
+          : "Could not accept request. Try again.";
     return { ok: false, error: message };
   }
 

@@ -12,6 +12,7 @@ import {
 } from "@/domains/accounts/schemas";
 import { POLICY_VERSIONS } from "@/domains/accounts/types";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
+import { cancelStripeSubscriptionForAccount } from "@/domains/billing/webhook";
 import { getGamerProfileForAccount } from "@/domains/profile/queries";
 import { trackEvent } from "@/lib/analytics/events";
 import { logger } from "@/lib/logging";
@@ -181,7 +182,10 @@ export async function confirmAccountDeletion(
   const user = await getSessionUser();
   if (!user) return { ok: false, error: "You must be signed in." };
   if (!user.email) {
-    return { ok: false, error: "Re-authentication is not available for this account." };
+    return {
+      ok: false,
+      error: "Re-authentication is not available for this account.",
+    };
   }
 
   const password = formData.get("password")?.toString() ?? "";
@@ -199,6 +203,26 @@ export async function confirmAccountDeletion(
   });
   if (authError) {
     return { ok: false, error: "Password verification failed." };
+  }
+
+  try {
+    await cancelStripeSubscriptionForAccount(account.id);
+    try {
+      const admin = createAdminClient();
+      await admin.from("audit_events").insert({
+        actor_account_id: account.id,
+        action: "subscription.stripe_canceled_at_deletion",
+        resource_type: "account",
+        resource_id: account.id,
+        metadata: { trigger: "confirm_account_deletion" },
+      });
+    } catch {
+      logger.warn("audit_event_skipped", {
+        reason: "stripe_cancel_audit_failed",
+      });
+    }
+  } catch {
+    logger.warn("stripe_cancel_skipped", { accountId: account.id });
   }
 
   const { error } = await supabase.rpc("confirm_account_deletion", {

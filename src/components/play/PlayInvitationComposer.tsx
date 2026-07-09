@@ -37,9 +37,9 @@ export function PlayInvitationComposer({
   onSuccess,
 }: PlayInvitationComposerProps) {
   const [open, setOpen] = useState(false);
-  const [schedulingMode, setSchedulingMode] = useState<"play_now" | "scheduled">(
-    "play_now",
-  );
+  const [schedulingMode, setSchedulingMode] = useState<
+    "play_now" | "scheduled"
+  >("play_now");
   const [selectedGameId, setSelectedGameId] = useState(
     sharedGames[0]?.gameId ?? "",
   );
@@ -81,9 +81,14 @@ export function PlayInvitationComposer({
     return (
       <div className="space-y-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-cloud)] p-4">
         <p className="text-sm">
-          Add a shared game with {recipientDisplayName} before sending a play invitation.
+          Add a shared game with {recipientDisplayName} before sending a play
+          invitation.
         </p>
-        <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => setOpen(false)}
+        >
           Close
         </Button>
       </div>
@@ -93,12 +98,21 @@ export function PlayInvitationComposer({
   return (
     <form
       action={formAction}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="play-invite-title"
       className="space-y-4 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-cloud)] p-4"
     >
-      <p className="text-sm font-medium">Invite {recipientDisplayName} to play</p>
+      <p id="play-invite-title" className="text-sm font-medium">
+        Invite {recipientDisplayName} to play
+      </p>
 
       <input type="hidden" name="conversationId" value={conversationId} />
-      <input type="hidden" name="recipientAccountId" value={recipientAccountId} />
+      <input
+        type="hidden"
+        name="recipientAccountId"
+        value={recipientAccountId}
+      />
       <input type="hidden" name="schedulingMode" value={schedulingMode} />
 
       <div>
@@ -219,13 +233,21 @@ export function PlayInvitationComposer({
         />
       </div>
 
-      {state && !state.ok && <Alert variant="error">{state.error}</Alert>}
+      {state && !state.ok && (
+        <Alert variant="error" role="alert" aria-live="assertive">
+          {state.error}
+        </Alert>
+      )}
 
       <div className="flex flex-wrap gap-2">
         <Button type="submit" disabled={pending}>
           {pending ? "Sending…" : "Send invitation"}
         </Button>
-        <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => setOpen(false)}
+        >
           Cancel
         </Button>
       </div>

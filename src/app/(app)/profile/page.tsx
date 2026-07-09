@@ -2,16 +2,30 @@ import Link from "next/link";
 import { ProfileIdentityForm } from "@/components/profile/ProfileIdentityForm";
 import { ProfileCommunicationForm } from "@/components/profile/ProfileCommunicationForm";
 import { ProfilePreview } from "@/components/profile/ProfilePreview";
+import { ProfileGamesSection } from "@/components/profile/ProfileGamesSection";
 import { VisibilitySelector } from "@/components/profile/VisibilitySelector";
+import { UsageLimitBanner } from "@/components/billing/UsageLimitBanner";
 import { requireAccount } from "@/domains/accounts/queries";
 import {
   getCurrentIntent,
   getDisclosureSettings,
   getGamerProfileForAccount,
 } from "@/domains/profile/queries";
-import { getUserGamesForAccount } from "@/domains/games/queries";
+import { getEntitlements } from "@/domains/billing/entitlements";
+import {
+  getUserGamesForAccount,
+  listGamePlatforms,
+  listGames,
+  listPlatforms,
+} from "@/domains/games/queries";
+import { isDiscoveryPaused } from "@/domains/discovery/queries";
+import { isFeatureEnabled } from "@/lib/feature-flags";
 import { TIME_ZONE_OPTIONS } from "@/lib/timezones";
 import { redirect } from "next/navigation";
+
+function getCurrentTimeMs(): number {
+  return Date.now();
+}
 
 export default async function ProfilePage() {
   const account = await requireAccount();
@@ -19,13 +33,29 @@ export default async function ProfilePage() {
     redirect("/onboarding/identity");
   }
 
-  const [profile, userGames, currentIntent, disclosureSettings] =
-    await Promise.all([
-      getGamerProfileForAccount(account.id),
-      getUserGamesForAccount(account.id),
-      getCurrentIntent(account.id),
-      getDisclosureSettings(account.id),
-    ]);
+  const [
+    profile,
+    userGames,
+    currentIntent,
+    disclosureSettings,
+    entitlements,
+    discoveryPaused,
+    stripeEnabled,
+    games,
+    platforms,
+    gamePlatforms,
+  ] = await Promise.all([
+    getGamerProfileForAccount(account.id),
+    getUserGamesForAccount(account.id),
+    getCurrentIntent(account.id),
+    getDisclosureSettings(account.id),
+    getEntitlements(account.id),
+    isDiscoveryPaused(account.id),
+    isFeatureEnabled("stripe_enabled"),
+    listGames(),
+    listPlatforms(),
+    listGamePlatforms(),
+  ]);
 
   if (!profile?.onboarding_completed_at) {
     redirect("/onboarding/identity");
@@ -35,6 +65,8 @@ export default async function ProfilePage() {
     TIME_ZONE_OPTIONS.find((tz) => tz.value === account.time_zone)?.label ??
     account.time_zone ??
     "";
+
+  const atGameLimit = userGames.length >= entitlements.maxActiveGames;
 
   return (
     <div className="mx-auto max-w-2xl space-y-10">
@@ -67,6 +99,26 @@ export default async function ProfilePage() {
         <h2 className="text-lg font-semibold">Communication</h2>
         <ProfileCommunicationForm
           defaultModes={profile.communication_modes ?? []}
+        />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold">Games & availability</h2>
+        {atGameLimit && (
+          <UsageLimitBanner feature="games" stripeEnabled={stripeEnabled} />
+        )}
+        <ProfileGamesSection
+          userGames={userGames}
+          games={games}
+          platforms={platforms}
+          gamePlatforms={gamePlatforms}
+          maxActiveGames={entitlements.maxActiveGames}
+          atGameLimit={atGameLimit}
+          stripeEnabled={stripeEnabled}
+          discoveryPaused={discoveryPaused}
+          currentGoal={currentIntent?.goal ?? null}
+          intentExpiresAt={currentIntent?.expires_at ?? null}
+          currentTimeMs={getCurrentTimeMs()}
         />
       </section>
 
