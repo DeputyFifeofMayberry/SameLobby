@@ -264,3 +264,136 @@ where (c.user_a_id, c.user_b_id) = (
     and a2.auth_user_id = 'd1111111-1111-1111-1111-111111111111'
 );
 
+update public.feature_flags set enabled = true where key = 'play_invitations_enabled';
+
+-- Sample proposed play invitation for local dev smoke tests
+insert into public.play_invitations (
+  conversation_id,
+  proposer_account_id,
+  recipient_account_id,
+  game_id,
+  platform_id,
+  scheduling_mode,
+  session_length_minutes,
+  voice_preferred,
+  note,
+  status,
+  expires_at
+)
+select
+  conv.id,
+  proposer.id,
+  recipient.id,
+  ug.game_id,
+  ug.platform_id,
+  'scheduled'::public.play_scheduling_mode,
+  90,
+  true,
+  'Fortnite duo when you are free?',
+  'proposed'::public.play_invitation_status,
+  now() + interval '14 days'
+from public.conversations conv
+join public.connections conn on conn.id = conv.connection_id
+join public.accounts proposer on proposer.auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+join public.accounts recipient on recipient.auth_user_id = 'd1111111-1111-1111-1111-111111111111'
+join public.user_games ug on ug.account_id = proposer.id and ug.is_active = true
+where not exists (
+  select 1 from public.play_invitations pi
+  where pi.conversation_id = conv.id and pi.status = 'proposed'
+)
+limit 1;
+
+insert into public.play_time_options (invitation_id, proposed_start_at, sort_order)
+select pi.id, now() + interval '2 days', 0
+from public.play_invitations pi
+where pi.status = 'proposed'
+  and not exists (
+    select 1 from public.play_time_options pto where pto.invitation_id = pi.id
+  )
+limit 1;
+
+update public.feature_flags set enabled = true where key = 'teammates_enabled';
+update public.feature_flags set enabled = true where key = 'private_groups_enabled';
+
+-- Completed session between dev-active and PeerOne for teammate smoke tests
+update public.play_invitations
+set status = 'accepted'::public.play_invitation_status,
+    responded_at = now(),
+    updated_at = now()
+where id in (
+  select pi.id
+  from public.play_invitations pi
+  join public.accounts proposer on proposer.id = pi.proposer_account_id
+  where proposer.auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+    and pi.status = 'proposed'
+  limit 1
+);
+
+insert into public.gaming_sessions (
+  invitation_id,
+  conversation_id,
+  game_id,
+  platform_id,
+  status,
+  confirmed_start_at,
+  session_length_minutes,
+  started_at,
+  completed_at,
+  participant_a_id,
+  participant_b_id,
+  occurred_a,
+  occurred_b
+)
+select
+  pi.id,
+  pi.conversation_id,
+  pi.game_id,
+  pi.platform_id,
+  'completed'::public.gaming_session_status,
+  now() - interval '1 day',
+  pi.session_length_minutes,
+  now() - interval '1 day',
+  now() - interval '23 hours',
+  least(proposer.id, recipient.id),
+  greatest(proposer.id, recipient.id),
+  true,
+  true
+from public.play_invitations pi
+join public.accounts proposer on proposer.id = pi.proposer_account_id
+join public.accounts recipient on recipient.id = pi.recipient_account_id
+where proposer.auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+  and recipient.auth_user_id = 'd1111111-1111-1111-1111-111111111111'
+  and pi.status = 'accepted'
+  and not exists (
+    select 1 from public.gaming_sessions gs where gs.invitation_id = pi.id
+  )
+limit 1;
+
+-- Sample proposed teammate relationship (dev-active → PeerOne)
+insert into public.teammate_relationships (
+  user_a_id,
+  user_b_id,
+  connection_id,
+  status,
+  proposed_by_account_id,
+  user_a_affirmed,
+  user_b_affirmed
+)
+select
+  least(proposer.id, recipient.id),
+  greatest(proposer.id, recipient.id),
+  conn.id,
+  'proposed'::public.teammate_status,
+  proposer.id,
+  true,
+  false
+from public.accounts proposer
+cross join public.accounts recipient
+join public.connections conn
+  on conn.user_a_id = least(proposer.id, recipient.id)
+ and conn.user_b_id = greatest(proposer.id, recipient.id)
+where proposer.auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+  and recipient.auth_user_id = 'd1111111-1111-1111-1111-111111111111'
+  and conn.status = 'connected'
+on conflict (user_a_id, user_b_id) do nothing;
+

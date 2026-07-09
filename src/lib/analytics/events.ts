@@ -18,6 +18,10 @@ export const ANALYTICS_EVENTS = [
   "block_created",
   "message_sent",
   "report_submitted",
+  "play_invitation_sent",
+  "play_invitation_accepted",
+  "teammate_added",
+  "group_created",
 ] as const;
 
 export type AnalyticsEvent = (typeof ANALYTICS_EVENTS)[number];

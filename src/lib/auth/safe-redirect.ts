@@ -4,6 +4,7 @@ const ALLOWED_PREFIXES = [
   "/messages",
   "/play",
   "/teammates",
+  "/groups",
   "/onboarding",
   "/settings",
 ] as const;

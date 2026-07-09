@@ -11,6 +11,7 @@ const APP_PREFIXES = [
   "/messages",
   "/play",
   "/teammates",
+  "/groups",
   "/onboarding",
   "/profile",
   "/settings",

@@ -79,26 +79,41 @@ export async function listConversationsForAccount(
   const conversationIds = memberships.map((m) => m.conversation_id as string);
   const { data: conversations } = await supabase
     .from("conversations")
-    .select("id, connection_id, permission, updated_at")
+    .select("id, connection_id, group_id, kind, permission, updated_at")
     .in("id", conversationIds)
     .neq("permission", "blocked");
 
   if (!conversations?.length) return [];
 
   const admin = createAdminClient();
-  const { data: connections } = await admin
-    .from("connections")
-    .select("id, user_a_id, user_b_id")
-    .in(
-      "id",
-      conversations.map((c) => c.connection_id as string),
-    );
+  const directConversations = conversations.filter((c) => c.kind === "direct");
+  const groupConversations = conversations.filter((c) => c.kind === "group");
+
+  const connectionIds = directConversations
+    .map((c) => c.connection_id as string)
+    .filter(Boolean);
+  const { data: connections } = connectionIds.length
+    ? await admin
+        .from("connections")
+        .select("id, user_a_id, user_b_id")
+        .in("id", connectionIds)
+    : { data: [] };
 
   const connectionById = new Map(
     (connections ?? []).map((c) => [c.id as string, c]),
   );
 
-  const otherIds = conversations.map((conv) => {
+  const groupIds = groupConversations
+    .map((c) => c.group_id as string)
+    .filter(Boolean);
+  const { data: groups } = groupIds.length
+    ? await admin.from("private_groups").select("id, name").in("id", groupIds)
+    : { data: [] };
+  const groupNameById = new Map(
+    (groups ?? []).map((g) => [g.id as string, g.name as string]),
+  );
+
+  const otherIds = directConversations.map((conv) => {
     const conn = connectionById.get(conv.connection_id as string);
     if (!conn) return accountId;
     return otherParticipant(
@@ -110,12 +125,8 @@ export async function listConversationsForAccount(
   const names = await displayNamesForAccounts(otherIds);
 
   const items: ConversationListItem[] = [];
-  for (let i = 0; i < conversations.length; i++) {
-    const conv = conversations[i]!;
-    const membership = memberships.find(
-      (m) => m.conversation_id === conv.id,
-    );
-    const otherId = otherIds[i]!;
+  for (const conv of conversations) {
+    const membership = memberships.find((m) => m.conversation_id === conv.id);
 
     const { data: lastMessage } = await supabase
       .from("messages")
@@ -132,10 +143,38 @@ export async function listConversationsForAccount(
         new Date(lastMessage.created_at as string) > new Date(lastRead)) &&
       (lastMessage.sender_account_id as string) !== accountId;
 
+    if (conv.kind === "group") {
+      items.push({
+        conversationId: conv.id as string,
+        kind: "group",
+        otherAccountId: null,
+        otherDisplayName: groupNameById.get(conv.group_id as string) ?? "Group chat",
+        sharedGameLabel: "Group",
+        lastMessagePreview: lastMessage
+          ? ((lastMessage.body as string).slice(0, 80) || null)
+          : null,
+        lastMessageAt: (lastMessage?.created_at as string) ?? null,
+        unread,
+      });
+      continue;
+    }
+
+    const conn = connectionById.get(conv.connection_id as string);
+    const otherId = conn
+      ? otherParticipant(
+          {
+            user_a_id: conn.user_a_id as string,
+            user_b_id: conn.user_b_id as string,
+          },
+          accountId,
+        )
+      : accountId;
+
     const gameLabel = await sharedGameLabel(accountId, otherId);
 
     items.push({
       conversationId: conv.id as string,
+      kind: "direct",
       otherAccountId: otherId,
       otherDisplayName: names.get(otherId) ?? "Player",
       sharedGameLabel: gameLabel,
@@ -180,6 +219,45 @@ export async function getConversationThread(
 
   if (!conversation) return null;
 
+  const { data: messages } = await supabase
+    .from("messages")
+    .select("*")
+    .eq("conversation_id", conversationId)
+    .order("created_at", { ascending: true })
+    .limit(100);
+
+  if (conversation.kind === "group") {
+    const admin = createAdminClient();
+    const { data: group } = await admin
+      .from("private_groups")
+      .select("id, name")
+      .eq("id", conversation.group_id as string)
+      .maybeSingle();
+
+    const senderIds = [
+      ...new Set(
+        (messages ?? []).map((m) => m.sender_account_id as string),
+      ),
+    ];
+    const senderNames = await displayNamesForAccounts(senderIds);
+    const senderDisplayNames = Object.fromEntries(senderNames);
+
+    return {
+      conversation: conversation as Conversation,
+      kind: "group",
+      otherAccountId: null,
+      otherDisplayName: (group?.name as string) ?? "Group chat",
+      groupId: (group?.id as string) ?? null,
+      groupName: (group?.name as string) ?? null,
+      senderDisplayNames,
+      sharedGameLabels: [],
+      goalLabel: null,
+      goal: null,
+      messages: (messages ?? []) as Message[],
+      viewerAccountId: accountId,
+    };
+  }
+
   const admin = createAdminClient();
   const { data: connection } = await admin
     .from("connections")
@@ -198,12 +276,6 @@ export async function getConversationThread(
   );
 
   const names = await displayNamesForAccounts([otherAccountId]);
-  const { data: messages } = await supabase
-    .from("messages")
-    .select("*")
-    .eq("conversation_id", conversationId)
-    .order("created_at", { ascending: true })
-    .limit(100);
 
   const [{ data: viewerGames }, { data: otherGames }] = await Promise.all([
     admin
@@ -245,8 +317,15 @@ export async function getConversationThread(
 
   return {
     conversation: conversation as Conversation,
+    kind: "direct",
     otherAccountId,
     otherDisplayName: names.get(otherAccountId) ?? "Player",
+    groupId: null,
+    groupName: null,
+    senderDisplayNames: {
+      [otherAccountId]: names.get(otherAccountId) ?? "Player",
+      [accountId]: "You",
+    },
     sharedGameLabels,
     goalLabel,
     goal,

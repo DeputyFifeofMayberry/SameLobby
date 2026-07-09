@@ -109,11 +109,13 @@ export async function sendMessage(
     .eq("account_id", ctx.account.id)
     .maybeSingle();
 
-  await createNewMessageNotification({
-    recipientAccountId: thread.otherAccountId,
-    senderDisplayName: (senderProfile?.display_name as string) ?? "A connection",
-    conversationId,
-  });
+  if (thread.otherAccountId) {
+    await createNewMessageNotification({
+      recipientAccountId: thread.otherAccountId,
+      senderDisplayName: (senderProfile?.display_name as string) ?? "A connection",
+      conversationId,
+    });
+  }
 
   revalidatePath("/messages");
   revalidatePath(`/messages/${conversationId}`);

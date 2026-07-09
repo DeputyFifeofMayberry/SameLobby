@@ -7,11 +7,12 @@ export type ConversationPermission =
   | "blocked"
   | "closed";
 
-export type ConversationKind = "direct";
+export type ConversationKind = "direct" | "group";
 
 export type Conversation = {
   id: string;
-  connection_id: string;
+  connection_id: string | null;
+  group_id: string | null;
   kind: ConversationKind;
   permission: ConversationPermission;
   created_at: string;
@@ -29,7 +30,8 @@ export type Message = {
 
 export type ConversationListItem = {
   conversationId: string;
-  otherAccountId: string;
+  kind: ConversationKind;
+  otherAccountId: string | null;
   otherDisplayName: string;
   sharedGameLabel: string | null;
   lastMessagePreview: string | null;
@@ -39,8 +41,12 @@ export type ConversationListItem = {
 
 export type ConversationThread = {
   conversation: Conversation;
-  otherAccountId: string;
+  kind: ConversationKind;
+  otherAccountId: string | null;
   otherDisplayName: string;
+  groupId: string | null;
+  groupName: string | null;
+  senderDisplayNames: Record<string, string>;
   sharedGameLabels: string[];
   goalLabel: string | null;
   goal: IntentGoal | null;

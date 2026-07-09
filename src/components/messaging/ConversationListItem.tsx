@@ -23,9 +23,11 @@ export function ConversationListItem({ item }: ConversationListItemProps) {
               )}
             </h2>
             <p className="mt-1 text-sm text-[var(--color-text-slate)]">
-              {item.sharedGameLabel
-                ? `Connected · ${item.sharedGameLabel}`
-                : "Connected"}
+              {item.kind === "group"
+                ? "Group chat"
+                : item.sharedGameLabel
+                  ? `Connected · ${item.sharedGameLabel}`
+                  : "Connected"}
             </p>
             {item.lastMessagePreview && (
               <p className="mt-2 line-clamp-2 text-sm text-[var(--color-text-slate)]">

@@ -5,10 +5,12 @@ import Link from "next/link";
 import { IcebreakerChips } from "@/components/messaging/IcebreakerChips";
 import { MessageComposer } from "@/components/messaging/MessageComposer";
 import { ReportForm } from "@/components/messaging/ReportForm";
+import { PlayInvitationComposer } from "@/components/play/PlayInvitationComposer";
 import { Button } from "@/components/ui/Button";
 import { useConversationRealtime } from "@/domains/messaging/useConversationRealtime";
 import { blockInConversation } from "@/domains/messaging/actions";
 import type { Message } from "@/domains/messaging/types";
+import type { SharedGameOption } from "@/domains/play/types";
 
 type MessageThreadClientProps = {
   conversationId: string;
@@ -19,6 +21,8 @@ type MessageThreadClientProps = {
   icebreakers: string[];
   linksInMessagesEnabled: boolean;
   canSend: boolean;
+  playInvitationsEnabled?: boolean;
+  sharedGames?: SharedGameOption[];
 };
 
 export function MessageThreadClient({
@@ -30,6 +34,8 @@ export function MessageThreadClient({
   icebreakers,
   linksInMessagesEnabled,
   canSend,
+  playInvitationsEnabled = false,
+  sharedGames = [],
 }: MessageThreadClientProps) {
   const [messages, setMessages] = useState(initialMessages);
   const [draft, setDraft] = useState("");
@@ -64,6 +70,18 @@ export function MessageThreadClient({
           ← Messages
         </Link>
         <div className="flex flex-wrap gap-2">
+          {playInvitationsEnabled && canSend && (
+            <PlayInvitationComposer
+              conversationId={conversationId}
+              recipientAccountId={otherAccountId}
+              recipientDisplayName={otherDisplayName}
+              sharedGames={sharedGames}
+              onSuggestInChat={() => {
+                const composer = document.getElementById("message-composer-input");
+                composer?.focus();
+              }}
+            />
+          )}
           <ReportForm
             reportedAccountId={otherAccountId}
             conversationId={conversationId}

@@ -33,6 +33,7 @@ export function ProfileCommunicationForm({ defaultModes = [] }: Props) {
         {COMMUNICATION_MODES.map((mode) => (
           <Checkbox
             key={mode}
+            id={`communication-${mode}`}
             name="modes"
             value={mode}
             label={COMMUNICATION_MODE_LABELS[mode]}

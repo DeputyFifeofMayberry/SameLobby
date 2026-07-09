@@ -53,9 +53,9 @@ export function MessageComposer({
       {allowLinks && <input type="hidden" name="allowLinks" value="true" />}
 
       <div>
-        <Label htmlFor="message-body">Message</Label>
+        <Label htmlFor="message-composer-input">Message</Label>
         <Input
-          id="message-body"
+          id="message-composer-input"
           name="body"
           value={draft}
           onChange={(e) => onDraftChange(e.target.value)}

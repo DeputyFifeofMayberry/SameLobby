@@ -7,7 +7,10 @@ export type FeatureFlagKey =
   | "messaging_enabled"
   | "discovery_enabled"
   | "stripe_enabled"
-  | "links_in_messages";
+  | "links_in_messages"
+  | "play_invitations_enabled"
+  | "teammates_enabled"
+  | "private_groups_enabled";
 
 export async function isFeatureEnabled(key: FeatureFlagKey): Promise<boolean> {
   const supabase = await createClient();
