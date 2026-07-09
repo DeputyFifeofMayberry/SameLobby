@@ -19,6 +19,7 @@ export default async function PlayInvitationPage({ params }: InvitationPageProps
   }
 
   const playEnabled = await isFeatureEnabled("play_invitations_enabled");
+  const reportingEnabled = await isFeatureEnabled("reporting_enabled");
   if (!playEnabled) {
     redirect("/play");
   }
@@ -33,6 +34,7 @@ export default async function PlayInvitationPage({ params }: InvitationPageProps
       <PlayInvitationDetailClient
         invitation={invitation}
         viewerTimeZone={account.time_zone ?? "America/Los_Angeles"}
+        reportingEnabled={reportingEnabled}
       />
     </div>
   );

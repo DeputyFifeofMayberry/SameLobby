@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { GroupApprovalCard } from "@/components/groups/GroupApprovalCard";
 import { OpenSeatForm } from "@/components/groups/OpenSeatForm";
+import { ReportEntry } from "@/components/moderation/ReportEntry";
 import { Alert } from "@/components/ui/Alert";
 import { requireAccount } from "@/domains/accounts/queries";
 import { getGroupDetail } from "@/domains/groups/queries";
@@ -97,10 +98,19 @@ export default async function GroupDetailPage({ params }: GroupDetailPageProps) 
               >
                 {member.displayName}
               </Link>
-              <span className="text-[var(--color-text-slate)]">
-                {member.role}
-                {member.status === "pending_approval" ? " · pending" : ""}
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-[var(--color-text-slate)]">
+                  {member.role}
+                  {member.status === "pending_approval" ? " · pending" : ""}
+                </span>
+                {member.accountId !== account.id && member.status === "active" && (
+                  <ReportEntry
+                    reportedAccountId={member.accountId}
+                    reportedDisplayName={member.displayName}
+                    groupId={group.id}
+                  />
+                )}
+              </div>
             </li>
           ))}
         </ul>

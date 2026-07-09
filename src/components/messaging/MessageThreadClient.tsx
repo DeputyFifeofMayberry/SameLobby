@@ -6,6 +6,7 @@ import { IcebreakerChips } from "@/components/messaging/IcebreakerChips";
 import { MessageComposer } from "@/components/messaging/MessageComposer";
 import { ReportForm } from "@/components/messaging/ReportForm";
 import { PlayInvitationComposer } from "@/components/play/PlayInvitationComposer";
+import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
 import { useConversationRealtime } from "@/domains/messaging/useConversationRealtime";
 import { blockInConversation } from "@/domains/messaging/actions";
@@ -23,6 +24,7 @@ type MessageThreadClientProps = {
   canSend: boolean;
   playInvitationsEnabled?: boolean;
   sharedGames?: SharedGameOption[];
+  reportingEnabled?: boolean;
 };
 
 export function MessageThreadClient({
@@ -36,6 +38,7 @@ export function MessageThreadClient({
   canSend,
   playInvitationsEnabled = false,
   sharedGames = [],
+  reportingEnabled = false,
 }: MessageThreadClientProps) {
   const [messages, setMessages] = useState(initialMessages);
   const [draft, setDraft] = useState("");
@@ -82,11 +85,18 @@ export function MessageThreadClient({
               }}
             />
           )}
-          <ReportForm
-            reportedAccountId={otherAccountId}
-            conversationId={conversationId}
-            reportedDisplayName={otherDisplayName}
-          />
+          {reportingEnabled ? (
+            <ReportForm
+              reportedAccountId={otherAccountId}
+              conversationId={conversationId}
+              reportedDisplayName={otherDisplayName}
+              showMessageContextOption
+            />
+          ) : (
+            <Alert variant="info" className="text-xs">
+              Reporting is not available yet.
+            </Alert>
+          )}
           <Button type="button" variant="destructive" disabled={pending} onClick={handleBlock}>
             {pending ? "Blocking…" : "Block"}
           </Button>

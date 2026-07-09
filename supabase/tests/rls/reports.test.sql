@@ -1,5 +1,5 @@
 begin;
-select plan(2);
+select plan(4);
 
 \set reporter 'c1111111-1111-1111-1111-111111111111'
 \set reported 'c2222222-2222-2222-2222-222222222222'
@@ -48,6 +48,35 @@ select is(
   (select count(*)::int from public.reports),
   0,
   'reported user cannot read reports'
+);
+
+select tests.set_auth(:'reporter'::uuid);
+
+select lives_ok(
+  $$ insert into public.blocks (blocker_account_id, blocked_account_id)
+     select blocker.id, blocked.id
+     from public.accounts blocker
+     cross join public.accounts blocked
+     where blocker.auth_user_id = 'c1111111-1111-1111-1111-111111111111'::uuid
+       and blocked.auth_user_id = 'c2222222-2222-2222-2222-222222222222'::uuid $$,
+  'block insert succeeds for reporter'
+);
+
+select throws_ok(
+  $$ insert into public.reports (
+       reporter_account_id,
+       reported_account_id,
+       category,
+       description
+     )
+     select blocker.id, blocked.id, 'spam', 'Blocked pair report attempt'
+     from public.accounts blocker
+     cross join public.accounts blocked
+     where blocker.auth_user_id = 'c1111111-1111-1111-1111-111111111111'::uuid
+       and blocked.auth_user_id = 'c2222222-2222-2222-2222-222222222222'::uuid $$,
+  '42501',
+  null,
+  'blocked pair cannot submit report'
 );
 
 select * from finish();

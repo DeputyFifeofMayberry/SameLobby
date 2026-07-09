@@ -14,7 +14,6 @@ import {
 import { messageRateLimitError } from "@/domains/messaging/rate-limits";
 import {
   containsLink,
-  reportSchema,
   sendMessageSchema,
 } from "@/domains/messaging/schemas";
 import { createNewMessageNotification } from "@/domains/notifications/service";
@@ -159,37 +158,5 @@ export async function blockInConversation(
 
   revalidatePath("/messages");
   revalidatePath(`/messages/${conversationId}`);
-  return { ok: true };
-}
-
-export async function submitReport(
-  _prev: ActionResult | null,
-  formData: FormData,
-): Promise<ActionResult> {
-  const ctx = await requireMessagingAccount();
-  if (!ctx.ok) return { ok: false, error: ctx.error };
-
-  const parsed = reportSchema.safeParse({
-    reportedAccountId: formData.get("reportedAccountId"),
-    conversationId: formData.get("conversationId") || undefined,
-    category: formData.get("category"),
-    description: formData.get("description"),
-  });
-  if (!parsed.success) {
-    return { ok: false, error: firstZodError(parsed) };
-  }
-
-  const supabase = await createClient();
-  const { error } = await supabase.from("reports").insert({
-    reporter_account_id: ctx.account.id,
-    reported_account_id: parsed.data.reportedAccountId,
-    conversation_id: parsed.data.conversationId ?? null,
-    category: parsed.data.category,
-    description: parsed.data.description,
-  });
-
-  if (error) return { ok: false, error: error.message };
-
-  trackEvent("report_submitted");
   return { ok: true };
 }

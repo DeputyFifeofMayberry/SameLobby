@@ -5,6 +5,7 @@ import { useTransition, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
+import { ReportForm } from "@/components/messaging/ReportForm";
 import {
   acceptPlayInvitation,
   cancelPlayInvitation,
@@ -16,11 +17,13 @@ import { formatInTimeZone } from "@/domains/play/timezone";
 type PlayInvitationDetailClientProps = {
   invitation: PlayInvitationDetail;
   viewerTimeZone: string;
+  reportingEnabled?: boolean;
 };
 
 export function PlayInvitationDetailClient({
   invitation,
   viewerTimeZone,
+  reportingEnabled = false,
 }: PlayInvitationDetailClientProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -47,6 +50,12 @@ export function PlayInvitationDetailClient({
 
   const isPending = invitation.status === "proposed";
   const canRespond = invitation.viewerIsRecipient && isPending;
+  const reportTargetId = invitation.viewerIsRecipient
+    ? invitation.proposer_account_id
+    : invitation.recipient_account_id;
+  const reportTargetName = invitation.viewerIsRecipient
+    ? invitation.proposerDisplayName
+    : invitation.recipientDisplayName;
 
   return (
     <div className="space-y-6">
@@ -168,6 +177,14 @@ export function PlayInvitationDetailClient({
             View confirmed session
           </Link>
         </p>
+      )}
+
+      {reportingEnabled && (
+        <ReportForm
+          reportedAccountId={reportTargetId}
+          reportedDisplayName={reportTargetName}
+          playInvitationId={invitation.id}
+        />
       )}
     </div>
   );

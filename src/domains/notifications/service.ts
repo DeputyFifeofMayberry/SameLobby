@@ -188,3 +188,17 @@ export async function createTeammateProposalNotification(
     });
   }
 }
+
+export async function createModerationOutcomeNotification(input: {
+  recipientAccountId: string;
+}): Promise<void> {
+  const admin = createAdminClient();
+
+  await admin.from("notifications").insert({
+    account_id: input.recipientAccountId,
+    kind: "moderation_outcome",
+    title: "Account status updated",
+    body: "Your account status was updated following a safety review.",
+    href: "/settings/safety",
+  });
+}

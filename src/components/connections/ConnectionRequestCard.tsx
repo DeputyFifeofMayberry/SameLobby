@@ -3,6 +3,7 @@
 import { useTransition } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { ReportForm } from "@/components/messaging/ReportForm";
 import {
   acceptConnectionRequest,
   cancelConnectionRequest,
@@ -12,9 +13,13 @@ import type { ConnectionRequestView } from "@/domains/connections/types";
 
 type ConnectionRequestCardProps = {
   request: ConnectionRequestView;
+  reportingEnabled?: boolean;
 };
 
-export function ConnectionRequestCard({ request }: ConnectionRequestCardProps) {
+export function ConnectionRequestCard({
+  request,
+  reportingEnabled = false,
+}: ConnectionRequestCardProps) {
   const [pending, startTransition] = useTransition();
 
   function run(action: () => Promise<{ ok: boolean; error?: string }>) {
@@ -88,6 +93,15 @@ export function ConnectionRequestCard({ request }: ConnectionRequestCardProps) {
           >
             Cancel request
           </Button>
+        </div>
+      )}
+
+      {reportingEnabled && request.status === "pending" && (
+        <div className="mt-4">
+          <ReportForm
+            reportedAccountId={request.otherAccountId}
+            reportedDisplayName={request.otherDisplayName}
+          />
         </div>
       )}
     </article>

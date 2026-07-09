@@ -199,3 +199,24 @@ export async function hasBlockBetween(
 
   return Boolean(data);
 }
+
+export async function listBlocksForAccount(
+  accountId: string,
+): Promise<{ accountId: string; displayName: string }[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("blocks")
+    .select("blocked_account_id")
+    .eq("blocker_account_id", accountId)
+    .order("created_at", { ascending: false });
+
+  if (!data?.length) return [];
+
+  const blockedIds = data.map((r) => r.blocked_account_id as string);
+  const names = await displayNamesForAccounts(blockedIds);
+
+  return blockedIds.map((id) => ({
+    accountId: id,
+    displayName: names.get(id) ?? "Player",
+  }));
+}

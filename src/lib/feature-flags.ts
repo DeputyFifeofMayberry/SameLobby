@@ -10,7 +10,8 @@ export type FeatureFlagKey =
   | "links_in_messages"
   | "play_invitations_enabled"
   | "teammates_enabled"
-  | "private_groups_enabled";
+  | "private_groups_enabled"
+  | "reporting_enabled";
 
 export async function isFeatureEnabled(key: FeatureFlagKey): Promise<boolean> {
   const supabase = await createClient();

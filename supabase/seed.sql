@@ -397,3 +397,47 @@ where proposer.auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
   and conn.status = 'connected'
 on conflict (user_a_id, user_b_id) do nothing;
 
+-- Slice 8: reporting, admin, sample moderation case
+update public.feature_flags set enabled = true where key = 'reporting_enabled';
+
+insert into public.admin_users (account_id, scopes, mfa_enrolled_at)
+select id, array['safety_review', 'support', 'security_break_glass']::text[], now()
+from public.accounts
+where auth_user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+on conflict (account_id) do update
+  set scopes = excluded.scopes,
+      mfa_enrolled_at = excluded.mfa_enrolled_at,
+      disabled_at = null;
+
+with rep as (
+  insert into public.reports (
+    reporter_account_id,
+    reported_account_id,
+    category,
+    description,
+    status,
+    severity
+  )
+  select reporter.id, reported.id, 'harassment', 'Seed report for admin queue smoke test', 'case_opened', 'p1'
+  from public.accounts reporter
+  cross join public.accounts reported
+  where reporter.auth_user_id = 'd1111111-1111-1111-1111-111111111111'
+    and reported.auth_user_id = 'cccccccc-cccc-cccc-cccc-cccccccccccc'
+    and not exists (
+      select 1 from public.reports r2
+      where r2.reporter_account_id = reporter.id
+        and r2.reported_account_id = reported.id
+        and r2.description = 'Seed report for admin queue smoke test'
+    )
+  returning id
+),
+new_case as (
+  insert into public.moderation_cases (report_id, status, severity)
+  select id, 'open', 'p1' from rep
+  returning id, report_id
+)
+update public.reports r
+set moderation_case_id = new_case.id
+from new_case
+where r.id = new_case.report_id;
+

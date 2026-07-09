@@ -22,6 +22,7 @@ export default async function ConnectionsPage() {
   }
 
   const requestsEnabled = await isFeatureEnabled("connection_requests_enabled");
+  const reportingEnabled = await isFeatureEnabled("reporting_enabled");
 
   const [incoming, outgoing, connections] = requestsEnabled
     ? await Promise.all([
@@ -75,7 +76,10 @@ export default async function ConnectionsPage() {
               <ul className="space-y-4">
                 {incoming.map((request) => (
                   <li key={request.id}>
-                    <ConnectionRequestCard request={request} />
+                    <ConnectionRequestCard
+                      request={request}
+                      reportingEnabled={reportingEnabled}
+                    />
                   </li>
                 ))}
               </ul>
@@ -94,7 +98,10 @@ export default async function ConnectionsPage() {
                   .filter((r) => r.status === "pending")
                   .map((request) => (
                     <li key={request.id}>
-                      <ConnectionRequestCard request={request} />
+                      <ConnectionRequestCard
+                      request={request}
+                      reportingEnabled={reportingEnabled}
+                    />
                     </li>
                   ))}
               </ul>

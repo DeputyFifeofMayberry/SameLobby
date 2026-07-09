@@ -27,6 +27,7 @@ export default async function ConversationPage({ params }: ConversationPageProps
   }
 
   const messagingEnabled = await isFeatureEnabled("messaging_enabled");
+  const reportingEnabled = await isFeatureEnabled("reporting_enabled");
   if (!messagingEnabled) {
     redirect("/messages");
   }
@@ -60,6 +61,7 @@ export default async function ConversationPage({ params }: ConversationPageProps
           senderDisplayNames={thread.senderDisplayNames}
           linksInMessagesEnabled={linksInMessagesEnabled}
           canSend={canSend}
+          reportingEnabled={reportingEnabled}
         />
       </div>
     );
@@ -117,6 +119,7 @@ export default async function ConversationPage({ params }: ConversationPageProps
         canSend={canSend}
         playInvitationsEnabled={playInvitationsEnabled && canProposePlay}
         sharedGames={sharedGamesForPlay}
+        reportingEnabled={reportingEnabled}
       />
     </div>
   );

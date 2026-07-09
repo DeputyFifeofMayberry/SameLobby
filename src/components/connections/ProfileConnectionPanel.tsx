@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ConnectionRequestForm } from "@/components/connections/ConnectionRequestForm";
 import { BlockUserButton } from "@/components/connections/BlockUserButton";
+import { ReportEntry } from "@/components/moderation/ReportEntry";
 import { Alert } from "@/components/ui/Alert";
 import { getRelationshipState } from "@/domains/connections/queries";
 import { isFeatureEnabled } from "@/lib/feature-flags";
@@ -58,7 +59,11 @@ export async function ProfileConnectionPanel({
 
       {relationship === "connected" && (
         <Alert variant="success">
-          You are connected. Messaging ships in the next slice.
+          You are connected.{" "}
+          <Link href="/messages" className="underline">
+            Open Messages
+          </Link>{" "}
+          to chat.
         </Alert>
       )}
 
@@ -67,7 +72,11 @@ export async function ProfileConnectionPanel({
       )}
 
       {relationship !== "blocked" && (
-        <div className="flex justify-end">
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <ReportEntry
+            reportedAccountId={targetAccountId}
+            reportedDisplayName={targetDisplayName}
+          />
           <BlockUserButton
             targetAccountId={targetAccountId}
             targetDisplayName={targetDisplayName}

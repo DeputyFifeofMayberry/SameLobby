@@ -174,6 +174,43 @@ export async function requestAccountDeletion(
   return { ok: true };
 }
 
+export async function confirmAccountDeletion(
+  _prev: ActionResult | null,
+  formData: FormData,
+): Promise<ActionResult> {
+  const user = await getSessionUser();
+  if (!user) return { ok: false, error: "You must be signed in." };
+  if (!user.email) {
+    return { ok: false, error: "Re-authentication is not available for this account." };
+  }
+
+  const password = formData.get("password")?.toString() ?? "";
+  if (!password) {
+    return { ok: false, error: "Enter your password to confirm deletion." };
+  }
+
+  const account = await getAccountForUser(user.id);
+  if (!account) return { ok: false, error: "Account not found." };
+
+  const supabase = await createClient();
+  const { error: authError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password,
+  });
+  if (authError) {
+    return { ok: false, error: "Password verification failed." };
+  }
+
+  const { error } = await supabase.rpc("confirm_account_deletion", {
+    p_account_id: account.id,
+  });
+
+  if (error) return { ok: false, error: "Could not confirm deletion." };
+
+  revalidatePath("/settings/account");
+  return { ok: true };
+}
+
 export async function signOut(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();

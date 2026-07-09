@@ -19,19 +19,3 @@ export const sendMessageSchema = z.object({
   allowLinks: z.boolean().optional(),
 });
 
-export const reportSchema = z.object({
-  reportedAccountId: z.string().uuid(),
-  conversationId: z.string().uuid().optional(),
-  category: z.enum([
-    "harassment",
-    "spam",
-    "inappropriate_content",
-    "scam",
-    "other",
-  ]),
-  description: z
-    .string()
-    .trim()
-    .min(10, "Please provide at least 10 characters.")
-    .max(2000, "Description is too long."),
-});

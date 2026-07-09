@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { TeammateNoteEditor } from "@/components/teammates/TeammateNoteEditor";
 import { TeammateProposalCard } from "@/components/teammates/TeammateProposalCard";
+import { ReportEntry } from "@/components/moderation/ReportEntry";
 import { Alert } from "@/components/ui/Alert";
 import { requireAccount } from "@/domains/accounts/queries";
 import { getSharedGamesForConversation } from "@/domains/play/queries";
@@ -83,7 +84,7 @@ export default async function TeammateDetailPage({ params }: TeammateDetailPageP
         </section>
       )}
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {detail.conversationId && (
           <Link
             href={`/messages/${detail.conversationId}`}
@@ -98,6 +99,10 @@ export default async function TeammateDetailPage({ params }: TeammateDetailPageP
         >
           View profile
         </Link>
+        <ReportEntry
+          reportedAccountId={detail.otherAccountId}
+          reportedDisplayName={detail.otherDisplayName}
+        />
       </div>
 
       {detail.status !== "proposed" && detail.status !== "ended" && (

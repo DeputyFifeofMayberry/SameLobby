@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import { MessageComposer } from "@/components/messaging/MessageComposer";
+import { GroupReportForm } from "@/components/moderation/GroupReportForm";
 import { useConversationRealtime } from "@/domains/messaging/useConversationRealtime";
 import type { Message } from "@/domains/messaging/types";
 
@@ -15,6 +16,7 @@ type GroupMessageThreadClientProps = {
   senderDisplayNames: Record<string, string>;
   linksInMessagesEnabled: boolean;
   canSend: boolean;
+  reportingEnabled?: boolean;
 };
 
 export function GroupMessageThreadClient({
@@ -26,6 +28,7 @@ export function GroupMessageThreadClient({
   senderDisplayNames,
   linksInMessagesEnabled,
   canSend,
+  reportingEnabled = false,
 }: GroupMessageThreadClientProps) {
   const [messages, setMessages] = useState(initialMessages);
   const [draft, setDraft] = useState("");
@@ -52,6 +55,15 @@ export function GroupMessageThreadClient({
           >
             Group details
           </Link>
+        )}
+        {reportingEnabled && groupId && (
+          <GroupReportForm
+            groupId={groupId}
+            conversationId={conversationId}
+            members={Object.entries(senderDisplayNames)
+              .filter(([id]) => id !== viewerAccountId)
+              .map(([accountId, displayName]) => ({ accountId, displayName }))}
+          />
         )}
       </div>
 
