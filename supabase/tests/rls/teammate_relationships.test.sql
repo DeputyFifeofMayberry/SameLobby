@@ -1,5 +1,5 @@
 begin;
-select plan(6);
+select plan(5);
 
 \set user_a 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
 \set user_b 'd1111111-1111-1111-1111-111111111111'

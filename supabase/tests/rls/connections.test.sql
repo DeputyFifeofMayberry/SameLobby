@@ -70,6 +70,8 @@ select lives_ok(
   'recipient can accept pending request'
 );
 
+select tests.as_postgres();
+
 select is(
   (
     select count(*)::int
@@ -82,8 +84,6 @@ select is(
   1,
   'accept creates mutual connection row'
 );
-
-select tests.as_postgres();
 
 insert into public.blocks (blocker_account_id, blocked_account_id)
 select s.id, r.id

@@ -1,5 +1,5 @@
 begin;
-select plan(4);
+select plan(3);
 
 \set viewer 'f1111111-1111-1111-1111-111111111111'
 \set target 'f2222222-2222-2222-2222-222222222222'
