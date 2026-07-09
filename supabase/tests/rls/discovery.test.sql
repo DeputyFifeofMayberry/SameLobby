@@ -58,12 +58,16 @@ select is(
   'gamer_profiles remain own-only; discovery uses server eligibility'
 );
 
+select tests.as_postgres();
+
 insert into public.blocks (blocker_account_id, blocked_account_id)
 select bv.id, bb.id
 from public.accounts bv
 cross join public.accounts bb
 where bv.auth_user_id = :'viewer'::uuid
   and bb.auth_user_id = :'blocked'::uuid;
+
+select tests.set_auth(:'viewer'::uuid);
 
 select is(
   (

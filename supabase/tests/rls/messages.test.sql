@@ -49,7 +49,7 @@ select lives_ok(
   from public.conversations c
   join public.connections conn on conn.id = c.connection_id
   join public.accounts a on a.auth_user_id = 'b1111111-1111-1111-1111-111111111111'::uuid
-  where conn.user_a_id = least(a.id, (select id from public.accounts where auth_user_id = 'b2222222-2222-2222-2222-222222222222'::uuid))
+  where a.id in (conn.user_a_id, conn.user_b_id)
   limit 1
   $$,
   'member can send message'
@@ -74,12 +74,16 @@ select is(
 
 select tests.set_auth(:'user_a'::uuid);
 
+select tests.as_postgres();
+
 insert into public.blocks (blocker_account_id, blocked_account_id)
 select a.id, b.id
 from public.accounts a
 cross join public.accounts b
 where a.auth_user_id = :'user_a'::uuid
   and b.auth_user_id = :'user_b'::uuid;
+
+select tests.set_auth(:'user_a'::uuid);
 
 select is(
   (

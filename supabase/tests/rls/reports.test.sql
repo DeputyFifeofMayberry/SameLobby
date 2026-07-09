@@ -22,7 +22,7 @@ update public.accounts
 set status = 'active', adult_attested_at = now()
 where auth_user_id in (:'reporter'::uuid, :'reported'::uuid);
 
-select tests.set_auth(:'reporter'::uuid);
+select tests.as_postgres();
 
 insert into public.reports (
   reporter_account_id,
@@ -35,6 +35,8 @@ from public.accounts r
 cross join public.accounts t
 where r.auth_user_id = :'reporter'::uuid
   and t.auth_user_id = :'reported'::uuid;
+
+select tests.set_auth(:'reporter'::uuid);
 
 select is(
   (select count(*)::int from public.reports where reporter_account_id = (

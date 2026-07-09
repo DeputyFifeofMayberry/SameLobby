@@ -89,12 +89,16 @@ select is(
 
 select tests.set_auth(:'user_a'::uuid);
 
+select tests.as_postgres();
+
 insert into public.blocks (blocker_account_id, blocked_account_id)
 select a.id, b.id
 from public.accounts a
 cross join public.accounts b
 where a.auth_user_id = :'user_a'::uuid
   and b.auth_user_id = :'user_b'::uuid;
+
+select tests.set_auth(:'user_a'::uuid);
 
 select is(
   (

@@ -69,6 +69,8 @@ select is(
   'non-participant cannot read teammate relationships'
 );
 
+select tests.as_postgres();
+
 insert into public.blocks (blocker_account_id, blocked_account_id)
 select b.id, a.id
 from public.accounts a

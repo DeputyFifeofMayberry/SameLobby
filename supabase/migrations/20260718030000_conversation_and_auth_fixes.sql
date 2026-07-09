@@ -133,7 +133,7 @@ begin
       delete from auth.refresh_tokens rt
       using public.accounts a
       where a.id = v_req.account_id
-        and rt.user_id = a.auth_user_id::text;
+        and rt.user_id = a.auth_user_id;
 
       update public.deletion_job_runs
       set status = 'completed', completed_at = now()

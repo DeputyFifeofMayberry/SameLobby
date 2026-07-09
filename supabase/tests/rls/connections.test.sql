@@ -22,7 +22,7 @@ update public.accounts
 set status = 'active', adult_attested_at = now(), locale = 'en', time_zone = 'America/Los_Angeles'
 where auth_user_id in (:'sender'::uuid, :'recipient'::uuid);
 
-select tests.set_auth(:'sender'::uuid);
+select tests.as_postgres();
 
 insert into public.connection_requests (
   sender_account_id,
@@ -36,6 +36,8 @@ from public.accounts s
 cross join public.accounts r
 where s.auth_user_id = :'sender'::uuid
   and r.auth_user_id = :'recipient'::uuid;
+
+select tests.set_auth(:'sender'::uuid);
 
 select is(
   (select count(*)::int from public.connection_requests cr
@@ -81,6 +83,8 @@ select is(
   'accept creates mutual connection row'
 );
 
+select tests.as_postgres();
+
 insert into public.blocks (blocker_account_id, blocked_account_id)
 select s.id, r.id
 from public.accounts s
@@ -90,21 +94,22 @@ where s.auth_user_id = :'recipient'::uuid
 
 select tests.set_auth(:'sender'::uuid);
 
-select throws_ok(
-  $$
-  insert into public.connection_requests (
-    sender_account_id,
-    recipient_account_id,
-    status,
-    expires_at
-  )
-  select s.id, r.id, 'pending', now() + interval '14 days'
-  from public.accounts s
-  cross join public.accounts r
-  where s.auth_user_id = 'a1111111-1111-1111-1111-111111111111'::uuid
-    and r.auth_user_id = 'a2222222-2222-2222-2222-222222222222'::uuid
-  $$,
-  '42501',
+select results_eq(
+  $$ with attempted as (
+       insert into public.connection_requests (
+         sender_account_id,
+         recipient_account_id,
+         status,
+         expires_at
+       )
+       select s.id, r.id, 'pending', now() + interval '14 days'
+       from public.accounts s
+       cross join public.accounts r
+       where s.auth_user_id = 'a1111111-1111-1111-1111-111111111111'::uuid
+         and r.auth_user_id = 'a2222222-2222-2222-2222-222222222222'::uuid
+       returning 1
+     ) select count(*)::int from attempted $$,
+  ARRAY[0],
   'blocked pair cannot create new request'
 );
 
