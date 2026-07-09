@@ -1,4 +1,4 @@
--- pgTAP + local auth: auth.uid() is unset under tests.set_auth; fall back to JWT claim sub.
+-- Prefer pgTAP JWT claim sub over auth.uid() for current_account_id resolution.
 
 create or replace function public.current_account_id()
 returns uuid
@@ -16,9 +16,55 @@ as $$
   limit 1;
 $$;
 
-grant execute on function public.current_account_id() to authenticated;
+-- Match partial unique index predicate for group conversations.
+create or replace function public.create_conversation_for_group(
+  p_group_id uuid
+)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_group public.private_groups%rowtype;
+  v_conversation_id uuid;
+begin
+  select * into v_group
+  from public.private_groups
+  where id = p_group_id;
 
--- Deletion pipeline referenced a non-existent gamer_profiles.bio column.
+  if not found or v_group.status <> 'active' then
+    raise exception 'group not active';
+  end if;
+
+  insert into public.conversations (kind, permission, group_id)
+  values ('group'::public.conversation_kind, 'open', p_group_id)
+  on conflict (group_id) where (kind = 'group' and group_id is not null)
+  do update set updated_at = now()
+  returning id into v_conversation_id;
+
+  if v_conversation_id is null then
+    select id into v_conversation_id
+    from public.conversations
+    where group_id = p_group_id
+      and kind = 'group'
+    limit 1;
+  end if;
+
+  insert into public.conversation_members (conversation_id, account_id)
+  select v_conversation_id, gm.account_id
+  from public.group_memberships gm
+  where gm.group_id = p_group_id
+    and gm.status = 'active'
+  on conflict do nothing;
+
+  return v_conversation_id;
+end;
+$$;
+
+grant execute on function public.create_conversation_for_group(uuid) to authenticated;
+
+-- auth.sessions.user_id is varchar; compare as text.
 create or replace function public.process_deletion_stage(p_batch_size int default 10)
 returns int
 language plpgsql
@@ -82,12 +128,12 @@ begin
       delete from auth.sessions s
       using public.accounts a
       where a.id = v_req.account_id
-        and s.user_id = a.auth_user_id;
+        and s.user_id = a.auth_user_id::text;
 
       delete from auth.refresh_tokens rt
       using public.accounts a
       where a.id = v_req.account_id
-        and rt.user_id = a.auth_user_id;
+        and rt.user_id = a.auth_user_id::text;
 
       update public.deletion_job_runs
       set status = 'completed', completed_at = now()
@@ -146,5 +192,3 @@ begin
   return v_processed;
 end;
 $$;
-
-grant select on public.moderation_actions to authenticated;
