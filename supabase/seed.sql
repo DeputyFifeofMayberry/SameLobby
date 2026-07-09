@@ -445,3 +445,13 @@ where r.id = new_case.report_id;
 -- Set stripe_price_id on plans to match Stripe Dashboard test mode prices before enabling checkout.
 -- update public.plans set stripe_price_id = 'price_...' where key = 'plus_monthly';
 
+-- Launch phase: capped beta defaults (staging/local; adjust via /admin/feature-controls)
+update public.feature_flags
+set enabled = false
+where key = 'registration_open';
+
+update public.feature_flags
+set enabled = true,
+    metadata = '{"max_accounts": 100}'::jsonb
+where key = 'registration_cap';
+

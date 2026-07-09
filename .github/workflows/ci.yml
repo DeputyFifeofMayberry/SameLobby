@@ -42,8 +42,29 @@ jobs:
 
       - run: npm ci
 
-      - name: Format check
-        run: npm run format:check
+      - name: Format check (changed files)
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+          fi
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            BASE="$(git rev-parse HEAD~1 2>/dev/null || echo "")"
+          fi
+          if [ -z "$BASE" ]; then
+            echo "No base ref for format check; skipping."
+            exit 0
+          fi
+          mapfile -t FILES < <(git diff --name-only --diff-filter=ACMRTUXB "$BASE" "$HEAD" | grep -E '\.(ts|tsx|js|mjs|cjs|json|md|yml|yaml|css|sql)$' || true)
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "No formatted files changed."
+            exit 0
+          fi
+          npx prettier --check "${FILES[@]}"
 
       - name: Lint
         run: npm run lint

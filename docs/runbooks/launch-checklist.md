@@ -57,10 +57,11 @@ Use this runbook before a capped public release. Engineering gates should be gre
 
 ## Founder prerequisites (manual)
 
-| Item                              | Owner                   |
-| --------------------------------- | ----------------------- |
-| Legal review (R06)                | Founder + counsel       |
-| Stripe production keys + webhook  | Founder                 |
-| Registration cap number           | Founder                 |
-| Catalog anchor verification (R07) | Founder + catalog admin |
-| Manual a11y sign-off              | Founder/QA              |
+| Item                              | Owner                   | Tracker |
+| --------------------------------- | ----------------------- | ------- |
+| Legal review (R06)                | Founder + counsel       | [founder-gates.md](./founder-gates.md) |
+| Stripe production keys + webhook  | Founder                 | [staging-beta-deploy.md](./staging-beta-deploy.md) |
+| Registration cap number           | Founder                 | `/admin/feature-controls` |
+| Catalog anchor verification (R07) | Founder + catalog admin | [founder-gates.md](./founder-gates.md) |
+| Manual a11y sign-off              | Founder/QA              | [founder-gates.md](./founder-gates.md) |
+| OWASP ZAP baseline                | Engineering             | [zap-baseline.md](./zap-baseline.md) |

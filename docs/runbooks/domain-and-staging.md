@@ -88,10 +88,14 @@ DNS propagation: up to 24–48 hours; often minutes.
 ## 4. Smoke tests
 
 ```bash
+BASE_URL=https://staging.samelobby.com npm run smoke:post-deploy
 curl -f https://staging.samelobby.com/api/health
 ```
 
+See [staging-beta-deploy.md](./staging-beta-deploy.md) for migrations, Stripe webhook, and env vars.
+
 Manual:
+
 1. `/sign-up` → attestation → `/discover`
 2. `/sign-in` with seed user `dev-active@test.local` / `TestPass123!` (after seed on staging DB if needed)
 3. Set `registration_open = false` in `feature_flags` → sign-up blocked at UI and Auth hook
