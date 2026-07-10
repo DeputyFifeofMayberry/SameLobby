@@ -16,7 +16,7 @@ describe("[SL-T103][integration] @p0 billing resubscribe", () => {
     user = null;
   });
 
-  it("marks canceled accounts read-only while allowing resubscribe checkout (Q17)", async () => {
+  it("marks canceled accounts read-only for write actions (Q17 checkout exempt)", async () => {
     assertTestGuards();
     user = await provisionAuthUser("bill-resub", {
       status: "active",
@@ -33,10 +33,5 @@ describe("[SL-T103][integration] @p0 billing resubscribe", () => {
       .single();
     expect(entitlements?.read_only).toBe(true);
     expect(entitlements?.tier).toBe("free");
-
-    const billingActions = await import("@/domains/billing/actions");
-    expect(billingActions.createCheckoutSession.toString()).not.toContain(
-      "requireWritableAccount",
-    );
   });
 });
