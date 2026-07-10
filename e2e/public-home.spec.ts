@@ -47,9 +47,9 @@ test.describe("Public home", () => {
   test("supports keyboard disclosure and has no serious accessibility violations", async ({
     page,
   }) => {
-    const question = page.getByText("Is SameLobby a dating app?", {
-      exact: true,
-    });
+    const question = page
+      .locator("summary")
+      .filter({ hasText: "Is SameLobby a dating app?" });
     await question.focus();
     await page.keyboard.press("Enter");
     await expect(
