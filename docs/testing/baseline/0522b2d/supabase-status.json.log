@@ -1,0 +1,21 @@
+{
+  "ANON_KEY": "[REDACTED_LOCAL_ANON_KEY]",
+  "API_URL": "http://127.0.0.1:54321",
+  "DB_URL": "postgresql://postgres:postgres@127.0.0.1:54322/postgres",
+  "FUNCTIONS_URL": "http://127.0.0.1:54321/functions/v1",
+  "GRAPHQL_URL": "http://127.0.0.1:54321/graphql/v1",
+  "INBUCKET_URL": "http://127.0.0.1:54324",
+  "JWT_SECRET": "[REDACTED_LOCAL_JWT_SECRET]",
+  "MAILPIT_URL": "http://127.0.0.1:54324",
+  "MCP_URL": "http://127.0.0.1:54321/mcp",
+  "PUBLISHABLE_KEY": "[REDACTED_LOCAL_PUBLISHABLE_KEY]",
+  "REST_URL": "http://127.0.0.1:54321/rest/v1",
+  "S3_PROTOCOL_ACCESS_KEY_ID": "[REDACTED]",
+  "S3_PROTOCOL_ACCESS_KEY_SECRET": "[REDACTED]",
+  "S3_PROTOCOL_REGION": "local",
+  "SECRET_KEY": "[REDACTED_LOCAL_SECRET_KEY]",
+  "SERVICE_ROLE_KEY": "[REDACTED_LOCAL_SERVICE_ROLE_KEY]",
+  "STORAGE_S3_URL": "http://127.0.0.1:54321/storage/v1/s3",
+  "STUDIO_URL": "http://127.0.0.1:54323"
+}
+Stopped services: [supabase_imgproxy_SameLobby supabase_pooler_SameLobby]

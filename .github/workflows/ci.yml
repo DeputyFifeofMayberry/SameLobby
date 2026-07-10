@@ -29,9 +29,43 @@ jobs:
       - name: RLS tests (pgTAP)
         run: supabase test db
 
-  quality:
+  db-security-integration:
     runs-on: ubuntu-latest
     needs: database
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Start Supabase
+        run: supabase start
+      - name: Reset database
+        run: supabase db reset
+      - name: Export local Supabase keys
+        run: |
+          API_URL=$(supabase status -o json | jq -r '.API_URL')
+          ANON_KEY=$(supabase status -o json | jq -r '.ANON_KEY')
+          SERVICE_ROLE_KEY=$(supabase status -o json | jq -r '.SERVICE_ROLE_KEY')
+          echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY" >> "$GITHUB_ENV"
+          echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY" >> "$GITHUB_ENV"
+          echo "ALLOW_DESTRUCTIVE_TESTS=true" >> "$GITHUB_ENV"
+          echo "SUPABASE_PROJECT_ID=SameLobby" >> "$GITHUB_ENV"
+      - run: npm ci
+      - name: RLS tests (pgTAP)
+        run: npm run test:db
+      - name: API P0
+        run: npm run test:api:p0
+      - name: Integration P0
+        run: npm run test:integration:p0
+
+  quality:
+    runs-on: ubuntu-latest
+    needs: [database, db-security-integration]
     steps:
       - uses: actions/checkout@v4
 
@@ -134,3 +168,27 @@ jobs:
         env:
           SKIP_ENV_VALIDATION: "true"
           PLAYWRIGHT_BASE_URL: http://localhost:3000
+
+  env-production-gate:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Production env build without SKIP_ENV_VALIDATION
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+          SUPABASE_SERVICE_ROLE_KEY: placeholder-service-role-key
+          NEXT_PUBLIC_SITE_URL: https://example.samelobby.com
+          STRIPE_SECRET_KEY: sk_test_placeholder
+          STRIPE_WEBHOOK_SECRET: whsec_placeholder
+          RESEND_API_KEY: re_placeholder
+          CRON_SECRET: cron-placeholder
+          SENTRY_DSN: https://example@sentry.io/0
+          NEXT_PUBLIC_POSTHOG_KEY: phc_placeholder

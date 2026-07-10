@@ -1,0 +1,19 @@
+{
+  "package": "A",
+  "status": "approved",
+  "approved": true,
+  "approvedAt": "2026-07-10T16:00:00.000Z",
+  "approver": "founder",
+  "deployOrder": [
+    "secrets configured and verified",
+    "preview/staging deploy",
+    "env and cron probes",
+    "scheduled-job auth confirm",
+    "promote"
+  ],
+  "contracts": {
+    "secrets": "Production requires CRON_SECRET, STRIPE_*, RESEND_API_KEY, SENTRY_DSN, service role key",
+    "cronAuth": "authorizeCronRequest fails closed in production when CRON_SECRET is unset; bearer required when set"
+  },
+  "coShipsWith": ["SL-T110:api", "SL-T119:unit-env", "SL-T119:ci-env-gate"]
+}

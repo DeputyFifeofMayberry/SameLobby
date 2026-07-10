@@ -8,6 +8,7 @@ const envSchema = z
     NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
     SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
+    CRON_SECRET: z.string().min(1).optional(),
     NEXT_PUBLIC_SITE_URL: z.string().url().default("http://localhost:3000"),
     SKIP_ENV_VALIDATION: z
       .string()
@@ -20,6 +21,17 @@ const envSchema = z
         code: z.ZodIssueCode.custom,
         message: "SUPABASE_SERVICE_ROLE_KEY is required",
         path: ["SUPABASE_SERVICE_ROLE_KEY"],
+      });
+    }
+    if (
+      !data.SKIP_ENV_VALIDATION &&
+      data.NODE_ENV === "production" &&
+      !data.CRON_SECRET
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "CRON_SECRET is required in production",
+        path: ["CRON_SECRET"],
       });
     }
   });
@@ -46,6 +58,7 @@ function validateEnv(): ServerEnv {
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    CRON_SECRET: process.env.CRON_SECRET,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
     SKIP_ENV_VALIDATION: process.env.SKIP_ENV_VALIDATION,
   });

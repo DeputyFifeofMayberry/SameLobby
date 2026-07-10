@@ -1,0 +1,22 @@
+
+> samelobby@0.1.0 test:component
+> vitest run --project component
+
+
+ RUN  v3.2.7 C:/Users/barne/Desktop/SameLobby
+
+ Γ£ô |component| src/lib/auth/alias.self.test.tsx (1 test) 2ms
+ Γ£ô |component| src/domains/messaging/useConversationRealtime.test.tsx (1 test) 23ms
+ Γ£ô |component| src/components/connections/ConnectionRequestCard.test.tsx (3 tests) 221ms
+ Γ£ô |component| src/components/messaging/MessageComposer.test.tsx (4 tests) 358ms
+ Γ£ô |component| src/components/auth/ResetPasswordForm.test.tsx (4 tests) 1744ms
+   Γ£ô [SL-T009][component] @p1 ResetPasswordForm > shows mismatch validation before calling Supabase  541ms
+   Γ£ô [SL-T009][component] @p1 ResetPasswordForm > shows weak password validation  355ms
+   Γ£ô [SL-T009][component] @p1 ResetPasswordForm > shows pending state and disables inputs while saving  395ms
+   Γ£ô [SL-T009][component] @p1 ResetPasswordForm > surfaces update errors accessibly  452ms
+
+ Test Files  5 passed (5)
+      Tests  13 passed (13)
+   Start at  21:27:31
+   Duration  2.68s (transform 193ms, setup 357ms, collect 957ms, tests 2.35s, environment 1.85s, prepare 377ms)
+

@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { getAccountForUser, getSessionUser } from "@/domains/accounts/queries";
 import {
   getOrCreateStripeCustomer,
-  requireWritableAccount,
 } from "@/domains/billing/entitlements";
 import {
   checkoutPlanSchema,
@@ -66,8 +65,7 @@ export async function createCheckoutSession(
     };
   }
 
-  const writable = await requireWritableAccount(account.id);
-  if (!writable.ok) return { ok: false, error: writable.error };
+  // Q17: canceled read-only users may start checkout to resubscribe.
 
   const customerId = await getOrCreateStripeCustomer(account.id, account.email);
   const stripe = getStripeClient();

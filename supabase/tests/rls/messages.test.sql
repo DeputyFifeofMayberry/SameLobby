@@ -1,5 +1,6 @@
 begin;
-select plan(3);
+-- SL-T049:db @p0
+select plan(4);
 
 \set user_a 'b1111111-1111-1111-1111-111111111111'
 \set user_b 'b2222222-2222-2222-2222-222222222222'
@@ -97,6 +98,25 @@ select is(
   ),
   0,
   'blocked conversation hidden from member'
+);
+
+select tests.set_auth(:'user_b'::uuid);
+
+select results_eq(
+  $$ with inserted as (
+       insert into public.messages (conversation_id, sender_account_id, body, retention_at)
+       select c.id, b.id, 'Blocked send attempt', now() + interval '12 months'
+       from public.conversations c
+       join public.connections conn on conn.id = c.connection_id
+       join public.accounts a on a.auth_user_id = 'b1111111-1111-1111-1111-111111111111'::uuid
+       join public.accounts b on b.auth_user_id = 'b2222222-2222-2222-2222-222222222222'::uuid
+       where a.id in (conn.user_a_id, conn.user_b_id)
+         and b.id in (conn.user_a_id, conn.user_b_id)
+       limit 1
+       returning 1
+     ) select count(*)::int from inserted $$,
+  ARRAY[0],
+  'blocked member cannot send messages after block'
 );
 
 select * from finish();

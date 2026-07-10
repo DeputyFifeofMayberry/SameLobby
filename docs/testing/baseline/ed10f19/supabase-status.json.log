@@ -1,0 +1,10 @@
+﻿node.exe : failed to inspect container health: error during connect: Get 
+"http://%2F%2F.%2Fpipe%2FdockerDesktopLinuxEngine/v1.51/containers/supabase_db_SameLobby/json": open 
+//./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (failed to inspe...file specified.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Try rerunning the command with --debug to troubleshoot the error.

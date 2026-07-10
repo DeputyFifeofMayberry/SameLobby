@@ -1,5 +1,6 @@
 /**
- * Optional load test scaffold — 100 concurrent chat connections (Slice 10).
+ * @deprecated Retired in favor of scripts/load/messaging-realtime.k6.ts (SL-T120).
+ * HTTP-only smoke load pattern kept for reference.
  *
  * Requires k6: https://k6.io/docs/get-started/installation/
  *

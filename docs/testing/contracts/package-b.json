@@ -1,0 +1,18 @@
+{
+  "package": "B",
+  "status": "approved",
+  "approved": true,
+  "approvedAt": "2026-07-10T16:00:00.000Z",
+  "approver": "founder",
+  "contracts": {
+    "deletionStripe": "confirmAccountDeletion aborts when Stripe cancel fails (Q16)",
+    "resubscribe": "createCheckoutSession exempt from read-only guard (Q17)",
+    "healthDegraded": "GET /api/health returns 503 when database is degraded or unavailable (Q20)"
+  },
+  "coShipsWith": [
+    "SL-T014:integration",
+    "SL-T103:integration",
+    "SL-T107:integration",
+    "SL-T112:api"
+  ]
+}
