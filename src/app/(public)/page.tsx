@@ -383,16 +383,14 @@ export default function HomePage() {
                 "Private connections",
                 "No swiping",
                 "No paid boosts",
-              ].map(
-                (item) => (
-                  <li key={item} className="flex items-center gap-1.5">
-                    <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--color-signal-mint)] text-[var(--color-lobby-teal)]">
-                      <Icon name="check" className="h-3 w-3" />
-                    </span>
-                    {item}
-                  </li>
-                ),
-              )}
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-1.5">
+                  <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--color-signal-mint)] text-[var(--color-lobby-teal)]">
+                    <Icon name="check" className="h-3 w-3" />
+                  </span>
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
           <ProductPreview />
