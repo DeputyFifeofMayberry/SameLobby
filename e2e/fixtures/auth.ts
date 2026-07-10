@@ -22,8 +22,32 @@ export const SEED_AUTH_IDS = {
   restricted: "cccccccc-cccc-cccc-cccc-cccccccccccc",
 } as const;
 
+const localAnonKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0";
 const localServiceRoleKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU";
+
+function getAnonClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL ?? "http://127.0.0.1:54321",
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? localAnonKey,
+    { auth: { persistSession: false, autoRefreshToken: false } },
+  );
+}
+
+function authCookieName(): string {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "http://127.0.0.1:54321";
+  const host = new URL(supabaseUrl).hostname;
+  const ref = host === "localhost" ? "localhost" : host.split(".")[0] ?? host;
+  return `sb-${ref}-auth-token`;
+}
+
+function appOrigin(page: Page): string {
+  if (page.url() && page.url() !== "about:blank") {
+    return new URL(page.url()).origin;
+  }
+  return process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+}
 
 export function getTestAdmin() {
   return createClient(
@@ -116,15 +140,29 @@ export async function setActiveUserReadOnly(readOnly: boolean): Promise<void> {
 }
 
 export async function signIn(page: Page, email: string, password: string) {
-  await page.goto("/sign-in");
-  await page.getByLabel(/email/i).fill(email);
-  await page.getByLabel(/^password$/i).fill(password);
-  await Promise.all([
-    page.waitForURL(/\/(discover|onboarding|messages|profile|admin|settings)/, {
-      timeout: 30_000,
-    }),
-    page.getByRole("button", { name: /sign in/i }).click(),
+  const { data, error } = await getAnonClient().auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (error || !data.session) {
+    throw new Error(
+      `signInWithPassword failed: ${error?.message ?? "no session"}`,
+    );
+  }
+
+  const origin = appOrigin(page);
+  await page.context().addCookies([
+    {
+      name: authCookieName(),
+      value: JSON.stringify(data.session),
+      url: origin,
+    },
   ]);
+
+  await page.goto("/discover");
+  await page.waitForURL(/\/(discover|onboarding|messages|profile|admin|settings)/, {
+    timeout: 30_000,
+  });
 }
 
 type SeedUser = (typeof SEED_USERS)[keyof typeof SEED_USERS];
