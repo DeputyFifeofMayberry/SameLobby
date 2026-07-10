@@ -146,7 +146,7 @@ export async function signIn(page: Page, email: string, password: string) {
   });
   if (error || !data.session) {
     throw new Error(
-      `signInWithPassword failed: ${error?.message ?? "no session"}`,
+      `signInWithPassword failed: ${error ? JSON.stringify(error) : "no session"}`,
     );
   }
 
