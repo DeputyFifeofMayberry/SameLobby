@@ -30,10 +30,12 @@ test.describe("[SL-T045][e2e] @p1 full connect journey", () => {
     const message = `Connected ${ns}`;
     await sender.goto("/messages");
     await sender.getByRole("link", { name: /peerone/i }).click();
-    await sender.getByLabel("Message").fill(message);
+    await sender.waitForURL(/\/messages\/[0-9a-f-]+/);
+    await sender.locator("#message-composer-input").fill(message);
     await sender.getByRole("button", { name: "Send", exact: true }).click();
     await recipient.goto("/messages");
     await recipient.getByRole("link", { name: /dev active/i }).click();
+    await recipient.waitForURL(/\/messages\/[0-9a-f-]+/);
     await expect(recipient.getByText(message, { exact: true })).toBeVisible();
 
     await sender.close();

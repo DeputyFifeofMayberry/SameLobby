@@ -1,10 +1,10 @@
 import { test, expect, signIn, SEED_USERS } from "../fixtures/auth";
 
 const CORE_ROUTES = [
-  ["/discover", /gaming friendship/i],
-  ["/messages", /messages/i],
+  ["/discover", "Gaming friendship"],
+  ["/messages", "Messages"],
   ["/profile", /fortnite/i],
-  ["/play", /play/i],
+  ["/play", "Play"],
 ] as const;
 
 test.describe("[SL-T118][e2e] @p1 responsive core journeys", () => {
@@ -16,7 +16,11 @@ test.describe("[SL-T118][e2e] @p1 responsive core journeys", () => {
     test(`route ${route} is usable at 320px width`, async ({ page }) => {
       await page.setViewportSize({ width: 320, height: 640 });
       await page.goto(route);
-      await expect(page.getByText(heading).first()).toBeVisible();
+      if (typeof heading === "string") {
+        await expect(page.getByRole("heading", { name: heading }).first()).toBeVisible();
+      } else {
+        await expect(page.getByText(heading).first()).toBeVisible();
+      }
       await expect(page.locator("body")).not.toHaveCSS("overflow-x", "scroll");
     });
   }
@@ -24,7 +28,9 @@ test.describe("[SL-T118][e2e] @p1 responsive core journeys", () => {
   test("discover remains usable on Pixel 7 viewport", async ({ page }) => {
     await page.setViewportSize({ width: 412, height: 915 });
     await page.goto("/discover");
-    await expect(page.getByText(/gaming friendship/i)).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Gaming friendship" }),
+    ).toBeVisible();
   });
 
   test("profile remains usable in landscape mobile", async ({ page }) => {

@@ -148,6 +148,14 @@ export async function acceptConnectionRequest(
   }
 
   if (!data) {
+    const { data: request } = await supabase
+      .from("connection_requests")
+      .select("status")
+      .eq("id", requestId)
+      .maybeSingle();
+    if (request?.status === "expired") {
+      return { ok: false, error: "This request has expired." };
+    }
     return { ok: false, error: "Could not accept request." };
   }
 

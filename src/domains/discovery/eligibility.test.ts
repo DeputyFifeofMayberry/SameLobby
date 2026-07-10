@@ -34,7 +34,8 @@ function candidate(
   };
 }
 
-describe("checkEligibility", () => {
+describe("[SL-T028][unit] @p0 eligibility", () => {
+  describe("checkEligibility", () => {
   it("rejects self", () => {
     const viewer = candidate("a");
     const result = checkEligibility({
@@ -141,4 +142,5 @@ describe("buildReasonCodes", () => {
     expect(first).toContain("shared_game");
     expect(first).toContain("shared_goal");
   });
+});
 });

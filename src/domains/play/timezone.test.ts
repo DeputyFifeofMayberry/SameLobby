@@ -6,6 +6,7 @@ import {
   generateIcsEvent,
 } from "@/domains/play/timezone";
 
+describe("[SL-T068][unit] @p1 play timezone", () => {
 describe("formatInTimeZone", () => {
   it("formats UTC instant in Los Angeles", () => {
     const label = formatInTimeZone(
@@ -66,4 +67,5 @@ describe("generateIcsEvent", () => {
     expect(ics).toContain("DTEND:");
     expect(ics).toContain("END:VEVENT");
   });
+});
 });

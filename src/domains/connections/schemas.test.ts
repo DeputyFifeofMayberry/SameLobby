@@ -6,6 +6,7 @@ import {
 } from "@/domains/connections/constants";
 import { connectionRequestMessageSchema } from "@/domains/connections/schemas";
 
+describe("[SL-T044][unit] @p1 connection schemas", () => {
 describe("connectionRequestLimitError", () => {
   it("blocks when pending outgoing cap reached", () => {
     expect(
@@ -45,4 +46,5 @@ describe("connectionRequestMessageSchema", () => {
     const result = connectionRequestMessageSchema.safeParse("Fortnite evenings PST");
     expect(result.success).toBe(true);
   });
+});
 });

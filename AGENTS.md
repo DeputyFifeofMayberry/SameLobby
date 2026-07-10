@@ -4,10 +4,9 @@ Agents working on SameLobby tests must follow `SAMELOBBY_TEST_IMPLEMENTATION_BUI
 
 ## Approval gate
 
-**Planning is NOT approved for implementation.** Until the planning PR merges and product decisions Q01–Q23 are closed:
+Planning PR #2 is merged and product decisions Q01–Q23 are approved. Phase 1 (harness + CI infrastructure) is complete. SL-T implementation begins at Phase 2+.
 
-- Docs/inventory/traceability tooling only (Phases 0–0B).
-- No Vitest 3.2.x upgrade, harness, or SL-T test implementation unless baseline remediation requires it.
+Phase-close PRs must pass the matching `test:traceability:phase` mode before merge.
 
 ## Required reads
 
@@ -20,6 +19,7 @@ Agents working on SameLobby tests must follow `SAMELOBBY_TEST_IMPLEMENTATION_BUI
 
 ```bash
 npm run test:traceability:plan
+npm run test:traceability:phase -- --phase=1
 npm run test:traceability:phase -- --phase=2
 npm run test:traceability:release
 ```

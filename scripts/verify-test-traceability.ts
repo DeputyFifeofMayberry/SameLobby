@@ -241,10 +241,16 @@ function validateGenerated(inv: Inventory, errors: string[]) {
   }
 }
 
-function validateContracts(inv: Inventory, errors: string[], strict: boolean) {
+function validateContracts(
+  inv: Inventory,
+  errors: string[],
+  strict: boolean,
+  phaseFilter?: number,
+) {
   for (const req of inv.requirements) {
     for (const impl of req.implementations) {
       if (!impl.contractRef) continue;
+      if (phaseFilter !== undefined && impl.phase !== phaseFilter) continue;
       const path = join(ROOT, impl.contractRef);
       if (!existsSync(path)) {
         errors.push(
@@ -307,6 +313,82 @@ function validatePhase(inv: Inventory, phase: number, errors: string[]) {
   }
 }
 
+function fileMustExist(path: string, errors: string[]) {
+  if (!existsSync(join(ROOT, path))) {
+    errors.push(`Phase 1 missing required file: ${path}`);
+  }
+}
+
+function fileMustNotContain(
+  path: string,
+  needle: string,
+  errors: string[],
+  label: string,
+) {
+  const full = join(ROOT, path);
+  if (!existsSync(full)) return;
+  const text = readFileSync(full, "utf8");
+  if (text.includes(needle)) {
+    errors.push(`Phase 1 incomplete: ${label} (${path})`);
+  }
+}
+
+function validatePhase1(errors: string[]) {
+  const requiredPaths = [
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "scripts/run-with-local-supabase.ts",
+    "scripts/check-migration-drift.ts",
+    "scripts/check-generated-types.ts",
+    "scripts/scan-artifacts-for-secrets.ts",
+    "tests/support/action-context.ts",
+    "tests/support/network.ts",
+    "tests/support/guards.ts",
+    "tests/support/cleanup.ts",
+    "tests/support/concurrency.ts",
+    "tests/support/run-id.ts",
+    "tests/support/factories/user.ts",
+    "tests/integration/support/action-context.self.test.ts",
+    "tests/unit/harness/network.self.test.ts",
+    "supabase/tests/security/relation_security_expectations.sql",
+    "supabase/tests/security/relation_security_expectations.inc",
+    "supabase/tests/security/service_role_fixture_grants.test.sql",
+    "src/lib/supabase/database.types.ts",
+  ];
+  for (const path of requiredPaths) {
+    fileMustExist(path, errors);
+  }
+
+  fileMustNotContain(
+    "scripts/check-migration-drift.ts",
+    "stub (Phase 1)",
+    errors,
+    "migration drift check is still a stub",
+  );
+  fileMustNotContain(
+    "scripts/check-generated-types.ts",
+    "stub (Phase 1)",
+    errors,
+    "generated types check is still a stub",
+  );
+  fileMustNotContain(
+    "tests/support/network.ts",
+    "Skeleton for fetch/http interception",
+    errors,
+    "network allowlist is still a stub",
+  );
+
+  const pkg = JSON.parse(
+    readFileSync(join(ROOT, "package.json"), "utf8"),
+  ) as { devDependencies?: Record<string, string> };
+  if (pkg.devDependencies?.vitest !== "3.2.7") {
+    errors.push("Phase 1 requires vitest 3.2.7 pin");
+  }
+  if (pkg.devDependencies?.["@vitest/coverage-v8"] !== "3.2.7") {
+    errors.push("Phase 1 requires @vitest/coverage-v8 3.2.7 pin");
+  }
+}
+
 function validateRelease(inv: Inventory, errors: string[]) {
   for (const req of inv.requirements) {
     for (const impl of req.implementations) {
@@ -342,9 +424,11 @@ function main() {
   } else if (mode === "phase") {
     if (phase === null || Number.isNaN(phase)) {
       errors.push("--phase=N is required for mode=phase");
+    } else if (phase === 1) {
+      validatePhase1(errors);
     } else {
       validatePhase(inv, phase, errors);
-      validateContracts(inv, errors, true);
+      validateContracts(inv, errors, true, phase);
     }
   } else if (mode === "release") {
     validateRelease(inv, errors);

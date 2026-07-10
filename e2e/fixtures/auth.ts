@@ -83,10 +83,16 @@ export async function clearActiveUserOpenInvitations(): Promise<void> {
 
 export async function clearActiveUserOwnedGroups(): Promise<void> {
   const accountId = await getSeedAccountId(SEED_AUTH_IDS.active);
-  const { error } = await getTestAdmin()
+  const admin = getTestAdmin();
+  const { data: groups, error: listError } = await admin
     .from("private_groups")
-    .delete()
+    .select("id")
     .eq("owner_account_id", accountId);
+  if (listError) throw listError;
+  if (!groups?.length) return;
+
+  const ids = groups.map((group) => group.id as string);
+  const { error } = await admin.from("private_groups").delete().in("id", ids);
   if (error) throw error;
 }
 
@@ -116,6 +122,17 @@ export async function setFeatureFlag(
     .update({ enabled })
     .eq("key", key);
   if (error) throw error;
+}
+
+/** Restore journey flags after integration tests may have toggled them off. */
+export async function enableJourneyFeatureFlags(): Promise<void> {
+  await setFeatureFlag("discovery_enabled", true);
+  await setFeatureFlag("connection_requests_enabled", true);
+  await setFeatureFlag("messaging_enabled", true);
+  await setFeatureFlag("play_invitations_enabled", true);
+  await setFeatureFlag("private_groups_enabled", true);
+  await setFeatureFlag("teammates_enabled", true);
+  await setFeatureFlag("reporting_enabled", true);
 }
 
 export async function setActiveUserReadOnly(readOnly: boolean): Promise<void> {
@@ -189,6 +206,7 @@ export async function generateAdminSession(page: Page, email: string) {
   }
 
   await setSessionCookies(page, data.session);
+  await enableJourneyFeatureFlags();
   await gotoAuthenticatedHome(page);
 }
 
@@ -222,6 +240,7 @@ export async function signInWithPasswordThroughApi(
 ) {
   const session = await createAuthenticatedFixtureSession(email, password);
   await setSessionCookies(page, session);
+  await enableJourneyFeatureFlags();
   await gotoAuthenticatedHome(page);
 }
 
@@ -240,6 +259,9 @@ export async function signInThroughUi(
   await page.waitForURL(/\/(discover|onboarding|messages|profile|admin|settings)/, {
     timeout: 30_000,
   });
+  if (!page.url().includes("/onboarding")) {
+    await enableJourneyFeatureFlags();
+  }
 }
 
 /**

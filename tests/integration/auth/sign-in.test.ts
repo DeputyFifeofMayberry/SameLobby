@@ -57,6 +57,10 @@ describe("[SL-T006][integration] @p0 sign-in", () => {
       signInWithPasswordThroughApi(user.email, "WrongPass999!"),
     ).rejects.toThrow();
 
+    await expect(
+      signInWithPasswordThroughApi("missing-user@test.local", "WrongPass999!"),
+    ).rejects.toThrow();
+
     const actor = await createActorClient(null);
     const { data, error } = await actor
       .from("accounts")

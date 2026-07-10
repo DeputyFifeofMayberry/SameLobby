@@ -299,7 +299,7 @@ export async function refreshRecommendations(
 
   if (ranked.length === 0) return;
 
-  await admin.from("discovery_recommendations").insert(
+  const { error: insertError } = await admin.from("discovery_recommendations").insert(
     ranked.map((r) => ({
       viewer_account_id: accountId,
       recommended_account_id: r.target.accountId,
@@ -307,6 +307,9 @@ export async function refreshRecommendations(
       expires_at: expiresAt.toISOString(),
     })),
   );
+  if (insertError) {
+    throw insertError;
+  }
 }
 
 export async function getActiveRecommendations(

@@ -29,14 +29,16 @@ test.describe("[SL-T061][e2e] @p1 realtime chat", () => {
 
     await userA.goto("/messages");
     await userA.getByRole("link", { name: /peerone/i }).click();
-    await userA.getByLabel("Message").fill(fromA);
+    await userA.waitForURL(/\/messages\/[0-9a-f-]+/);
+    await userA.locator("#message-composer-input").fill(fromA);
     await userA.getByRole("button", { name: "Send", exact: true }).click();
     await expect(userA.getByText(fromA, { exact: true })).toBeVisible();
 
     await userB.goto("/messages");
     await userB.getByRole("link", { name: /dev active/i }).click();
+    await userB.waitForURL(/\/messages\/[0-9a-f-]+/);
     await expect(userB.getByText(fromA, { exact: true })).toBeVisible();
-    await userB.getByLabel("Message").fill(fromB);
+    await userB.locator("#message-composer-input").fill(fromB);
     await userB.getByRole("button", { name: "Send", exact: true }).click();
     await expect(userB.getByText(fromB, { exact: true })).toBeVisible();
 

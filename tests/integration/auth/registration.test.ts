@@ -64,6 +64,28 @@ describe("[SL-T003][integration] @p0 registration", () => {
     expect(profile?.onboarding_step).toBe("identity");
   });
 
+  it("rejects sign-up when registration is closed", async () => {
+    assertTestGuards();
+    await setFeatureFlag("registration_open", false);
+    const anon = createAnonAuthClient();
+    const email = `closed-${crypto.randomUUID().slice(0, 8)}@test.local`;
+
+    const { data, error } = await anon.auth.signUp({
+      email,
+      password: "TestPass123!",
+    });
+
+    expect(data.user).toBeNull();
+    expect(error).toBeTruthy();
+
+    const admin = createFixtureAdmin();
+    const { data: accounts } = await admin
+      .from("accounts")
+      .select("id")
+      .eq("email", email);
+    expect(accounts ?? []).toHaveLength(0);
+  });
+
   it("characterizes Q01-open local sign-up session behavior", async () => {
     // Q01: email confirmation policy is open; local sign-up may return a session immediately.
     assertTestGuards();

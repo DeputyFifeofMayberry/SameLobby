@@ -1,6 +1,6 @@
 begin;
 -- SL-T098:db @p0
-select plan(1);
+select plan(3);
 
 select tests.as_postgres();
 
@@ -15,7 +15,19 @@ select results_eq(
        returning 1
      ) select count(*)::int from updated $$,
   ARRAY[0],
-  'audit events cannot be updated by default roles'
+  'audit events cannot be updated by authenticated role (RLS deny)'
+);
+
+select tests.as_postgres();
+
+select ok(
+  not has_table_privilege('authenticated', 'public.audit_events', 'DELETE'),
+  'authenticated role lacks DELETE on audit_events'
+);
+
+select ok(
+  not has_table_privilege('authenticated', 'public.audit_events', 'INSERT'),
+  'authenticated role lacks INSERT on audit_events'
 );
 
 select * from finish();

@@ -1,13 +1,19 @@
 {
   "package": "E",
-  "status": "stub",
-  "approved": false,
-  "approvedAt": null,
-  "approver": null,
+  "status": "approved",
+  "approved": true,
+  "approvedAt": "2026-07-10T16:00:00.000Z",
+  "approver": "founder",
   "contracts": {
-    "profileVisibility": "TBD — see docs/product/profile-visibility-matrix.md (not approved)",
-    "groupBlockBehavior": "TBD — see docs/product/group-block-behavior-matrix.md (not approved)",
-    "identityWrites": "TBD — profile identity split-write behavior per D11"
+    "profileVisibility": "Field disclosure follows the visibility matrix (Q06): owners read own gamer_profiles and disclosure_settings; non-owners are denied cross-account profile reads and writes.",
+    "groupBlockBehavior": "Co-member blocks follow the group-block-behavior matrix (Q12): block rows sync enforcement keys; accounts_blocked gates connection requests; blocked pairs cannot read play invitations; group messaging respects membership and block state.",
+    "identityWrites": "Profile identity split-write per D11: authenticated users write own gamer_profiles; service role handles provisioning triggers and cross-account admin reads."
   },
-  "placeholders": ["TBD", "maybe"]
+  "coShipsWith": [
+    "SL-T042:db",
+    "SL-T081:db",
+    "SL-T081:realtime",
+    "SL-T082:db",
+    "SL-T084:e2e"
+  ]
 }

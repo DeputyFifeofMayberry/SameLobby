@@ -34,38 +34,40 @@ async function expectNoBlockingViolations(page: Page) {
   expect(blocking, JSON.stringify(blocking, null, 2)).toEqual([]);
 }
 
-test.describe("Accessibility — public routes", () => {
-  for (const route of PUBLIC_ROUTES) {
-    test(`no serious/critical violations on ${route}`, async ({ page }) => {
-      await page.goto(route);
-      await expectNoBlockingViolations(page);
-    });
-  }
-});
-
-test.describe("Accessibility — onboarding", () => {
-  test("J01 attestation: no serious/critical violations", async ({ page }) => {
-    await signIn(
-      page,
-      SEED_USERS.onboarding.email,
-      SEED_USERS.onboarding.password,
-    );
-    await expect(page).toHaveURL(/onboarding\/attestation/);
-    await expectNoBlockingViolations(page);
-  });
-});
-
-test.describe("Accessibility — authenticated routes", () => {
-  test.beforeEach(async ({ page }) => {
-    await signIn(page, SEED_USERS.active.email, SEED_USERS.active.password);
+test.describe("[SL-T116][a11y] @p1 journey route accessibility", () => {
+  test.describe("public routes", () => {
+    for (const route of PUBLIC_ROUTES) {
+      test(`no serious/critical violations on ${route}`, async ({ page }) => {
+        await page.goto(route);
+        await expectNoBlockingViolations(page);
+      });
+    }
   });
 
-  for (const [journey, route] of JOURNEY_ROUTES) {
-    test(`${journey}: no serious/critical violations on ${route}`, async ({
-      page,
-    }) => {
-      await page.goto(route);
+  test.describe("onboarding", () => {
+    test("J01 attestation: no serious/critical violations", async ({ page }) => {
+      await signIn(
+        page,
+        SEED_USERS.onboarding.email,
+        SEED_USERS.onboarding.password,
+      );
+      await expect(page).toHaveURL(/onboarding\/attestation/);
       await expectNoBlockingViolations(page);
     });
-  }
+  });
+
+  test.describe("authenticated routes", () => {
+    test.beforeEach(async ({ page }) => {
+      await signIn(page, SEED_USERS.active.email, SEED_USERS.active.password);
+    });
+
+    for (const [journey, route] of JOURNEY_ROUTES) {
+      test(`${journey}: no serious/critical violations on ${route}`, async ({
+        page,
+      }) => {
+        await page.goto(route);
+        await expectNoBlockingViolations(page);
+      });
+    }
+  });
 });

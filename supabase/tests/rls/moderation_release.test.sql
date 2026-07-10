@@ -1,4 +1,5 @@
 begin;
+-- SL-T094:db @p1
 select plan(3);
 
 \set reporter 'e6111111-1111-1111-1111-111111111111'

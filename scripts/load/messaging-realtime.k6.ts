@@ -1,5 +1,5 @@
 /**
- * SL-T120 realtime messaging load test — 100 authenticated subscriptions.
+ * SL-T120:load @p2 — realtime messaging load test (100 authenticated subscriptions).
  *
  * Requires k6: https://k6.io/docs/get-started/installation/
  *

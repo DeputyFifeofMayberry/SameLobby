@@ -4,11 +4,11 @@ SameLobby test program is governed by `SAMELOBBY_TEST_IMPLEMENTATION_BUILD_PLAN.
 
 ## Branch status
 
-Active planning branch: `test-program/planning-v4`. Latest full baseline reproduction: `docs/testing/baseline/0522b2d/results.md`.
+Active branch: `main`. Phase 1 infrastructure complete as of commit documenting `docs/testing/baseline/502e45f/phase-1-results.md`.
 
 ## Baseline SHA
 
-Inventory `baselineSha`: `ed10f19e528b6ec406553795cf2cd891427fe668` (see `tests/test-inventory.json`). Verification at commit `0522b2d` recorded under `docs/testing/baseline/0522b2d/`.
+Inventory `baselineSha`: `ed10f19e528b6ec406553795cf2cd891427fe668` (see `tests/test-inventory.json`). Full baseline reproduction: `docs/testing/baseline/0522b2d/results.md`.
 
 ## Quick commands
 
@@ -23,7 +23,8 @@ Inventory `baselineSha`: `ed10f19e528b6ec406553795cf2cd891427fe668` (see `tests/
 | `npm run test:e2e`                             | Playwright chromium journeys                 |
 | `npm run test:a11y`                            | Playwright a11y project only                 |
 | `npm run test:traceability:plan`               | Validate planning inventory + generated docs |
-| `npm run test:traceability:phase -- --phase=N` | Validate phase N closure (implementation)    |
+| `npm run test:traceability:phase -- --phase=1` | Validate Phase 1 infrastructure closure |
+| `npm run test:traceability:phase -- --phase=N` | Validate phase N SL-T closure (implementation) |
 | `npm run test:traceability:release`            | Validate release readiness                   |
 
 ## Local prerequisites
@@ -47,7 +48,7 @@ Key environment variables for build/E2E:
 
 - **Authoritative inventory:** `tests/test-inventory.json` (schemaVersion 2, 120 SL-T requirements).
 - **Canonical anchors:** `docs/testing/canonical-anchors.md` (setup/steps/expected per ID).
-- **Product decisions:** `docs/testing/product-decisions.json` (Q01–Q23; open until approved).
+- **Product decisions:** `docs/testing/product-decisions.json` (Q01–Q23 approved).
 - **Generated snapshots:** `docs/testing/generated/` — regenerate via `npx tsx scripts/generate-test-artifacts.ts`; CI diffs these files.
 
 ### Title markers
@@ -76,13 +77,22 @@ Do not use global `testIgnore` for a11y (defect D15).
 ## CI jobs
 
 - `database` — `supabase test db` (pgTAP RLS/security suite).
-- `db-security-integration` — skeleton job (disabled via `if: false`) for Phase 3+ Vitest integration against local Supabase; enable when wiring `npm run test:integration:p0` into CI.
+- `migration-drift` — `npm run test:migration-drift` + `npm run test:types:check` after local reset.
+- `coverage` — `npm run test:coverage` archive upload (no thresholds in Phase 1).
+- `db-security-integration` — API P0 + integration P0 against local Supabase.
 - `quality` — lint, typecheck, unit tests, build.
 - `e2e` — Playwright chromium + a11y against local Supabase + production build.
 
 ## Phase gates
 
-Implementation proceeds by phase per build plan §M. Phase 0/0B covers baseline + D15 fix. Phase 1+ adds harness, suites, and CI gates. Do not start Phase 1 until planning PR is merged and product decisions/contracts are approved.
+Implementation proceeds by phase per build plan §M. Phase 0/0B covers baseline + D15 fix. **Phase 1** delivers harness, guards, migration-drift/types checks, coverage archive, and CI jobs. Phase 2+ implements SL-T database and domain suites.
+
+Close Phase 1 with:
+
+```bash
+npx tsx scripts/verify-test-traceability.ts --mode=plan --write-generated
+npm run test:traceability:phase -- --phase=1
+```
 
 ## Artifact policy
 

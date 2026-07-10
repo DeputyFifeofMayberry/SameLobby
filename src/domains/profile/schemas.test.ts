@@ -11,6 +11,7 @@ import {
   profileCompletenessErrors,
 } from "@/domains/profile/completeness";
 
+describe("[SL-T018][unit] @p1 profile schemas", () => {
 describe("displayNameSchema", () => {
   it("accepts valid names", () => {
     expect(displayNameSchema.safeParse("NightOwl_42").success).toBe(true);
@@ -61,4 +62,5 @@ describe("MAX_ACTIVE_USER_GAMES", () => {
   it("re-exports free tier limit", () => {
     expect(MAX_ACTIVE_USER_GAMES).toBe(FREE_LIMITS.maxActiveGames);
   });
+});
 });

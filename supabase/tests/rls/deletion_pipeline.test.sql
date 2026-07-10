@@ -1,7 +1,6 @@
 begin;
 -- SL-T015:db @p0
--- SL-T098:db @p0
-select plan(3);
+select plan(4);
 
 \set user_id 'a8111111-1111-1111-1111-111111111111'
 \set held_user_id 'a8222222-2222-2222-2222-222222222222'
@@ -61,6 +60,12 @@ select is(
   (select status::text from public.accounts where auth_user_id = :'held_user_id'::uuid),
   'deletion_pending',
   'legal hold blocks deletion pipeline from finalizing account'
+);
+
+select is(
+  public.process_deletion_stage(5),
+  0,
+  'deletion pipeline is idempotent for already-deleted accounts'
 );
 
 select * from finish();

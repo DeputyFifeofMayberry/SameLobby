@@ -53,4 +53,32 @@ describe("[SL-T013][integration] @p0 deletion request", () => {
       .maybeSingle();
     expect(request?.status).toBe("requested");
   });
+
+  it("is idempotent when deletion is requested twice", async () => {
+    assertTestGuards();
+    user = await provisionAuthUser("deletion-idempotent", { status: "active" });
+    const admin = createFixtureAdmin();
+    const scheduled = new Date();
+    scheduled.setDate(scheduled.getDate() + 30);
+    const scheduledIso = scheduled.toISOString();
+
+    const { error: firstError } = await admin.rpc("request_account_deletion", {
+      p_account_id: user.accountId,
+      p_scheduled_purge_at: scheduledIso,
+    });
+    expect(firstError).toBeNull();
+
+    const { error: secondError } = await admin.rpc("request_account_deletion", {
+      p_account_id: user.accountId,
+      p_scheduled_purge_at: scheduledIso,
+    });
+    expect(secondError).toBeNull();
+
+    const { data: requests } = await admin
+      .from("deletion_requests")
+      .select("id, status")
+      .eq("account_id", user.accountId);
+    expect(requests).toHaveLength(1);
+    expect(requests?.[0]?.status).toBe("requested");
+  });
 });

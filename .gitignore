@@ -41,4 +41,5 @@ Thumbs.db
 
 # Test
 coverage/
+.cache/
 .env*

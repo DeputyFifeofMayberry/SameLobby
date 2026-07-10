@@ -29,6 +29,7 @@
     "test:e2e:flake": "playwright test --project=chromium --repeat-each=3 --retries=0",
     "test:migration-drift": "tsx scripts/check-migration-drift.ts",
     "test:types:check": "tsx scripts/check-generated-types.ts",
+    "test:scan-artifacts": "tsx scripts/scan-artifacts-for-secrets.ts",
     "smoke:post-deploy": "tsx scripts/smoke-post-deploy.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

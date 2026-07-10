@@ -52,5 +52,12 @@ describe("[SL-T011][integration] @p0 attestation", () => {
     expect(account?.status).toBe("active");
     expect(account?.adult_attested_at).toBeTruthy();
     expect(account?.terms_version).toBe("2026-07-08");
+
+    const { data: events, error: eventsError } = await actor
+      .from("consent_events")
+      .select("event_type")
+      .eq("account_id", user.accountId);
+    expect(eventsError).toBeNull();
+    expect(events ?? []).toHaveLength(4);
   });
 });

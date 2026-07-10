@@ -1,5 +1,6 @@
 /**
  * Post-deploy smoke checks — run against staging or production URL.
+ * SL-T113:live-staging @p1
  *
  * Usage: BASE_URL=https://staging.samelobby.com npx tsx scripts/smoke-post-deploy.ts
  */

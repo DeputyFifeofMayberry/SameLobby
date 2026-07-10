@@ -77,5 +77,11 @@ describe("[SL-T023][integration] @p0 profile visibility", () => {
       .select("field_key")
       .eq("account_id", owner.accountId);
     expect(leakedRows ?? []).toHaveLength(0);
+
+    const { data: leakedProfile } = await outsiderActor
+      .from("gamer_profiles")
+      .select("display_name")
+      .eq("account_id", owner.accountId);
+    expect(leakedProfile ?? []).toHaveLength(0);
   });
 });

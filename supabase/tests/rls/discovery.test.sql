@@ -1,4 +1,5 @@
 begin;
+-- SL-T034:db @p1
 select plan(3);
 
 \set viewer 'f1111111-1111-1111-1111-111111111111'

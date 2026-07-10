@@ -1,7 +1,14 @@
 import { afterEach, describe, expect, it } from "vitest";
+import { checkEligibility } from "@/domains/discovery/eligibility";
+import type { DiscoveryCandidate } from "@/domains/discovery/types";
 import { assertTestGuards } from "../../support/guards";
 import { setFeatureFlag } from "../../support/flags";
-import { createFixtureAdmin } from "../../support/supabase";
+import { completeActiveProfile, getFortniteCatalogIds } from "../../support/integration-fixtures";
+import {
+  createActorClient,
+  createFixtureAdmin,
+  signInWithPasswordThroughApi,
+} from "../../support/supabase";
 import {
   deleteAuthUser,
   provisionAuthUser,
@@ -97,5 +104,61 @@ describe("[SL-T030][integration] @p0 discovery search", () => {
     expect(profiles?.some((p) => p.account_id === viewer!.accountId)).toBe(
       false,
     );
+  });
+
+  it("excludes blocked users from discovery eligibility", async () => {
+    assertTestGuards();
+    await setFeatureFlag("discovery_enabled", true);
+
+    viewer = await provisionAuthUser("discover-blocker");
+    target = await provisionAuthUser("discover-blocked");
+    await completeActiveProfile(viewer!, "BlockViewer");
+    await completeActiveProfile(target!, "BlockTarget");
+    const ids = await getFortniteCatalogIds();
+
+    const viewerSession = await signInWithPasswordThroughApi(
+      viewer!.email,
+      viewer!.password,
+    );
+    const viewerActor = await createActorClient(viewerSession);
+    const { error: blockError } = await viewerActor.from("blocks").insert({
+      blocker_account_id: viewer!.accountId,
+      blocked_account_id: target!.accountId,
+    });
+    expect(blockError).toBeNull();
+
+    const candidate = (
+      accountId: string,
+      displayName: string,
+    ): DiscoveryCandidate => ({
+      accountId,
+      locale: "en",
+      timeZone: "America/Los_Angeles",
+      displayName,
+      communicationModes: ["same_lobby_text"],
+      introduction: null,
+      goal: "gaming_friendship",
+      intentGameId: null,
+      intentPlatformId: null,
+      userGames: [
+        {
+          gameId: ids.gameId,
+          platformId: ids.platformId,
+          gameName: "Fortnite",
+          platformName: "PC",
+        },
+      ],
+      availability: [],
+    });
+
+    const result = checkEligibility({
+      viewer: candidate(viewer!.accountId, "BlockViewer"),
+      target: candidate(target!.accountId, "BlockTarget"),
+      blockedPairs: new Set([`${viewer!.accountId}:${target!.accountId}`]),
+      crossplayByGame: new Map([
+        [ids.gameId, [new Set([ids.platformId])]],
+      ]),
+    });
+    expect(result).toEqual({ eligible: false, reason: "blocked" });
   });
 });

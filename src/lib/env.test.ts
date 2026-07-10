@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+describe("[SL-T119][unit-env] @p1 env validation", () => {
 describe("env validation", () => {
   afterEach(() => {
     vi.unstubAllEnvs();
@@ -39,4 +40,5 @@ describe("env validation", () => {
       "Invalid environment variables",
     );
   });
+});
 });

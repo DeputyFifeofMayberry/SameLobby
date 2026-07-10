@@ -1,4 +1,5 @@
 begin;
+-- SL-T003:db-cap @p0
 select plan(2);
 
 update public.feature_flags

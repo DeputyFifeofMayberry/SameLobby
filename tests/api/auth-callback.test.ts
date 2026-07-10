@@ -94,6 +94,30 @@ describe("[SL-T007][api] @p0 auth callback route", () => {
     );
   });
 
+  it("rejects unsafe next redirects after callback", async () => {
+    mocks.exchangeCodeForSession.mockResolvedValue({ error: null });
+    mocks.getUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
+    mocks.getAccountForUser.mockResolvedValue({
+      id: "acct-1",
+      status: "active",
+      adult_attested_at: "2026-01-01T00:00:00Z",
+    });
+    mocks.getGamerProfileForAccount.mockResolvedValue({
+      onboarding_step: "preview",
+      onboarding_completed_at: "2026-01-02T00:00:00Z",
+    });
+
+    const response = await GET(
+      new Request(
+        "http://localhost:3000/auth/callback?code=ok&next=https%3A%2F%2Fevil.example",
+      ),
+    );
+
+    expect(response.headers.get("location")).toBe(
+      "http://localhost:3000/discover",
+    );
+  });
+
   it("routes onboarding users to attestation after callback", async () => {
     mocks.exchangeCodeForSession.mockResolvedValue({ error: null });
     mocks.getUser.mockResolvedValue({ data: { user: { id: "user-1" } } });

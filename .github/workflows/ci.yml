@@ -29,6 +29,83 @@ jobs:
       - name: RLS tests (pgTAP)
         run: supabase test db
 
+  migration-drift:
+    runs-on: ubuntu-latest
+    needs: database
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start Supabase
+        run: supabase start
+
+      - name: Reset database
+        run: supabase db reset
+
+      - run: npm ci
+
+      - name: Migration drift
+        run: npm run test:migration-drift
+
+      - name: Generated types freshness
+        run: npm run test:types:check
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: database
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start Supabase
+        run: supabase start
+
+      - name: Reset database
+        run: supabase db reset
+
+      - name: Export local Supabase keys
+        run: |
+          API_URL=$(supabase status -o json | jq -r '.API_URL')
+          ANON_KEY=$(supabase status -o json | jq -r '.ANON_KEY')
+          SERVICE_ROLE_KEY=$(supabase status -o json | jq -r '.SERVICE_ROLE_KEY')
+          echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY" >> "$GITHUB_ENV"
+          echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY" >> "$GITHUB_ENV"
+          echo "ALLOW_DESTRUCTIVE_TESTS=true" >> "$GITHUB_ENV"
+          echo "SUPABASE_PROJECT_ID=SameLobby" >> "$GITHUB_ENV"
+
+      - run: npm ci
+
+      - name: Coverage archive (no thresholds)
+        run: npm run test:coverage
+        env:
+          SKIP_ENV_VALIDATION: "true"
+
+      - name: Scan coverage artifacts for secrets
+        run: npm run test:scan-artifacts -- coverage
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 30
+
   db-security-integration:
     runs-on: ubuntu-latest
     needs: database
@@ -65,7 +142,7 @@ jobs:
 
   quality:
     runs-on: ubuntu-latest
-    needs: [database, db-security-integration]
+    needs: [database, db-security-integration, migration-drift]
     steps:
       - uses: actions/checkout@v4
 
@@ -170,7 +247,7 @@ jobs:
           PLAYWRIGHT_BASE_URL: http://localhost:3000
 
   env-production-gate:
-    if: false
+    # SL-T119:ci-env-gate @p1
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

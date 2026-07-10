@@ -1,6 +1,6 @@
 import { test, expect } from "./fixtures/auth";
 
-test.describe("J06 cross-platform compatibility", () => {
+test.describe("[SL-T037][e2e] @p1 cross-platform search", () => {
   test("game and platform filters lead to a playable profile", async ({
     page,
     activeUser,

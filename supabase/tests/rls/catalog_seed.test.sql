@@ -1,4 +1,5 @@
 begin;
+-- SL-T026:db @p1
 select plan(6);
 
 select is(

@@ -13,9 +13,18 @@ test.describe("[SL-T027][e2e] @p1 onboarding journey", () => {
     await expect(
       page.getByRole("group", { name: /confirm you are 18/i }),
     ).toBeVisible();
-    await expect(page.getByLabel(/terms of service/i)).toBeRequired();
-    await expect(page.getByLabel(/privacy notice/i)).toBeRequired();
-    await expect(page.getByLabel(/community standards/i)).toBeRequired();
+    await expect(page.getByLabel(/terms of service/i)).toHaveAttribute(
+      "required",
+      "",
+    );
+    await expect(page.getByLabel(/privacy notice/i)).toHaveAttribute(
+      "required",
+      "",
+    );
+    await expect(page.getByLabel(/community standards/i)).toHaveAttribute(
+      "required",
+      "",
+    );
   });
 
   test("completed minimum profile reaches discover", async ({
@@ -24,9 +33,13 @@ test.describe("[SL-T027][e2e] @p1 onboarding journey", () => {
   }) => {
     void activeUser;
     await page.goto("/discover");
-    await expect(page.getByText(/gaming friendship/i)).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Gaming friendship" }),
+    ).toBeVisible();
     await page.goto("/profile");
     await expect(page.getByText("Fortnite", { exact: true })).toBeVisible();
-    await expect(page.getByText(/same lobby text/i)).toBeVisible();
+    await expect(
+      page.getByRole("group", { name: /communication capability/i }),
+    ).toBeVisible();
   });
 });

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-describe("[SL-T113][unit-decision] smoke-post-deploy path", () => {
+describe("[SL-T113][unit-decision] @p1 smoke-post-deploy path", () => {
   it("documents the smoke script and degraded-health decision", () => {
     const path = join(process.cwd(), "scripts/smoke-post-deploy.ts");
     const source = readFileSync(path, "utf8");

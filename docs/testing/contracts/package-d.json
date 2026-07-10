@@ -1,12 +1,12 @@
 {
   "package": "D",
-  "status": "stub",
-  "approved": false,
-  "approvedAt": null,
-  "approver": null,
+  "status": "approved",
+  "approved": true,
+  "approvedAt": "2026-07-10T16:00:00.000Z",
+  "approver": "founder",
   "contracts": {
-    "stripeStatusMapping": "TBD — see docs/product/stripe-status-contract.md (not approved)",
-    "webhookReplay": "TBD — likely idempotent replay semantics"
+    "stripeStatusMapping": "Stripe subscription statuses map through mapStripeStatus per Q19: active and trialing → active; cancel_at_period_end → cancel_at_period_end; past_due and unpaid → past_due; canceled → canceled; unknown statuses → none.",
+    "webhookReplay": "Webhook processing is idempotent via stripe_webhook_events: duplicate stripe_event_id is skipped; customer.subscription.updated activates the subscription row and recomputes entitlements."
   },
-  "placeholders": ["TBD", "likely"]
+  "coShipsWith": ["SL-T101:integration"]
 }
