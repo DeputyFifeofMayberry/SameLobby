@@ -31,6 +31,7 @@ New migrations (Slices 9–10 + launch CI fixes):
 - `20260718020000_pgtap_auth_and_retention_fixes.sql`
 - `20260718030000_conversation_and_auth_fixes.sql`
 - `20260718040000_fix_deletion_session_purge.sql`
+- `20260718050000_service_role_e2e_grants.sql`
 
 Verify:
 

@@ -119,10 +119,12 @@ export async function signIn(page: Page, email: string, password: string) {
   await page.goto("/sign-in");
   await page.getByLabel(/email/i).fill(email);
   await page.getByLabel(/^password$/i).fill(password);
-  await page.getByRole("button", { name: /sign in/i }).click();
-  await page.waitForURL(/\/(discover|onboarding|messages|profile|admin)/, {
-    timeout: 30_000,
-  });
+  await Promise.all([
+    page.waitForURL(/\/(discover|onboarding|messages|profile|admin|settings)/, {
+      timeout: 30_000,
+    }),
+    page.getByRole("button", { name: /sign in/i }).click(),
+  ]);
 }
 
 type SeedUser = (typeof SEED_USERS)[keyof typeof SEED_USERS];
