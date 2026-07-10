@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 import { test, expect, signIn, SEED_USERS } from "../fixtures/auth";
 
-const PUBLIC_ROUTES = ["/sign-in", "/sign-up", "/help", "/pricing"];
+const PUBLIC_ROUTES = ["/", "/sign-in", "/sign-up", "/help", "/pricing"];
 
 const JOURNEY_ROUTES = [
   ["J02 specific-game search", "/discover/search"],
