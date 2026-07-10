@@ -1,0 +1,60 @@
+
+> samelobby@0.1.0 test:db
+> supabase test db
+
+Connecting to local database...
+psql:/Users/barne/Desktop/SameLobby/supabase/tests/000_setup.test.sql:1: NOTICE:  extension "pgtap" already exists, skipping
+/Users/barne/Desktop/SameLobby/supabase/tests/000_setup.test.sql ............................. ok
+/Users/barne/Desktop/SameLobby/supabase/tests/admin/case-actions.test.sql .................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/auth/provisioning.test.sql ..................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/privacy/export.test.sql ........................ ok
+psql:/Users/barne/Desktop/SameLobby/supabase/tests/rls/accounts.test.sql:2: NOTICE:  extension "pgtap" already exists, skipping
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/accounts.test.sql .......................... ok
+psql:/Users/barne/Desktop/SameLobby/supabase/tests/rls/accounts_protection.test.sql:2: NOTICE:  extension "pgtap" already exists, skipping
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/accounts_protection.test.sql ............... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/appeals.test.sql ........................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/attestation.test.sql ....................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/audit_events.test.sql ...................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/billing_webhook_events.test.sql ............ ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/catalog_admin.test.sql ..................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/catalog_seed.test.sql ...................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/connections.test.sql ....................... ok
+psql:/Users/barne/Desktop/SameLobby/supabase/tests/rls/consent_events.test.sql:2: NOTICE:  extension "pgtap" already exists, skipping
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/consent_events.test.sql .................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/deletion_pipeline.test.sql ................. ok
+psql:/Users/barne/Desktop/SameLobby/supabase/tests/rls/deletion_requests.test.sql:2: NOTICE:  extension "pgtap" already exists, skipping
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/deletion_requests.test.sql ................. ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/discovery.test.sql ......................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/entitlements.test.sql ...................... ok
+psql:/Users/barne/Desktop/SameLobby/supabase/tests/rls/environment_preferences.test.sql:2: NOTICE:  extension "pgtap" already exists, skipping
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/environment_preferences.test.sql ........... ok
+psql:/Users/barne/Desktop/SameLobby/supabase/tests/rls/feature_flags.test.sql:2: NOTICE:  extension "pgtap" already exists, skipping
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/feature_flags.test.sql ..................... ok
+psql:/Users/barne/Desktop/SameLobby/supabase/tests/rls/gamer_profiles.test.sql:2: NOTICE:  extension "pgtap" already exists, skipping
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/gamer_profiles.test.sql .................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/gaming_sessions.test.sql ................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/group-approval.test.sql .................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/group_messaging.test.sql ................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/group_open_seats.test.sql .................. ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/group_ownership.test.sql ................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/messages.test.sql .......................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/moderation_evidence.test.sql ............... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/moderation_release.test.sql ................ ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/play_invitations.test.sql .................. ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/post_play_feedback.test.sql ................ ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/private_groups.test.sql .................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/profile_matrix.test.sql .................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/registration_cap.test.sql .................. ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/reports.test.sql ........................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/saved_searches.test.sql .................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/subscriptions.test.sql ..................... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/teammate_relationships.test.sql ............ ok
+/Users/barne/Desktop/SameLobby/supabase/tests/rls/user_games.test.sql ........................ ok
+/Users/barne/Desktop/SameLobby/supabase/tests/security/all-tables-rls.test.sql ............... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/security/block-propagation.test.sql ............ ok
+/Users/barne/Desktop/SameLobby/supabase/tests/security/relation_security_expectations.sql .... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/security/report-context.test.sql ............... ok
+/Users/barne/Desktop/SameLobby/supabase/tests/security/service_role_fixture_grants.test.sql .. ok
+All tests successful.
+Files=44, Tests=160,  2 wallclock secs ( 0.08 usr  0.07 sys +  0.26 cusr  0.11 csys =  0.52 CPU)
+Result: PASS

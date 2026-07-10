@@ -1,0 +1,19 @@
+
+> samelobby@0.1.0 test:api
+> tsx scripts/run-with-local-supabase.ts -- vitest run --project api
+
+
+ RUN  v3.2.7 C:/Users/barne/Desktop/SameLobby
+
+ Γ£ô |api| tests/api/alias.self.test.ts (1 test) 2ms
+ Γ£ô |api| tests/api/cron-auth.test.ts (3 tests) 55ms
+ Γ£ô |api| tests/api/health.test.ts (3 tests) 7ms
+ Γ£ô |api| tests/api/play-calendar.test.ts (3 tests) 8ms
+ Γ£ô |api| tests/api/auth-callback.test.ts (4 tests) 5ms
+ Γ£ô |api| tests/api/stripe-webhook.test.ts (4 tests) 88ms
+
+ Test Files  6 passed (6)
+      Tests  18 passed (18)
+   Start at  21:27:07
+   Duration  380ms (transform 247ms, setup 0ms, collect 447ms, tests 165ms, environment 1ms, prepare 495ms)
+

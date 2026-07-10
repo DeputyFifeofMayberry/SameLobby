@@ -222,7 +222,12 @@ export async function confirmAccountDeletion(
       });
     }
   } catch {
-    logger.warn("stripe_cancel_skipped", { accountId: account.id });
+    logger.warn("stripe_cancel_failed", { accountId: account.id });
+    return {
+      ok: false,
+      error:
+        "Could not cancel your subscription. Try again or contact support before confirming deletion.",
+    };
   }
 
   const { error } = await supabase.rpc("confirm_account_deletion", {

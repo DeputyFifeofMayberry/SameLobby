@@ -21,34 +21,37 @@ const JOURNEY_ROUTES = [
   ["safety controls", "/settings/safety"],
 ] as const;
 
-async function expectNoCriticalViolations(page: Page) {
+// Q22 default (open): fail on serious + critical until product closes the decision.
+const BLOCKING_IMPACTS = new Set(["critical", "serious"]);
+
+async function expectNoBlockingViolations(page: Page) {
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
-  const critical = results.violations.filter((violation) => {
-    return violation.impact === "critical";
+  const blocking = results.violations.filter((violation) => {
+    return BLOCKING_IMPACTS.has(violation.impact ?? "");
   });
-  expect(critical, JSON.stringify(critical, null, 2)).toEqual([]);
+  expect(blocking, JSON.stringify(blocking, null, 2)).toEqual([]);
 }
 
 test.describe("Accessibility — public routes", () => {
   for (const route of PUBLIC_ROUTES) {
-    test(`no critical violations on ${route}`, async ({ page }) => {
+    test(`no serious/critical violations on ${route}`, async ({ page }) => {
       await page.goto(route);
-      await expectNoCriticalViolations(page);
+      await expectNoBlockingViolations(page);
     });
   }
 });
 
 test.describe("Accessibility — onboarding", () => {
-  test("J01 attestation: no critical violations", async ({ page }) => {
+  test("J01 attestation: no serious/critical violations", async ({ page }) => {
     await signIn(
       page,
       SEED_USERS.onboarding.email,
       SEED_USERS.onboarding.password,
     );
     await expect(page).toHaveURL(/onboarding\/attestation/);
-    await expectNoCriticalViolations(page);
+    await expectNoBlockingViolations(page);
   });
 });
 
@@ -58,9 +61,11 @@ test.describe("Accessibility — authenticated routes", () => {
   });
 
   for (const [journey, route] of JOURNEY_ROUTES) {
-    test(`${journey}: no critical violations on ${route}`, async ({ page }) => {
+    test(`${journey}: no serious/critical violations on ${route}`, async ({
+      page,
+    }) => {
       await page.goto(route);
-      await expectNoCriticalViolations(page);
+      await expectNoBlockingViolations(page);
     });
   }
 });

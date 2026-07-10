@@ -1,0 +1,408 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "decisions": [
+    {
+      "id": "Q01",
+      "topic": "Email confirmation (local/staging/production)",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "local: disabled; staging: enabled; production: enabled",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "local": {
+        "status": "approved",
+        "approvedAnswer": "disabled"
+      },
+      "staging": {
+        "status": "approved",
+        "approvedAnswer": "enabled"
+      },
+      "production": {
+        "status": "approved",
+        "approvedAnswer": "enabled"
+      },
+      "affectedImplementationKeys": [
+        "SL-T003:integration",
+        "SL-T006:integration",
+        "SL-T008:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Sign-in blocked until email confirmed in staging/production",
+      "implementationPackage": "3.1"
+    },
+    {
+      "id": "Q02",
+      "topic": "Durable rate limiting",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Durable shared rate limiter required before production traffic",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T004:unit",
+        "SL-T004:integration",
+        "SL-T050:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Reject over-limit requests with 429",
+      "implementationPackage": "6.1"
+    },
+    {
+      "id": "Q03",
+      "topic": "Report after block",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Allow reporting after block with limited context",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T088:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Report accepted; blocked messaging remains blocked",
+      "implementationPackage": "4.5"
+    },
+    {
+      "id": "Q04",
+      "topic": "Availability overlaps",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Reject overlapping availability windows",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T021:db"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Validation error on save",
+      "implementationPackage": "6.2"
+    },
+    {
+      "id": "Q05",
+      "topic": "Intent expiry",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Expire stale intents at query time",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T031:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Hidden from discovery results",
+      "implementationPackage": "6.3"
+    },
+    {
+      "id": "Q06",
+      "topic": "Visibility matrix",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Use profile-visibility-matrix contract",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T023:integration",
+        "SL-T030:integration"
+      ],
+      "contractArtifact": "docs/product/profile-visibility-matrix.md",
+      "failureBehavior": "Deny fields not permitted by relationship",
+      "implementationPackage": "3.3"
+    },
+    {
+      "id": "Q07",
+      "topic": "Message+notify model",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Message and notification in one DB transaction; email post-commit nonfatal",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T051:notification-db-failure",
+        "SL-T051:email-postcommit-failure"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Rollback message+notification on DB failure; message retained if email fails",
+      "implementationPackage": "4.2"
+    },
+    {
+      "id": "Q08",
+      "topic": "Link confirm vs flag",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Global link-confirm flag wins; no per-message override",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T050:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Flag off blocks unconfirmed links",
+      "implementationPackage": "4.2"
+    },
+    {
+      "id": "Q09",
+      "topic": "Notification prefs",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Separate notification preferences per event type",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T059:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Opt-out respected per channel/event",
+      "implementationPackage": "6.5"
+    },
+    {
+      "id": "Q10",
+      "topic": "Play invite+slots RPC",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Play invite and slots in one RPC transaction",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T064:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "No orphan invitations on slot failure",
+      "implementationPackage": "4.3"
+    },
+    {
+      "id": "Q11",
+      "topic": "Group initial invites",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Initial group invites are all-or-nothing",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T078:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Group creation rolls back if any invite fails",
+      "implementationPackage": "4.4"
+    },
+    {
+      "id": "Q12",
+      "topic": "Group co-member block",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Use group-block-behavior matrix",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T042:db",
+        "SL-T081:db",
+        "SL-T081:realtime",
+        "SL-T082:db",
+        "SL-T084:e2e"
+      ],
+      "contractArtifact": "docs/product/group-block-behavior-matrix.md",
+      "failureBehavior": "Co-member blocks follow matrix",
+      "implementationPackage": "2.4"
+    },
+    {
+      "id": "Q13",
+      "topic": "Report+case atomicity",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Report and case creation atomic in one RPC",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T086:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "No orphan reports",
+      "implementationPackage": "4.5"
+    },
+    {
+      "id": "Q14",
+      "topic": "Severity authority",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Severity classifier is advisory; admin authority final",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T086:integration",
+        "SL-T089:unit"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Keyword hits suggest severity only",
+      "implementationPackage": "4.5"
+    },
+    {
+      "id": "Q15",
+      "topic": "AAL2 method (denial-only invalid)",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "AAL2 via injected test fixture in CI; denial-only invalid in prod config",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T090:integration",
+        "SL-T099:e2e"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Admin destructive actions require AAL2",
+      "implementationPackage": "4.6"
+    },
+    {
+      "id": "Q16",
+      "topic": "Deletion vs Stripe cancel",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Deletion confirmation aborts if Stripe cancel fails",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T014:integration",
+        "SL-T107:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Return user-visible error; deletion stays requested",
+      "implementationPackage": "4.7"
+    },
+    {
+      "id": "Q17",
+      "topic": "Resubscribe checkout",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Checkout exempt from read-only guard for resubscribe",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T103:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Canceled users can start checkout",
+      "implementationPackage": "4.7"
+    },
+    {
+      "id": "Q18",
+      "topic": "Excess data on downgrade",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Retain excess data but hide beyond downgrade limits",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T106:integration"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Read-only access to excess; writes blocked",
+      "implementationPackage": "6.7"
+    },
+    {
+      "id": "Q19",
+      "topic": "Stripe status mapping",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Use stripe-status-contract mapping",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T101:integration"
+      ],
+      "contractArtifact": "docs/product/stripe-status-contract.md",
+      "failureBehavior": "Entitlements derived from mapped status",
+      "implementationPackage": "4.7"
+    },
+    {
+      "id": "Q20",
+      "topic": "Health degraded code",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Health degraded and unavailable return HTTP 503",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T112:api",
+        "SL-T113:unit-decision",
+        "SL-T113:live-staging"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "Deploy smoke fails on degraded DB",
+      "implementationPackage": "6.8"
+    },
+    {
+      "id": "Q21",
+      "topic": "Cron fail-closed",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Cron routes fail closed in production without CRON_SECRET",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T110:api",
+        "SL-T119:unit-env",
+        "SL-T119:ci-env-gate"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "503 when secret missing in production; bearer required when set",
+      "implementationPackage": "4.8"
+    },
+    {
+      "id": "Q22",
+      "topic": "Axe serious+critical",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Axe serious and critical violations block merge",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [
+        "SL-T116:a11y",
+        "SL-T117:a11y",
+        "SL-T062:a11y",
+        "SL-T085:a11y"
+      ],
+      "contractArtifact": null,
+      "failureBehavior": "CI a11y job fails on serious+critical",
+      "implementationPackage": "7.1"
+    },
+    {
+      "id": "Q23",
+      "topic": "Storage local+hosted",
+      "status": "approved",
+      "owner": "founder",
+      "dueDate": null,
+      "approvedAnswer": "Disable hosted storage until uploads ship; local mirrors hosted policy",
+      "approver": "founder",
+      "approvedAt": "2026-07-10T16:00:00.000Z",
+      "affectedImplementationKeys": [],
+      "contractArtifact": null,
+      "failureBehavior": "Storage APIs remain off",
+      "implementationPackage": null,
+      "environments": [
+        "local",
+        "hosted"
+      ]
+    }
+  ]
+}

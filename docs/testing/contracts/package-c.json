@@ -1,0 +1,12 @@
+{
+  "package": "C",
+  "status": "stub",
+  "approved": false,
+  "approvedAt": null,
+  "approver": null,
+  "contracts": {
+    "messagingAtomicity": "TBD — message+notification txn model per Q07",
+    "playInviteAtomicity": "TBD — invitation+slots RPC per Q10"
+  },
+  "placeholders": ["TBD", "maybe"]
+}

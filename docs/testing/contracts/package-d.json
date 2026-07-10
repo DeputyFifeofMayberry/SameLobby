@@ -1,0 +1,12 @@
+{
+  "package": "D",
+  "status": "stub",
+  "approved": false,
+  "approvedAt": null,
+  "approver": null,
+  "contracts": {
+    "stripeStatusMapping": "TBD — see docs/product/stripe-status-contract.md (not approved)",
+    "webhookReplay": "TBD — likely idempotent replay semantics"
+  },
+  "placeholders": ["TBD", "likely"]
+}

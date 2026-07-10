@@ -1,5 +1,7 @@
 begin;
-select plan(5);
+-- SL-T040:db @p0
+-- SL-T047:db @p0
+select plan(8);
 
 \set sender 'a1111111-1111-1111-1111-111111111111'
 \set recipient 'a2222222-2222-2222-2222-222222222222'
@@ -57,6 +59,30 @@ select is(
   'recipient sees incoming request'
 );
 
+select tests.set_auth(:'sender'::uuid);
+
+select results_eq(
+  $$ with attempted as (
+       insert into public.connection_requests (
+         sender_account_id,
+         recipient_account_id,
+         message,
+         status,
+         expires_at
+       )
+       select s.id, r.id, 'Duplicate pending', 'pending', now() + interval '14 days'
+       from public.accounts s
+       cross join public.accounts r
+       where s.auth_user_id = 'a1111111-1111-1111-1111-111111111111'::uuid
+         and r.auth_user_id = 'a2222222-2222-2222-2222-222222222222'::uuid
+       returning 1
+     ) select count(*)::int from attempted $$,
+  ARRAY[0],
+  'duplicate pending request blocked by unique index'
+);
+
+select tests.set_auth(:'recipient'::uuid);
+
 select lives_ok(
   $$
   select public.accept_connection_request(
@@ -111,6 +137,34 @@ select results_eq(
      ) select count(*)::int from attempted $$,
   ARRAY[0],
   'blocked pair cannot create new request'
+);
+
+select tests.set_auth(:'recipient'::uuid);
+
+select is(
+  (
+    select count(*)::int
+    from public.connection_requests cr
+    join public.accounts outsider on outsider.id = cr.sender_account_id
+    where outsider.auth_user_id = 'a3333333-3333-3333-3333-333333333333'::uuid
+  ),
+  0,
+  'participant cannot see unrelated connection requests'
+);
+
+select tests.set_auth(:'sender'::uuid);
+
+select results_eq(
+  $$ with updated as (
+       update public.connection_requests
+       set status = 'cancelled', updated_at = now()
+       where sender_account_id = (
+         select id from public.accounts where auth_user_id = 'a1111111-1111-1111-1111-111111111111'::uuid
+       )
+       returning 1
+     ) select count(*)::int from updated $$,
+  ARRAY[0],
+  'sender cannot directly cancel request via table update'
 );
 
 select * from finish();

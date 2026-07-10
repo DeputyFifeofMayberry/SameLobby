@@ -1,5 +1,8 @@
 # SameLobby Implementation Plan
 
+> **ARCHIVED — superseded by `SAMELOBBY_TEST_IMPLEMENTATION_BUILD_PLAN.md` (v4, baseline `ed10f19`).**  
+> Retained for historical context only. Do not use for test-program execution.
+
 **Status:** Planning artifact — no application code implemented  
 **Prepared:** July 8, 2026  
 **Audience:** Solo founder using Cursor for AI-assisted development  

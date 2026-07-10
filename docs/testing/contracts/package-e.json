@@ -1,0 +1,13 @@
+{
+  "package": "E",
+  "status": "stub",
+  "approved": false,
+  "approvedAt": null,
+  "approver": null,
+  "contracts": {
+    "profileVisibility": "TBD — see docs/product/profile-visibility-matrix.md (not approved)",
+    "groupBlockBehavior": "TBD — see docs/product/group-block-behavior-matrix.md (not approved)",
+    "identityWrites": "TBD — profile identity split-write behavior per D11"
+  },
+  "placeholders": ["TBD", "maybe"]
+}
