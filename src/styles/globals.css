@@ -12,6 +12,31 @@ body {
   font-family: var(--font-body);
 }
 
+::selection {
+  background: var(--color-signal-mint);
+  color: var(--color-night-navy);
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
