@@ -1,10 +1,10 @@
-import { test, expect, signIn, SEED_USERS } from "./fixtures/auth";
+import { test, expect, signInThroughUi, SEED_USERS } from "./fixtures/auth";
 
-test.describe("J01 onboarding", () => {
-  test("new user is gated by required private attestation", async ({
+test.describe("[SL-T027][e2e] @p1 onboarding journey", () => {
+  test("onboarding user signs in through UI and reaches attestation", async ({
     page,
   }) => {
-    await signIn(
+    await signInThroughUi(
       page,
       SEED_USERS.onboarding.email,
       SEED_USERS.onboarding.password,

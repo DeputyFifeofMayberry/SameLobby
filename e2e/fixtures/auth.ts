@@ -1,4 +1,4 @@
-import { test as base, expect, type Page } from "@playwright/test";
+import { test as base, expect, type Page, type TestInfo } from "@playwright/test";
 import { createClient, type Session } from "@supabase/supabase-js";
 
 export const SEED_USERS = {
@@ -12,6 +12,10 @@ export const SEED_USERS = {
   },
   restricted: {
     email: "dev-restricted@test.local",
+    password: "TestPass123!",
+  },
+  peerOne: {
+    email: "dev-peer-1@test.local",
     password: "TestPass123!",
   },
 } as const;
@@ -38,7 +42,7 @@ function getAnonClient() {
 function authCookieName(): string {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "http://127.0.0.1:54321";
   const host = new URL(supabaseUrl).hostname;
-  const ref = host === "localhost" ? "localhost" : host.split(".")[0] ?? host;
+  const ref = host === "localhost" ? "localhost" : (host.split(".")[0] ?? host);
   return `sb-${ref}-auth-token`;
 }
 
@@ -139,43 +143,6 @@ export async function setActiveUserReadOnly(readOnly: boolean): Promise<void> {
   if (entitlementError) throw entitlementError;
 }
 
-export async function signIn(page: Page, email: string, password: string) {
-  const admin = getTestAdmin();
-  const { data: linkData, error: linkError } =
-    await admin.auth.admin.generateLink({
-      type: "magiclink",
-      email,
-    });
-
-  if (linkError || !linkData.properties?.hashed_token) {
-    const { data, error } = await getAnonClient().auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error || !data.session) {
-      throw new Error(
-        `signIn failed: ${JSON.stringify(linkError ?? error ?? "no session")}`,
-      );
-    }
-    await setSessionCookies(page, data.session);
-    await gotoAuthenticatedHome(page);
-    return;
-  }
-
-  const { data, error } = await getAnonClient().auth.verifyOtp({
-    token_hash: linkData.properties.hashed_token,
-    type: "email",
-  });
-  if (error || !data.session) {
-    throw new Error(
-      `verifyOtp failed: ${JSON.stringify(error ?? "no session")}`,
-    );
-  }
-
-  await setSessionCookies(page, data.session);
-  await gotoAuthenticatedHome(page);
-}
-
 async function setSessionCookies(page: Page, session: Session) {
   await page.context().addCookies([
     {
@@ -193,6 +160,101 @@ async function gotoAuthenticatedHome(page: Page) {
   });
 }
 
+/**
+ * Fixture admin only — admin magic-link session for seeding non-auth journeys.
+ * D14: do not use in auth-proving tests (session-expiry, sign-in flows).
+ */
+export async function generateAdminSession(page: Page, email: string) {
+  const admin = getTestAdmin();
+  const { data: linkData, error: linkError } =
+    await admin.auth.admin.generateLink({
+      type: "magiclink",
+      email,
+    });
+
+  if (linkError || !linkData.properties?.hashed_token) {
+    throw new Error(
+      `generateAdminSession failed: ${JSON.stringify(linkError ?? "no hashed_token")}`,
+    );
+  }
+
+  const { data, error } = await getAnonClient().auth.verifyOtp({
+    token_hash: linkData.properties.hashed_token,
+    type: "email",
+  });
+  if (error || !data.session) {
+    throw new Error(
+      `verifyOtp failed: ${JSON.stringify(error ?? "no session")}`,
+    );
+  }
+
+  await setSessionCookies(page, data.session);
+  await gotoAuthenticatedHome(page);
+}
+
+/**
+ * Password API session for non-auth journeys and integration actors (not browser UI).
+ */
+export async function createAuthenticatedFixtureSession(
+  email: string,
+  password: string,
+): Promise<Session> {
+  const { data, error } = await getAnonClient().auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (error || !data.session) {
+    throw new Error(
+      `createAuthenticatedFixtureSession failed: ${JSON.stringify(error ?? "no session")}`,
+    );
+  }
+  return data.session;
+}
+
+/**
+ * T006 and actor integration — password auth through Supabase API, then cookie injection.
+ * D14: use for auth-proving integration tests instead of generateAdminSession.
+ */
+export async function signInWithPasswordThroughApi(
+  page: Page,
+  email: string,
+  password: string,
+) {
+  const session = await createAuthenticatedFixtureSession(email, password);
+  await setSessionCookies(page, session);
+  await gotoAuthenticatedHome(page);
+}
+
+/**
+ * Browser auth journeys only — exercises the real sign-in UI.
+ */
+export async function signInThroughUi(
+  page: Page,
+  email: string,
+  password: string,
+) {
+  await page.goto("/sign-in");
+  await page.getByLabel(/email/i).fill(email);
+  await page.getByLabel(/password/i).fill(password);
+  await page.getByRole("button", { name: /sign in/i }).click();
+  await page.waitForURL(/\/(discover|onboarding|messages|profile|admin|settings)/, {
+    timeout: 30_000,
+  });
+}
+
+/**
+ * @deprecated Prefer generateAdminSession (fixtures), signInWithPasswordThroughApi (integration),
+ * or signInThroughUi (browser). Retained for existing journey specs during Phase 1.
+ * D14: do not use in auth-proving tests.
+ */
+export async function signIn(page: Page, email: string, password: string) {
+  try {
+    await generateAdminSession(page, email);
+  } catch {
+    await signInWithPasswordThroughApi(page, email, password);
+  }
+}
+
 type SeedUser = (typeof SEED_USERS)[keyof typeof SEED_USERS];
 
 export const test = base.extend<{ activeUser: SeedUser }>({
@@ -203,3 +265,9 @@ export const test = base.extend<{ activeUser: SeedUser }>({
 });
 
 export { expect };
+
+/** Isolated namespace for parallel E2E fixtures (plan §K). */
+export function fixtureNamespace(testInfo: TestInfo): string {
+  const runId = process.env.RUN_ID ?? "local";
+  return `${testInfo.project.name}-w${testInfo.workerIndex}-p${testInfo.parallelIndex}-${runId}-r${testInfo.retry}`;
+}

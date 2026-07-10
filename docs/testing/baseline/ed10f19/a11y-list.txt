@@ -1,0 +1,22 @@
+Listing tests:
+::notice title=≡ƒÄ¡ Playwright Run Summary::  19 did not run
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:36:9 ΓÇ║ Accessibility ΓÇö public routes ΓÇ║ no critical violations on /sign-in
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:36:9 ΓÇ║ Accessibility ΓÇö public routes ΓÇ║ no critical violations on /sign-up
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:36:9 ΓÇ║ Accessibility ΓÇö public routes ΓÇ║ no critical violations on /help
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:36:9 ΓÇ║ Accessibility ΓÇö public routes ΓÇ║ no critical violations on /pricing
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:44:7 ΓÇ║ Accessibility ΓÇö onboarding ΓÇ║ J01 attestation: no critical violations
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J02 specific-game search: no critical violations on /discover/search
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J03 friendship discovery: no critical violations on /discover
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J04 interruption-friendly profile: no critical violations on /profile
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J05 communication preferences: no critical violations on /profile
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J06 cross-platform search: no critical violations on /discover/search
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J07 conversation list: no critical violations on /messages
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J08 play invitations: no critical violations on /play
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J09 post-play sessions: no critical violations on /play
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J10 group creation: no critical violations on /groups/new
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J11 profile games: no critical violations on /profile
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J12 safety settings: no critical violations on /settings/safety
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ J13 teammate availability: no critical violations on /teammates
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ billing subscription: no critical violations on /subscription
+  [a11y] ΓÇ║ a11y\journey-routes.spec.ts:61:9 ΓÇ║ Accessibility ΓÇö authenticated routes ΓÇ║ safety controls: no critical violations on /settings/safety
+Total: 19 tests in 1 file

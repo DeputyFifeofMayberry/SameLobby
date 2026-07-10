@@ -1,0 +1,33 @@
+
+> samelobby@0.1.0 lint
+> eslint .
+
+
+C:\Users\barne\Desktop\SameLobby\scripts\load\messaging-realtime.k6.ts
+  79:1  warning  Unexpected default export of anonymous function  import/no-anonymous-default-export
+
+C:\Users\barne\Desktop\SameLobby\scripts\load\messaging.k6.ts
+  40:1  warning  Unexpected default export of anonymous function  import/no-anonymous-default-export
+
+C:\Users\barne\Desktop\SameLobby\src\components\messaging\MessageThreadClient.tsx
+  3:23  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\barne\Desktop\SameLobby\src\domains\discovery\actions.ts
+  39:3  warning  '_prev' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\barne\Desktop\SameLobby\src\domains\discovery\queries.ts
+  235:9  warning  'admin' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\barne\Desktop\SameLobby\src\domains\profile\actions.ts
+  292:3  warning  '_prev' is defined but never used      @typescript-eslint/no-unused-vars
+  293:3  warning  '_formData' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\barne\Desktop\SameLobby\src\domains\teammates\actions.ts
+   6:10  warning  'orderedPair' is defined but never used              @typescript-eslint/no-unused-vars
+  74:17  warning  'relationshipId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\barne\Desktop\SameLobby\tests\support\network.ts
+  23:41  warning  '_allowlist' is defined but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 10 problems (0 errors, 10 warnings)
+

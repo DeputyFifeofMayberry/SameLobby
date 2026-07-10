@@ -1,0 +1,11 @@
+
+> samelobby@0.1.0 test:a11y
+> playwright test --project=a11y
+
+
+Running 21 tests using 1 worker
+(node:23964) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖
+::notice title=≡ƒÄ¡ Playwright Run Summary::  21 passed (15.0s)
+  21 passed (15.0s)

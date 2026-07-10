@@ -26,4 +26,17 @@ describe("env validation", () => {
       "Invalid environment variables",
     );
   });
+
+  it("requires CRON_SECRET in production without skip flag", async () => {
+    vi.stubEnv("SKIP_ENV_VALIDATION", "");
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "test-anon-key");
+    vi.stubEnv("SUPABASE_SERVICE_ROLE_KEY", "test-service-role-key");
+    delete process.env.CRON_SECRET;
+
+    await expect(import("@/lib/env")).rejects.toThrow(
+      "Invalid environment variables",
+    );
+  });
 });

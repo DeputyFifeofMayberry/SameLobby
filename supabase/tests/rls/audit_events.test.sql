@@ -1,4 +1,5 @@
 begin;
+-- SL-T098:db @p0
 select plan(1);
 
 select tests.as_postgres();

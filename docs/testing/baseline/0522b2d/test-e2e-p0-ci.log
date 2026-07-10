@@ -1,0 +1,11 @@
+
+> samelobby@0.1.0 test:e2e:p0
+> playwright test --project=chromium-p0
+
+
+Running 3 tests using 1 worker
+(node:17772) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+┬╖┬╖┬╖
+::notice title=≡ƒÄ¡ Playwright Run Summary::  3 passed (2.9s)
+  3 passed (2.9s)

@@ -1,0 +1,42 @@
+
+> samelobby@0.1.0 test:unit
+> vitest run --project unit
+
+
+ RUN  v3.2.7 C:/Users/barne/Desktop/SameLobby
+
+ Γ£ô |unit| src/lib/rate-limit.test.ts (4 tests) 6ms
+ Γ£ô |unit| src/domains/play/timezone.test.ts (5 tests) 17ms
+ Γ£ô |unit| src/lib/analytics/events.test.ts (5 tests) 8ms
+ Γ£ô |unit| src/lib/sentry.test.ts (3 tests) 4ms
+ Γ£ô |unit| src/domains/discovery/eligibility.test.ts (7 tests) 4ms
+stderr | src/lib/env.test.ts > env validation > requires service role key without skip flag
+Invalid environment variables: {
+  SUPABASE_SERVICE_ROLE_KEY: [ 'SUPABASE_SERVICE_ROLE_KEY is required' ]
+}
+
+ Γ£ô |unit| src/lib/env.test.ts (2 tests) 71ms
+ Γ£ô |unit| src/domains/auth/schemas.test.ts (7 tests) 5ms
+ Γ£ô |unit| src/domains/discovery/recommend.test.ts (3 tests) 14ms
+ Γ£ô |unit| src/domains/teammates/schemas.test.ts (5 tests) 4ms
+ Γ£ô |unit| src/domains/accounts/account-guard.test.ts (17 tests) 4ms
+ Γ£ô |unit| src/domains/play/schemas.test.ts (5 tests) 4ms
+ Γ£ô |unit| src/domains/connections/schemas.test.ts (5 tests) 3ms
+ Γ£ô |unit| src/domains/profile/schemas.test.ts (6 tests) 5ms
+ Γ£ô |unit| src/domains/messaging/schemas.test.ts (6 tests) 5ms
+ Γ£ô |unit| src/domains/billing/webhook.test.ts (3 tests) 146ms
+ Γ£ô |unit| src/domains/discovery/cohort.test.ts (7 tests) 3ms
+ Γ£ô |unit| src/domains/billing/stripe-status.test.ts (5 tests) 3ms
+ Γ£ô |unit| tests/unit/scripts/smoke-post-deploy.test.ts (2 tests) 3ms
+ Γ£ô |unit| src/domains/accounts/schemas.test.ts (5 tests) 3ms
+ Γ£ô |unit| src/domains/billing/constants.test.ts (2 tests) 2ms
+ Γ£ô |unit| tests/unit/alias.self.test.ts (1 test) 2ms
+ Γ£ô |unit| src/domains/moderation/schemas.test.ts (4 tests) 2ms
+ Γ£ô |unit| src/lib/auth/safe-redirect.test.ts (4 tests) 2ms
+ Γ£ô |unit| src/domains/groups/schemas.test.ts (4 tests) 3ms
+
+ Test Files  24 passed (24)
+      Tests  117 passed (117)
+   Start at  21:27:02
+   Duration  677ms (transform 815ms, setup 0ms, collect 1.61s, tests 322ms, environment 3ms, prepare 2.27s)
+

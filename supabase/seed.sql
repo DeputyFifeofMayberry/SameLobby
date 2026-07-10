@@ -10,7 +10,13 @@ insert into auth.users (
   updated_at,
   instance_id,
   aud,
-  role
+  role,
+  confirmation_token,
+  recovery_token,
+  email_change,
+  email_change_token_new,
+  raw_app_meta_data,
+  raw_user_meta_data
 )
 values
   (
@@ -22,7 +28,13 @@ values
     now(),
     '00000000-0000-0000-0000-000000000000',
     'authenticated',
-    'authenticated'
+    'authenticated',
+    '',
+    '',
+    '',
+    '',
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{"email_verified":true}'::jsonb
   ),
   (
     'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
@@ -33,7 +45,13 @@ values
     now(),
     '00000000-0000-0000-0000-000000000000',
     'authenticated',
-    'authenticated'
+    'authenticated',
+    '',
+    '',
+    '',
+    '',
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{"email_verified":true}'::jsonb
   ),
   (
     'cccccccc-cccc-cccc-cccc-cccccccccccc',
@@ -44,7 +62,13 @@ values
     now(),
     '00000000-0000-0000-0000-000000000000',
     'authenticated',
-    'authenticated'
+    'authenticated',
+    '',
+    '',
+    '',
+    '',
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{"email_verified":true}'::jsonb
   )
 on conflict (id) do nothing;
 
@@ -168,11 +192,75 @@ update public.feature_flags set enabled = true where key = 'discovery_enabled';
 update public.feature_flags set enabled = true where key = 'connection_requests_enabled';
 
 -- Additional discoverable fixtures (same cohort as dev-active)
-insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, instance_id, aud, role)
+insert into auth.users (
+  id,
+  email,
+  encrypted_password,
+  email_confirmed_at,
+  created_at,
+  updated_at,
+  instance_id,
+  aud,
+  role,
+  confirmation_token,
+  recovery_token,
+  email_change,
+  email_change_token_new,
+  raw_app_meta_data,
+  raw_user_meta_data
+)
 values
-  ('d1111111-1111-1111-1111-111111111111', 'dev-peer-1@test.local', crypt('TestPass123!', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),
-  ('d2222222-2222-2222-2222-222222222222', 'dev-peer-2@test.local', crypt('TestPass123!', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated'),
-  ('d3333333-3333-3333-3333-333333333333', 'dev-peer-3@test.local', crypt('TestPass123!', gen_salt('bf')), now(), now(), now(), '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated')
+  (
+    'd1111111-1111-1111-1111-111111111111',
+    'dev-peer-1@test.local',
+    crypt('TestPass123!', gen_salt('bf')),
+    now(),
+    now(),
+    now(),
+    '00000000-0000-0000-0000-000000000000',
+    'authenticated',
+    'authenticated',
+    '',
+    '',
+    '',
+    '',
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{"email_verified":true}'::jsonb
+  ),
+  (
+    'd2222222-2222-2222-2222-222222222222',
+    'dev-peer-2@test.local',
+    crypt('TestPass123!', gen_salt('bf')),
+    now(),
+    now(),
+    now(),
+    '00000000-0000-0000-0000-000000000000',
+    'authenticated',
+    'authenticated',
+    '',
+    '',
+    '',
+    '',
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{"email_verified":true}'::jsonb
+  ),
+  (
+    'd3333333-3333-3333-3333-333333333333',
+    'dev-peer-3@test.local',
+    crypt('TestPass123!', gen_salt('bf')),
+    now(),
+    now(),
+    now(),
+    '00000000-0000-0000-0000-000000000000',
+    'authenticated',
+    'authenticated',
+    '',
+    '',
+    '',
+    '',
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{"email_verified":true}'::jsonb
+  )
 on conflict (id) do nothing;
 
 insert into auth.identities (id, user_id, identity_data, provider, provider_id, last_sign_in_at, created_at, updated_at)

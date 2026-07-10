@@ -18,6 +18,9 @@ export async function GET() {
     checks.database = "unavailable";
   }
 
-  const status = checks.database === "unavailable" ? 503 : 200;
+  const status =
+    checks.database === "ok"
+      ? 200
+      : 503;
   return NextResponse.json(checks, { status });
 }

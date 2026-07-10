@@ -1,0 +1,3964 @@
+{
+  "schemaVersion": 2,
+  "baselineSha": "ed10f19e528b6ec406553795cf2cd891427fe668",
+  "requirements": [
+    {
+      "id": "SL-T001",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t001",
+      "implementations": [
+        {
+          "key": "SL-T001:e2e",
+          "layer": "e2e",
+          "file": "e2e/auth/protected-routes.spec.ts",
+          "phase": 3,
+          "package": "3.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t001-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t001-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t001-expected",
+          "titleMarker": "[SL-T001][e2e] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/auth/protected-routes.spec.ts --project=chromium-p0",
+          "suiteCommand": "npm run test:e2e:p0",
+          "acceptanceCommand": "npm run test:e2e:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T002",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t002",
+      "implementations": [
+        {
+          "key": "SL-T002:unit",
+          "layer": "unit",
+          "file": "src/domains/accounts/account-guard.test.ts",
+          "phase": 3,
+          "package": "3.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t002-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t002-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t002-expected",
+          "titleMarker": "[SL-T002][unit] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/domains/accounts/account-guard.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T003",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t003",
+      "implementations": [
+        {
+          "key": "SL-T003:integration",
+          "layer": "integration",
+          "file": "tests/integration/auth/registration.test.ts",
+          "phase": 3,
+          "package": "3.1",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q01"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t003-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t003-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t003-expected",
+          "titleMarker": "[SL-T003][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/auth/registration.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        },
+        {
+          "key": "SL-T003:db-cap",
+          "layer": "database",
+          "file": "supabase/tests/rls/registration_cap.test.sql",
+          "phase": 3,
+          "package": "3.1",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t003-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t003-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t003-expected",
+          "titleMarker": "-- SL-T003:db-cap @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/registration_cap.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T004",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t004",
+      "implementations": [
+        {
+          "key": "SL-T004:unit",
+          "layer": "unit",
+          "file": "src/lib/rate-limit.test.ts",
+          "phase": 6,
+          "package": "6.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q02"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t004-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t004-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t004-expected",
+          "titleMarker": "[SL-T004][unit] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/lib/rate-limit.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        },
+        {
+          "key": "SL-T004:integration",
+          "layer": "integration",
+          "file": "tests/integration/auth/rate-limit.test.ts",
+          "phase": 6,
+          "package": "6.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q02"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t004-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t004-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t004-expected",
+          "titleMarker": "[SL-T004][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/auth/rate-limit.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T005",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t005",
+      "implementations": [
+        {
+          "key": "SL-T005:db",
+          "layer": "database",
+          "file": "supabase/tests/auth/provisioning.test.sql",
+          "phase": 2,
+          "package": "2.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t005-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t005-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t005-expected",
+          "titleMarker": "-- SL-T005:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/auth/provisioning.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T006",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t006",
+      "implementations": [
+        {
+          "key": "SL-T006:integration",
+          "layer": "integration",
+          "file": "tests/integration/auth/sign-in.test.ts",
+          "phase": 3,
+          "package": "3.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q01"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t006-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t006-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t006-expected",
+          "titleMarker": "[SL-T006][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/auth/sign-in.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T007",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t007",
+      "implementations": [
+        {
+          "key": "SL-T007:api",
+          "layer": "api",
+          "file": "tests/api/auth-callback.test.ts",
+          "phase": 3,
+          "package": "3.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t007-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t007-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t007-expected",
+          "titleMarker": "[SL-T007][api] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project api tests/api/auth-callback.test.ts",
+          "suiteCommand": "npm run test:api:p0",
+          "acceptanceCommand": "npm run test:api:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T008",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t008",
+      "implementations": [
+        {
+          "key": "SL-T008:integration",
+          "layer": "integration",
+          "file": "tests/integration/auth/password-reset.test.ts",
+          "phase": 6,
+          "package": "6.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q01"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t008-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t008-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t008-expected",
+          "titleMarker": "[SL-T008][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/auth/password-reset.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T009",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t009",
+      "implementations": [
+        {
+          "key": "SL-T009:component",
+          "layer": "component",
+          "file": "src/components/auth/ResetPasswordForm.test.tsx",
+          "phase": 6,
+          "package": "6.9",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t009-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t009-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t009-expected",
+          "titleMarker": "[SL-T009][component] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project component src/components/auth/ResetPasswordForm.test.tsx",
+          "suiteCommand": "npm run test:component",
+          "acceptanceCommand": "npm run test:component"
+        }
+      ]
+    },
+    {
+      "id": "SL-T010",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t010",
+      "implementations": [
+        {
+          "key": "SL-T010:e2e",
+          "layer": "e2e",
+          "file": "e2e/auth/session-expiry.spec.ts",
+          "phase": 3,
+          "package": "3.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [
+            "D14"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t010-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t010-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t010-expected",
+          "titleMarker": "[SL-T010][e2e] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/auth/session-expiry.spec.ts --project=chromium-p0",
+          "suiteCommand": "npm run test:e2e:p0",
+          "acceptanceCommand": "npm run test:e2e:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T011",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t011",
+      "implementations": [
+        {
+          "key": "SL-T011:integration",
+          "layer": "integration",
+          "file": "tests/integration/accounts/attestation.test.ts",
+          "phase": 3,
+          "package": "3.2",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t011-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t011-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t011-expected",
+          "titleMarker": "[SL-T011][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/accounts/attestation.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T012",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t012",
+      "implementations": [
+        {
+          "key": "SL-T012:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/attestation.test.sql",
+          "phase": 2,
+          "package": "2.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t012-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t012-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t012-expected",
+          "titleMarker": "-- SL-T012:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/attestation.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T013",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t013",
+      "implementations": [
+        {
+          "key": "SL-T013:integration",
+          "layer": "integration",
+          "file": "tests/integration/accounts/deletion-request.test.ts",
+          "phase": 3,
+          "package": "3.2",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t013-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t013-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t013-expected",
+          "titleMarker": "[SL-T013][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/accounts/deletion-request.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T014",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t014",
+      "implementations": [
+        {
+          "key": "SL-T014:integration",
+          "layer": "integration",
+          "file": "tests/integration/accounts/deletion-confirmation.test.ts",
+          "phase": 4,
+          "package": "4.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q16"
+          ],
+          "defects": [
+            "D2"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t014-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t014-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t014-expected",
+          "titleMarker": "[SL-T014][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/accounts/deletion-confirmation.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T015",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t015",
+      "implementations": [
+        {
+          "key": "SL-T015:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/deletion_pipeline.test.sql",
+          "phase": 2,
+          "package": "2.2",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t015-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t015-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t015-expected",
+          "titleMarker": "-- SL-T015:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/deletion_pipeline.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T016",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t016",
+      "implementations": [
+        {
+          "key": "SL-T016:integration",
+          "layer": "integration",
+          "file": "tests/integration/profile/onboarding-order.test.ts",
+          "phase": 3,
+          "package": "3.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t016-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t016-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t016-expected",
+          "titleMarker": "[SL-T016][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/profile/onboarding-order.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T017",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t017",
+      "implementations": [
+        {
+          "key": "SL-T017:integration",
+          "layer": "integration",
+          "file": "tests/integration/profile/identity.test.ts",
+          "phase": 3,
+          "package": "3.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [
+            "D11"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t017-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t017-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t017-expected",
+          "titleMarker": "[SL-T017][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/profile/identity.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T018",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t018",
+      "implementations": [
+        {
+          "key": "SL-T018:unit",
+          "layer": "unit",
+          "file": "src/domains/profile/schemas.test.ts",
+          "phase": 6,
+          "package": "6.2",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t018-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t018-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t018-expected",
+          "titleMarker": "[SL-T018][unit] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/domains/profile/schemas.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T019",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t019",
+      "implementations": [
+        {
+          "key": "SL-T019:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/user_games.test.sql",
+          "phase": 2,
+          "package": "2.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t019-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t019-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t019-expected",
+          "titleMarker": "-- SL-T019:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/user_games.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T020",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t020",
+      "implementations": [
+        {
+          "key": "SL-T020:integration",
+          "layer": "integration",
+          "file": "tests/integration/profile/current-intent.test.ts",
+          "phase": 6,
+          "package": "6.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t020-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t020-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t020-expected",
+          "titleMarker": "[SL-T020][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/profile/current-intent.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T021",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t021",
+      "implementations": [
+        {
+          "key": "SL-T021:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/availability.test.sql",
+          "phase": 6,
+          "package": "6.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q04"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t021-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t021-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t021-expected",
+          "titleMarker": "-- SL-T021:db @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/availability.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T022",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t022",
+      "implementations": [
+        {
+          "key": "SL-T022:integration",
+          "layer": "integration",
+          "file": "tests/integration/profile/completeness.test.ts",
+          "phase": 3,
+          "package": "3.3",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t022-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t022-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t022-expected",
+          "titleMarker": "[SL-T022][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/profile/completeness.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T023",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t023",
+      "implementations": [
+        {
+          "key": "SL-T023:integration",
+          "layer": "integration",
+          "file": "tests/integration/profile/visibility.test.ts",
+          "phase": 3,
+          "package": "3.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q06"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": "docs/testing/contracts/package-e.json",
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t023-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t023-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t023-expected",
+          "titleMarker": "[SL-T023][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/profile/visibility.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T024",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t024",
+      "implementations": [
+        {
+          "key": "SL-T024:integration",
+          "layer": "integration",
+          "file": "tests/integration/profile/games.test.ts",
+          "phase": 6,
+          "package": "6.2",
+          "baselineStatus": "partial",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t024-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t024-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t024-expected",
+          "titleMarker": "[SL-T024][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/profile/games.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T025",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t025",
+      "implementations": [
+        {
+          "key": "SL-T025:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/profile_matrix.test.sql",
+          "phase": 2,
+          "package": "2.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t025-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t025-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t025-expected",
+          "titleMarker": "-- SL-T025:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/profile_matrix.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T026",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t026",
+      "implementations": [
+        {
+          "key": "SL-T026:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/catalog_seed.test.sql",
+          "phase": 6,
+          "package": "6.2",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t026-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t026-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t026-expected",
+          "titleMarker": "-- SL-T026:db @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/catalog_seed.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T027",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t027",
+      "implementations": [
+        {
+          "key": "SL-T027:e2e",
+          "layer": "e2e",
+          "file": "e2e/j01-onboarding.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "rewrite",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [
+            "D14"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t027-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t027-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t027-expected",
+          "titleMarker": "[SL-T027][e2e] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/j01-onboarding.spec.ts --project=chromium",
+          "suiteCommand": "npm run test:e2e",
+          "acceptanceCommand": "npm run test:e2e"
+        }
+      ]
+    },
+    {
+      "id": "SL-T028",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t028",
+      "implementations": [
+        {
+          "key": "SL-T028:unit",
+          "layer": "unit",
+          "file": "src/domains/discovery/eligibility.test.ts",
+          "phase": 3,
+          "package": "3.4",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t028-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t028-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t028-expected",
+          "titleMarker": "[SL-T028][unit] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/domains/discovery/eligibility.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T029",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t029",
+      "implementations": [
+        {
+          "key": "SL-T029:unit",
+          "layer": "unit",
+          "file": "src/domains/discovery/cohort.test.ts",
+          "phase": 6,
+          "package": "6.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t029-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t029-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t029-expected",
+          "titleMarker": "[SL-T029][unit] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/domains/discovery/cohort.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T030",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t030",
+      "implementations": [
+        {
+          "key": "SL-T030:integration",
+          "layer": "integration",
+          "file": "tests/integration/discovery/search.test.ts",
+          "phase": 3,
+          "package": "3.4",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q06"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": "docs/testing/contracts/package-e.json",
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t030-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t030-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t030-expected",
+          "titleMarker": "[SL-T030][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/discovery/search.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T031",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t031",
+      "implementations": [
+        {
+          "key": "SL-T031:integration",
+          "layer": "integration",
+          "file": "tests/integration/discovery/recommendations.test.ts",
+          "phase": 6,
+          "package": "6.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q05"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t031-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t031-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t031-expected",
+          "titleMarker": "[SL-T031][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/discovery/recommendations.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T032",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t032",
+      "implementations": [
+        {
+          "key": "SL-T032:unit",
+          "layer": "unit",
+          "file": "src/domains/discovery/recommend.test.ts",
+          "phase": 6,
+          "package": "6.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t032-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t032-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t032-expected",
+          "titleMarker": "[SL-T032][unit] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/domains/discovery/recommend.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T033",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t033",
+      "implementations": [
+        {
+          "key": "SL-T033:integration",
+          "layer": "integration",
+          "file": "tests/integration/discovery/density.test.ts",
+          "phase": 6,
+          "package": "6.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t033-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t033-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t033-expected",
+          "titleMarker": "[SL-T033][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/discovery/density.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T034",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t034",
+      "implementations": [
+        {
+          "key": "SL-T034:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/discovery.test.sql",
+          "phase": 6,
+          "package": "6.3",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t034-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t034-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t034-expected",
+          "titleMarker": "-- SL-T034:db @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/discovery.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T035",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t035",
+      "implementations": [
+        {
+          "key": "SL-T035:integration",
+          "layer": "integration",
+          "file": "tests/integration/discovery/pause.test.ts",
+          "phase": 6,
+          "package": "6.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t035-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t035-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t035-expected",
+          "titleMarker": "[SL-T035][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/discovery/pause.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T036",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t036",
+      "implementations": [
+        {
+          "key": "SL-T036:integration",
+          "layer": "integration",
+          "file": "tests/integration/discovery/filters.test.ts",
+          "phase": 6,
+          "package": "6.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t036-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t036-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t036-expected",
+          "titleMarker": "[SL-T036][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/discovery/filters.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T037",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t037",
+      "implementations": [
+        {
+          "key": "SL-T037:e2e",
+          "layer": "e2e",
+          "file": "e2e/j06-cross-platform.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t037-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t037-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t037-expected",
+          "titleMarker": "[SL-T037][e2e] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/j06-cross-platform.spec.ts --project=chromium",
+          "suiteCommand": "npm run test:e2e",
+          "acceptanceCommand": "npm run test:e2e"
+        }
+      ]
+    },
+    {
+      "id": "SL-T038",
+      "priority": "P2",
+      "canonicalHeadingId": "sl-t038",
+      "implementations": [
+        {
+          "key": "SL-T038:component",
+          "layer": "component",
+          "file": "src/components/discover/DiscoverFilterPanel.test.tsx",
+          "phase": 8,
+          "package": "8.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t038-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t038-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t038-expected",
+          "titleMarker": "[SL-T038][component] @p2",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project component src/components/discover/DiscoverFilterPanel.test.tsx",
+          "suiteCommand": "npm run test:component",
+          "acceptanceCommand": "npm run test:component"
+        }
+      ]
+    },
+    {
+      "id": "SL-T039",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t039",
+      "implementations": [
+        {
+          "key": "SL-T039:integration",
+          "layer": "integration",
+          "file": "tests/integration/connections/send.test.ts",
+          "phase": 4,
+          "package": "4.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t039-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t039-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t039-expected",
+          "titleMarker": "[SL-T039][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/connections/send.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T040",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t040",
+      "implementations": [
+        {
+          "key": "SL-T040:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/connections.test.sql",
+          "phase": 2,
+          "package": "2.4",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t040-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t040-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t040-expected",
+          "titleMarker": "-- SL-T040:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/connections.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T041",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t041",
+      "implementations": [
+        {
+          "key": "SL-T041:integration",
+          "layer": "integration",
+          "file": "tests/integration/connections/transitions.test.ts",
+          "phase": 6,
+          "package": "6.4",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t041-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t041-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t041-expected",
+          "titleMarker": "[SL-T041][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/connections/transitions.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T042",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t042",
+      "implementations": [
+        {
+          "key": "SL-T042:db",
+          "layer": "database",
+          "file": "supabase/tests/security/block-propagation.test.sql",
+          "phase": 2,
+          "package": "2.4",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q12"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": "docs/testing/contracts/package-e.json",
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t042-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t042-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t042-expected",
+          "titleMarker": "-- SL-T042:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/security/block-propagation.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T043",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t043",
+      "implementations": [
+        {
+          "key": "SL-T043:integration",
+          "layer": "integration",
+          "file": "tests/integration/connections/block.test.ts",
+          "phase": 6,
+          "package": "6.4",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t043-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t043-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t043-expected",
+          "titleMarker": "[SL-T043][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/connections/block.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T044",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t044",
+      "implementations": [
+        {
+          "key": "SL-T044:unit",
+          "layer": "unit",
+          "file": "src/domains/connections/schemas.test.ts",
+          "phase": 6,
+          "package": "6.4",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t044-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t044-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t044-expected",
+          "titleMarker": "[SL-T044][unit] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/domains/connections/schemas.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T045",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t045",
+      "implementations": [
+        {
+          "key": "SL-T045:e2e",
+          "layer": "e2e",
+          "file": "e2e/connections/connect.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [
+            "D12"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t045-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t045-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t045-expected",
+          "titleMarker": "[SL-T045][e2e] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/connections/connect.spec.ts --project=chromium",
+          "suiteCommand": "npm run test:e2e",
+          "acceptanceCommand": "npm run test:e2e"
+        }
+      ]
+    },
+    {
+      "id": "SL-T046",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t046",
+      "implementations": [
+        {
+          "key": "SL-T046:component",
+          "layer": "component",
+          "file": "src/components/connections/ConnectionRequestCard.test.tsx",
+          "phase": 6,
+          "package": "6.9",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t046-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t046-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t046-expected",
+          "titleMarker": "[SL-T046][component] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project component src/components/connections/ConnectionRequestCard.test.tsx",
+          "suiteCommand": "npm run test:component",
+          "acceptanceCommand": "npm run test:component"
+        }
+      ]
+    },
+    {
+      "id": "SL-T047",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t047",
+      "implementations": [
+        {
+          "key": "SL-T047:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/connections.test.sql",
+          "phase": 2,
+          "package": "2.4",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t047-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t047-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t047-expected",
+          "titleMarker": "-- SL-T047:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/connections.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T048",
+      "priority": "P2",
+      "canonicalHeadingId": "sl-t048",
+      "implementations": [
+        {
+          "key": "SL-T048:integration",
+          "layer": "integration",
+          "file": "tests/integration/connections/expiry.test.ts",
+          "phase": 8,
+          "package": "8.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t048-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t048-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t048-expected",
+          "titleMarker": "[SL-T048][integration] @p2",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/connections/expiry.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T049",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t049",
+      "implementations": [
+        {
+          "key": "SL-T049:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/messages.test.sql",
+          "phase": 2,
+          "package": "2.5",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t049-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t049-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t049-expected",
+          "titleMarker": "-- SL-T049:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/messages.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        },
+        {
+          "key": "SL-T049:realtime",
+          "layer": "integration",
+          "file": "tests/integration/messaging/realtime-authz.test.ts",
+          "phase": 4,
+          "package": "4.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t049-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t049-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t049-expected",
+          "titleMarker": "[SL-T049][realtime] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/messaging/realtime-authz.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T050",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t050",
+      "implementations": [
+        {
+          "key": "SL-T050:integration",
+          "layer": "integration",
+          "file": "tests/integration/messaging/send.test.ts",
+          "phase": 4,
+          "package": "4.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q02",
+            "Q08"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t050-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t050-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t050-expected",
+          "titleMarker": "[SL-T050][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/messaging/send.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T051",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t051",
+      "implementations": [
+        {
+          "key": "SL-T051:notification-db-failure",
+          "layer": "integration",
+          "file": "tests/integration/messaging/delivery-failure.test.ts",
+          "phase": 4,
+          "package": "4.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q07"
+          ],
+          "defects": [
+            "D4"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t051-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t051-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t051-expected",
+          "titleMarker": "[SL-T051][notification-db-failure] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/messaging/delivery-failure.test.ts -t notification-db-failure",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        },
+        {
+          "key": "SL-T051:email-postcommit-failure",
+          "layer": "integration",
+          "file": "tests/integration/messaging/delivery-failure.test.ts",
+          "phase": 4,
+          "package": "4.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q07"
+          ],
+          "defects": [
+            "D4"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t051-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t051-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t051-expected",
+          "titleMarker": "[SL-T051][email-postcommit-failure] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/messaging/delivery-failure.test.ts -t email-postcommit-failure",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T052",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t052",
+      "implementations": [
+        {
+          "key": "SL-T052:integration",
+          "layer": "integration",
+          "file": "tests/integration/messaging/read-state.test.ts",
+          "phase": 6,
+          "package": "6.5",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t052-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t052-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t052-expected",
+          "titleMarker": "[SL-T052][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/messaging/read-state.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T053",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t053",
+      "implementations": [
+        {
+          "key": "SL-T053:integration",
+          "layer": "integration",
+          "file": "tests/integration/messaging/block.test.ts",
+          "phase": 4,
+          "package": "4.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t053-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t053-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t053-expected",
+          "titleMarker": "[SL-T053][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/messaging/block.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T054",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t054",
+      "implementations": [
+        {
+          "key": "SL-T054:component",
+          "layer": "component",
+          "file": "src/components/messaging/MessageComposer.test.tsx",
+          "phase": 6,
+          "package": "6.9",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t054-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t054-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t054-expected",
+          "titleMarker": "[SL-T054][component] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project component src/components/messaging/MessageComposer.test.tsx",
+          "suiteCommand": "npm run test:component",
+          "acceptanceCommand": "npm run test:component"
+        }
+      ]
+    },
+    {
+      "id": "SL-T055",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t055",
+      "implementations": [
+        {
+          "key": "SL-T055:realtime-integ",
+          "layer": "integration",
+          "file": "tests/integration/messaging/realtime.test.ts",
+          "phase": 4,
+          "package": "4.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t055-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t055-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t055-expected",
+          "titleMarker": "[SL-T055][realtime-integ] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/messaging/realtime.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        },
+        {
+          "key": "SL-T055:hook-unmount",
+          "layer": "component",
+          "file": "src/domains/messaging/useConversationRealtime.test.tsx",
+          "phase": 4,
+          "package": "4.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t055-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t055-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t055-expected",
+          "titleMarker": "[SL-T055][hook-unmount] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project component src/domains/messaging/useConversationRealtime.test.tsx",
+          "suiteCommand": "npm run test:component",
+          "acceptanceCommand": "npm run test:component"
+        }
+      ]
+    },
+    {
+      "id": "SL-T056",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t056",
+      "implementations": [
+        {
+          "key": "SL-T056:integration",
+          "layer": "integration",
+          "file": "tests/integration/messaging/reconnect.test.ts",
+          "phase": 6,
+          "package": "6.5",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t056-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t056-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t056-expected",
+          "titleMarker": "[SL-T056][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/messaging/reconnect.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T057",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t057",
+      "implementations": [
+        {
+          "key": "SL-T057:db",
+          "layer": "database",
+          "file": "supabase/tests/retention/messages.test.sql",
+          "phase": 6,
+          "package": "6.5",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t057-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t057-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t057-expected",
+          "titleMarker": "-- SL-T057:db @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/retention/messages.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T058",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t058",
+      "implementations": [
+        {
+          "key": "SL-T058:integration",
+          "layer": "integration",
+          "file": "tests/integration/notifications/service.test.ts",
+          "phase": 6,
+          "package": "6.5",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t058-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t058-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t058-expected",
+          "titleMarker": "[SL-T058][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/notifications/service.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T059",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t059",
+      "implementations": [
+        {
+          "key": "SL-T059:integration",
+          "layer": "integration",
+          "file": "tests/integration/notifications/preferences.test.ts",
+          "phase": 6,
+          "package": "6.5",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q09"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t059-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t059-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t059-expected",
+          "titleMarker": "[SL-T059][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/notifications/preferences.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T060",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t060",
+      "implementations": [
+        {
+          "key": "SL-T060:integration",
+          "layer": "integration",
+          "file": "tests/integration/email/client.test.ts",
+          "phase": 6,
+          "package": "6.5",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t060-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t060-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t060-expected",
+          "titleMarker": "[SL-T060][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/email/client.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T061",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t061",
+      "implementations": [
+        {
+          "key": "SL-T061:e2e",
+          "layer": "e2e",
+          "file": "e2e/messaging/realtime-chat.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [
+            "D12"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t061-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t061-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t061-expected",
+          "titleMarker": "[SL-T061][e2e] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/messaging/realtime-chat.spec.ts --project=chromium",
+          "suiteCommand": "npm run test:e2e",
+          "acceptanceCommand": "npm run test:e2e"
+        }
+      ]
+    },
+    {
+      "id": "SL-T062",
+      "priority": "P2",
+      "canonicalHeadingId": "sl-t062",
+      "implementations": [
+        {
+          "key": "SL-T062:a11y",
+          "layer": "a11y",
+          "file": "e2e/a11y/messaging.spec.ts",
+          "phase": 8,
+          "package": "8.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q22"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t062-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t062-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t062-expected",
+          "titleMarker": "[SL-T062][a11y] @p2",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/a11y/messaging.spec.ts --project=a11y",
+          "suiteCommand": "npm run test:a11y",
+          "acceptanceCommand": "npm run test:a11y"
+        }
+      ]
+    },
+    {
+      "id": "SL-T063",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t063",
+      "implementations": [
+        {
+          "key": "SL-T063:integration",
+          "layer": "integration",
+          "file": "tests/integration/play/propose.test.ts",
+          "phase": 4,
+          "package": "4.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t063-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t063-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t063-expected",
+          "titleMarker": "[SL-T063][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/play/propose.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T064",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t064",
+      "implementations": [
+        {
+          "key": "SL-T064:integration",
+          "layer": "integration",
+          "file": "tests/integration/play/propose-atomicity.test.ts",
+          "phase": 4,
+          "package": "4.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q10"
+          ],
+          "defects": [
+            "D5"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t064-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t064-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t064-expected",
+          "titleMarker": "[SL-T064][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/play/propose-atomicity.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T065",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t065",
+      "implementations": [
+        {
+          "key": "SL-T065:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/play_invitations.test.sql",
+          "phase": 2,
+          "package": "2.6",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t065-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t065-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t065-expected",
+          "titleMarker": "-- SL-T065:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/play_invitations.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T066",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t066",
+      "implementations": [
+        {
+          "key": "SL-T066:integration",
+          "layer": "integration",
+          "file": "tests/integration/play/transitions.test.ts",
+          "phase": 6,
+          "package": "6.6",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t066-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t066-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t066-expected",
+          "titleMarker": "[SL-T066][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/play/transitions.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T067",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t067",
+      "implementations": [
+        {
+          "key": "SL-T067:integration",
+          "layer": "integration",
+          "file": "tests/integration/play/sessions.test.ts",
+          "phase": 4,
+          "package": "4.3",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t067-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t067-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t067-expected",
+          "titleMarker": "[SL-T067][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/play/sessions.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T068",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t068",
+      "implementations": [
+        {
+          "key": "SL-T068:unit",
+          "layer": "unit",
+          "file": "src/domains/play/timezone.test.ts",
+          "phase": 6,
+          "package": "6.6",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t068-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t068-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t068-expected",
+          "titleMarker": "[SL-T068][unit] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/domains/play/timezone.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T069",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t069",
+      "implementations": [
+        {
+          "key": "SL-T069:api",
+          "layer": "api",
+          "file": "tests/api/play-calendar.test.ts",
+          "phase": 6,
+          "package": "6.6",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t069-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t069-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t069-expected",
+          "titleMarker": "[SL-T069][api] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project api tests/api/play-calendar.test.ts",
+          "suiteCommand": "npm run test:api",
+          "acceptanceCommand": "npm run test:api"
+        }
+      ]
+    },
+    {
+      "id": "SL-T070",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t070",
+      "implementations": [
+        {
+          "key": "SL-T070:integration",
+          "layer": "integration",
+          "file": "tests/integration/play/feedback.test.ts",
+          "phase": 6,
+          "package": "6.6",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t070-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t070-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t070-expected",
+          "titleMarker": "[SL-T070][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/play/feedback.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T071",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t071",
+      "implementations": [
+        {
+          "key": "SL-T071:integration",
+          "layer": "integration",
+          "file": "tests/integration/jobs/play-reminders.test.ts",
+          "phase": 6,
+          "package": "6.8",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t071-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t071-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t071-expected",
+          "titleMarker": "[SL-T071][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/jobs/play-reminders.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T072",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t072",
+      "implementations": [
+        {
+          "key": "SL-T072:e2e",
+          "layer": "e2e",
+          "file": "e2e/play/full-session.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [
+            "D12"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t072-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t072-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t072-expected",
+          "titleMarker": "[SL-T072][e2e] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/play/full-session.spec.ts --project=chromium",
+          "suiteCommand": "npm run test:e2e",
+          "acceptanceCommand": "npm run test:e2e"
+        }
+      ]
+    },
+    {
+      "id": "SL-T073",
+      "priority": "P2",
+      "canonicalHeadingId": "sl-t073",
+      "implementations": [
+        {
+          "key": "SL-T073:component",
+          "layer": "component",
+          "file": "src/components/play/PlayInvitationCard.test.tsx",
+          "phase": 8,
+          "package": "8.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t073-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t073-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t073-expected",
+          "titleMarker": "[SL-T073][component] @p2",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project component src/components/play/PlayInvitationCard.test.tsx",
+          "suiteCommand": "npm run test:component",
+          "acceptanceCommand": "npm run test:component"
+        }
+      ]
+    },
+    {
+      "id": "SL-T074",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t074",
+      "implementations": [
+        {
+          "key": "SL-T074:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/teammate_relationships.test.sql",
+          "phase": 2,
+          "package": "2.6",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t074-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t074-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t074-expected",
+          "titleMarker": "-- SL-T074:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/teammate_relationships.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T075",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t075",
+      "implementations": [
+        {
+          "key": "SL-T075:integration",
+          "layer": "integration",
+          "file": "tests/integration/teammates/lifecycle.test.ts",
+          "phase": 6,
+          "package": "6.6",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t075-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t075-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t075-expected",
+          "titleMarker": "[SL-T075][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/teammates/lifecycle.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T076",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t076",
+      "implementations": [
+        {
+          "key": "SL-T076:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/teammate_relationships.test.sql",
+          "phase": 2,
+          "package": "2.6",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t076-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t076-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t076-expected",
+          "titleMarker": "-- SL-T076:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/teammate_relationships.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T077",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t077",
+      "implementations": [
+        {
+          "key": "SL-T077:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/private_groups.test.sql",
+          "phase": 2,
+          "package": "2.6",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t077-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t077-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t077-expected",
+          "titleMarker": "-- SL-T077:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/private_groups.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T078",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t078",
+      "implementations": [
+        {
+          "key": "SL-T078:integration",
+          "layer": "integration",
+          "file": "tests/integration/groups/create.test.ts",
+          "phase": 4,
+          "package": "4.4",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q11"
+          ],
+          "defects": [
+            "D7"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t078-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t078-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t078-expected",
+          "titleMarker": "[SL-T078][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/groups/create.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T079",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t079",
+      "implementations": [
+        {
+          "key": "SL-T079:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/group-approval.test.sql",
+          "phase": 2,
+          "package": "2.6",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t079-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t079-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t079-expected",
+          "titleMarker": "-- SL-T079:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/group-approval.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T080",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t080",
+      "implementations": [
+        {
+          "key": "SL-T080:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/group_ownership.test.sql",
+          "phase": 2,
+          "package": "2.6",
+          "baselineStatus": "rewrite",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t080-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t080-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t080-expected",
+          "titleMarker": "-- SL-T080:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/group_ownership.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T081",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t081",
+      "implementations": [
+        {
+          "key": "SL-T081:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/group_messaging.test.sql",
+          "phase": 2,
+          "package": "2.6",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q12"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": "docs/testing/contracts/package-e.json",
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t081-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t081-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t081-expected",
+          "titleMarker": "-- SL-T081:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/group_messaging.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        },
+        {
+          "key": "SL-T081:realtime",
+          "layer": "integration",
+          "file": "tests/integration/groups/realtime-authz.test.ts",
+          "phase": 4,
+          "package": "4.4",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q12"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": "docs/testing/contracts/package-e.json",
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t081-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t081-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t081-expected",
+          "titleMarker": "[SL-T081][realtime] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/groups/realtime-authz.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T082",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t082",
+      "implementations": [
+        {
+          "key": "SL-T082:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/group_open_seats.test.sql",
+          "phase": 6,
+          "package": "6.6",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q12"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": "docs/testing/contracts/package-e.json",
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t082-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t082-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t082-expected",
+          "titleMarker": "-- SL-T082:db @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/group_open_seats.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T083",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t083",
+      "implementations": [
+        {
+          "key": "SL-T083:integration",
+          "layer": "integration",
+          "file": "tests/integration/groups/conversation.test.ts",
+          "phase": 6,
+          "package": "6.6",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t083-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t083-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t083-expected",
+          "titleMarker": "[SL-T083][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/groups/conversation.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T084",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t084",
+      "implementations": [
+        {
+          "key": "SL-T084:e2e",
+          "layer": "e2e",
+          "file": "e2e/groups/full-group.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q12"
+          ],
+          "defects": [
+            "D12"
+          ],
+          "coShipsWith": null,
+          "contractRef": "docs/testing/contracts/package-e.json",
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t084-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t084-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t084-expected",
+          "titleMarker": "[SL-T084][e2e] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/groups/full-group.spec.ts --project=chromium",
+          "suiteCommand": "npm run test:e2e",
+          "acceptanceCommand": "npm run test:e2e"
+        }
+      ]
+    },
+    {
+      "id": "SL-T085",
+      "priority": "P2",
+      "canonicalHeadingId": "sl-t085",
+      "implementations": [
+        {
+          "key": "SL-T085:a11y",
+          "layer": "a11y",
+          "file": "e2e/a11y/groups.spec.ts",
+          "phase": 8,
+          "package": "8.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q22"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t085-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t085-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t085-expected",
+          "titleMarker": "[SL-T085][a11y] @p2",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/a11y/groups.spec.ts --project=a11y",
+          "suiteCommand": "npm run test:a11y",
+          "acceptanceCommand": "npm run test:a11y"
+        }
+      ]
+    },
+    {
+      "id": "SL-T086",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t086",
+      "implementations": [
+        {
+          "key": "SL-T086:integration",
+          "layer": "integration",
+          "file": "tests/integration/moderation/report.test.ts",
+          "phase": 4,
+          "package": "4.5",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q13",
+            "Q14"
+          ],
+          "defects": [
+            "D6"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t086-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t086-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t086-expected",
+          "titleMarker": "[SL-T086][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/moderation/report.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T087",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t087",
+      "implementations": [
+        {
+          "key": "SL-T087:db",
+          "layer": "database",
+          "file": "supabase/tests/security/report-context.test.sql",
+          "phase": 2,
+          "package": "2.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t087-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t087-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t087-expected",
+          "titleMarker": "-- SL-T087:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/security/report-context.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T088",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t088",
+      "implementations": [
+        {
+          "key": "SL-T088:integration",
+          "layer": "integration",
+          "file": "tests/integration/moderation/block-report.test.ts",
+          "phase": 4,
+          "package": "4.5",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q03"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t088-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t088-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t088-expected",
+          "titleMarker": "[SL-T088][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/moderation/block-report.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T089",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t089",
+      "implementations": [
+        {
+          "key": "SL-T089:unit",
+          "layer": "unit",
+          "file": "src/domains/moderation/schemas.test.ts",
+          "phase": 6,
+          "package": "6.7",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q14"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t089-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t089-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t089-expected",
+          "titleMarker": "[SL-T089][unit] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/domains/moderation/schemas.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T090",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t090",
+      "implementations": [
+        {
+          "key": "SL-T090:integration",
+          "layer": "integration",
+          "file": "tests/integration/admin/authorization.test.ts",
+          "phase": 4,
+          "package": "4.6",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q15"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t090-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t090-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t090-expected",
+          "titleMarker": "[SL-T090][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/admin/authorization.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T091",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t091",
+      "implementations": [
+        {
+          "key": "SL-T091:db",
+          "layer": "database",
+          "file": "supabase/tests/admin/case-actions.test.sql",
+          "phase": 2,
+          "package": "2.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t091-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t091-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t091-expected",
+          "titleMarker": "-- SL-T091:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/admin/case-actions.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T092",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t092",
+      "implementations": [
+        {
+          "key": "SL-T092:integration",
+          "layer": "integration",
+          "file": "tests/integration/admin/evidence.test.ts",
+          "phase": 4,
+          "package": "4.6",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t092-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t092-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t092-expected",
+          "titleMarker": "[SL-T092][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/admin/evidence.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T093",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t093",
+      "implementations": [
+        {
+          "key": "SL-T093:integration",
+          "layer": "integration",
+          "file": "tests/integration/admin/appeals.test.ts",
+          "phase": 6,
+          "package": "6.7",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t093-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t093-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t093-expected",
+          "titleMarker": "[SL-T093][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/admin/appeals.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T094",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t094",
+      "implementations": [
+        {
+          "key": "SL-T094:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/moderation_release.test.sql",
+          "phase": 6,
+          "package": "6.7",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t094-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t094-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t094-expected",
+          "titleMarker": "-- SL-T094:db @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/moderation_release.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T095",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t095",
+      "implementations": [
+        {
+          "key": "SL-T095:integration",
+          "layer": "integration",
+          "file": "tests/integration/admin/feature-controls.test.ts",
+          "phase": 6,
+          "package": "6.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t095-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t095-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t095-expected",
+          "titleMarker": "[SL-T095][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/admin/feature-controls.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T096",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t096",
+      "implementations": [
+        {
+          "key": "SL-T096:integration",
+          "layer": "integration",
+          "file": "tests/integration/admin/catalog.test.ts",
+          "phase": 6,
+          "package": "6.7",
+          "baselineStatus": "partial",
+          "implementationStatus": "missing",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t096-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t096-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t096-expected",
+          "titleMarker": "[SL-T096][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/admin/catalog.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T097",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t097",
+      "implementations": [
+        {
+          "key": "SL-T097:db",
+          "layer": "database",
+          "file": "supabase/tests/privacy/export.test.sql",
+          "phase": 2,
+          "package": "2.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t097-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t097-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t097-expected",
+          "titleMarker": "-- SL-T097:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/privacy/export.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T098",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t098",
+      "implementations": [
+        {
+          "key": "SL-T098:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/audit_events.test.sql",
+          "phase": 2,
+          "package": "2.2",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t098-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t098-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t098-expected",
+          "titleMarker": "-- SL-T098:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/audit_events.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T099",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t099",
+      "implementations": [
+        {
+          "key": "SL-T099:e2e",
+          "layer": "e2e",
+          "file": "e2e/moderation/full-case.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q15"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t099-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t099-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t099-expected",
+          "titleMarker": "[SL-T099][e2e] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/moderation/full-case.spec.ts --project=chromium",
+          "suiteCommand": "npm run test:e2e",
+          "acceptanceCommand": "npm run test:e2e"
+        }
+      ]
+    },
+    {
+      "id": "SL-T100",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t100",
+      "implementations": [
+        {
+          "key": "SL-T100:api",
+          "layer": "api",
+          "file": "tests/api/stripe-webhook.test.ts",
+          "phase": 4,
+          "package": "4.7",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t100-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t100-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t100-expected",
+          "titleMarker": "[SL-T100][api] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project api tests/api/stripe-webhook.test.ts",
+          "suiteCommand": "npm run test:api:p0",
+          "acceptanceCommand": "npm run test:api:p0"
+        },
+        {
+          "key": "SL-T100:unit",
+          "layer": "unit",
+          "file": "src/domains/billing/webhook.test.ts",
+          "phase": 4,
+          "package": "4.7",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t100-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t100-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t100-expected",
+          "titleMarker": "[SL-T100][unit] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/domains/billing/webhook.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T101",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t101",
+      "implementations": [
+        {
+          "key": "SL-T101:integration",
+          "layer": "integration",
+          "file": "tests/integration/billing/webhooks.test.ts",
+          "phase": 4,
+          "package": "4.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q19"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": "docs/testing/contracts/package-d.json",
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t101-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t101-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t101-expected",
+          "titleMarker": "[SL-T101][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/billing/webhooks.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T102",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t102",
+      "implementations": [
+        {
+          "key": "SL-T102:integration",
+          "layer": "integration",
+          "file": "tests/integration/billing/webhook-order.test.ts",
+          "phase": 4,
+          "package": "4.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t102-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t102-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t102-expected",
+          "titleMarker": "[SL-T102][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/billing/webhook-order.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T103",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t103",
+      "implementations": [
+        {
+          "key": "SL-T103:integration",
+          "layer": "integration",
+          "file": "tests/integration/billing/resubscribe.test.ts",
+          "phase": 4,
+          "package": "4.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q17"
+          ],
+          "defects": [
+            "D3"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t103-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t103-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t103-expected",
+          "titleMarker": "[SL-T103][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/billing/resubscribe.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T104",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t104",
+      "implementations": [
+        {
+          "key": "SL-T104:integration",
+          "layer": "integration",
+          "file": "tests/integration/billing/actions.test.ts",
+          "phase": 4,
+          "package": "4.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t104-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t104-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t104-expected",
+          "titleMarker": "[SL-T104][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/billing/actions.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T105",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t105",
+      "implementations": [
+        {
+          "key": "SL-T105:db",
+          "layer": "database",
+          "file": "supabase/tests/rls/saved_searches.test.sql",
+          "phase": 6,
+          "package": "6.7",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t105-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t105-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t105-expected",
+          "titleMarker": "-- SL-T105:db @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/rls/saved_searches.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T106",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t106",
+      "implementations": [
+        {
+          "key": "SL-T106:integration",
+          "layer": "integration",
+          "file": "tests/integration/billing/entitlements.test.ts",
+          "phase": 6,
+          "package": "6.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q18"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t106-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t106-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t106-expected",
+          "titleMarker": "[SL-T106][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/billing/entitlements.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T107",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t107",
+      "implementations": [
+        {
+          "key": "SL-T107:integration",
+          "layer": "integration",
+          "file": "tests/integration/billing/deletion.test.ts",
+          "phase": 4,
+          "package": "4.7",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q16"
+          ],
+          "defects": [
+            "D2"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t107-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t107-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t107-expected",
+          "titleMarker": "[SL-T107][integration] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/billing/deletion.test.ts",
+          "suiteCommand": "npm run test:integration:p0",
+          "acceptanceCommand": "npm run test:integration:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T108",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t108",
+      "implementations": [
+        {
+          "key": "SL-T108:e2e-local-stub",
+          "layer": "e2e",
+          "file": "e2e/billing/lifecycle.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t108-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t108-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t108-expected",
+          "titleMarker": "[SL-T108][e2e-local-stub] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/billing/lifecycle.spec.ts --project=chromium",
+          "suiteCommand": "npm run test:e2e",
+          "acceptanceCommand": "npm run test:e2e"
+        },
+        {
+          "key": "SL-T108:e2e-stripe-staging",
+          "layer": "e2e",
+          "file": "e2e/billing/lifecycle.staging.spec.ts",
+          "phase": 7,
+          "package": "7.2",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t108-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t108-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t108-expected",
+          "titleMarker": "[SL-T108][e2e-stripe-staging] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npm run test:e2e:stripe-staging",
+          "suiteCommand": "npm run test:e2e:stripe-staging",
+          "acceptanceCommand": "npm run test:e2e:stripe-staging"
+        }
+      ]
+    },
+    {
+      "id": "SL-T109",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t109",
+      "implementations": [
+        {
+          "key": "SL-T109:db",
+          "layer": "database",
+          "file": "supabase/tests/security/all-tables-rls.test.sql",
+          "phase": 2,
+          "package": "2.1",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t109-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t109-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t109-expected",
+          "titleMarker": "-- SL-T109:db @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "supabase test db supabase/tests/security/all-tables-rls.test.sql",
+          "suiteCommand": "npm run test:db",
+          "acceptanceCommand": "npm run test:db"
+        }
+      ]
+    },
+    {
+      "id": "SL-T110",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t110",
+      "implementations": [
+        {
+          "key": "SL-T110:api",
+          "layer": "api",
+          "file": "tests/api/cron-auth.test.ts",
+          "phase": 4,
+          "package": "4.8",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q21"
+          ],
+          "defects": [
+            "D1"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t110-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t110-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t110-expected",
+          "titleMarker": "[SL-T110][api] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project api tests/api/cron-auth.test.ts",
+          "suiteCommand": "npm run test:api:p0",
+          "acceptanceCommand": "npm run test:api:p0"
+        }
+      ]
+    },
+    {
+      "id": "SL-T111",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t111",
+      "implementations": [
+        {
+          "key": "SL-T111:integration",
+          "layer": "integration",
+          "file": "tests/integration/jobs/idempotency.test.ts",
+          "phase": 6,
+          "package": "6.8",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t111-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t111-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t111-expected",
+          "titleMarker": "[SL-T111][integration] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project integration tests/integration/jobs/idempotency.test.ts",
+          "suiteCommand": "npm run test:integration",
+          "acceptanceCommand": "npm run test:integration"
+        }
+      ]
+    },
+    {
+      "id": "SL-T112",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t112",
+      "implementations": [
+        {
+          "key": "SL-T112:api",
+          "layer": "api",
+          "file": "tests/api/health.test.ts",
+          "phase": 6,
+          "package": "6.8",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q20"
+          ],
+          "defects": [
+            "D8"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t112-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t112-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t112-expected",
+          "titleMarker": "[SL-T112][api] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project api tests/api/health.test.ts",
+          "suiteCommand": "npm run test:api",
+          "acceptanceCommand": "npm run test:api"
+        }
+      ]
+    },
+    {
+      "id": "SL-T113",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t113",
+      "implementations": [
+        {
+          "key": "SL-T113:unit-decision",
+          "layer": "unit",
+          "file": "tests/unit/scripts/smoke-post-deploy.test.ts",
+          "phase": 6,
+          "package": "6.8",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q20"
+          ],
+          "defects": [
+            "D8"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t113-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t113-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t113-expected",
+          "titleMarker": "[SL-T113][unit-decision] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit tests/unit/scripts/smoke-post-deploy.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        },
+        {
+          "key": "SL-T113:live-staging",
+          "layer": "smoke",
+          "file": "scripts/smoke-post-deploy.ts",
+          "phase": 7,
+          "package": "7.3",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q20"
+          ],
+          "defects": [
+            "D8"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t113-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t113-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t113-expected",
+          "titleMarker": "SL-T113:live-staging @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "BASE_URL=$STAGING_URL npm run smoke:post-deploy",
+          "suiteCommand": "post-deploy job (blocks promotion)",
+          "acceptanceCommand": "post-deploy job (blocks promotion)"
+        }
+      ]
+    },
+    {
+      "id": "SL-T114",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t114",
+      "implementations": [
+        {
+          "key": "SL-T114:unit",
+          "layer": "unit",
+          "file": "src/lib/sentry.test.ts",
+          "phase": 3,
+          "package": "3.5",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [
+            "D9"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t114-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t114-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t114-expected",
+          "titleMarker": "[SL-T114][unit] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/lib/sentry.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T115",
+      "priority": "P0",
+      "canonicalHeadingId": "sl-t115",
+      "implementations": [
+        {
+          "key": "SL-T115:unit",
+          "layer": "unit",
+          "file": "src/lib/analytics/events.test.ts",
+          "phase": 3,
+          "package": "3.5",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [
+            "D10"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t115-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t115-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t115-expected",
+          "titleMarker": "[SL-T115][unit] @p0",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/lib/analytics/events.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        }
+      ]
+    },
+    {
+      "id": "SL-T116",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t116",
+      "implementations": [
+        {
+          "key": "SL-T116:a11y",
+          "layer": "a11y",
+          "file": "e2e/a11y/journey-routes.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q22"
+          ],
+          "defects": [
+            "D15"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t116-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t116-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t116-expected",
+          "titleMarker": "[SL-T116][a11y] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/a11y --project=a11y",
+          "suiteCommand": "npm run test:a11y",
+          "acceptanceCommand": "npm run test:a11y"
+        }
+      ]
+    },
+    {
+      "id": "SL-T117",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t117",
+      "implementations": [
+        {
+          "key": "SL-T117:a11y",
+          "layer": "a11y",
+          "file": "e2e/a11y/keyboard.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q22"
+          ],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t117-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t117-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t117-expected",
+          "titleMarker": "[SL-T117][a11y] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/a11y/keyboard.spec.ts --project=a11y",
+          "suiteCommand": "npm run test:a11y",
+          "acceptanceCommand": "npm run test:a11y"
+        }
+      ]
+    },
+    {
+      "id": "SL-T118",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t118",
+      "implementations": [
+        {
+          "key": "SL-T118:e2e",
+          "layer": "e2e",
+          "file": "e2e/responsive/core.spec.ts",
+          "phase": 7,
+          "package": "7.1",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t118-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t118-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t118-expected",
+          "titleMarker": "[SL-T118][e2e] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx playwright test e2e/responsive/core.spec.ts --project=chromium",
+          "suiteCommand": "npm run test:e2e",
+          "acceptanceCommand": "npm run test:e2e"
+        }
+      ]
+    },
+    {
+      "id": "SL-T119",
+      "priority": "P1",
+      "canonicalHeadingId": "sl-t119",
+      "implementations": [
+        {
+          "key": "SL-T119:unit-env",
+          "layer": "unit",
+          "file": "src/lib/env.test.ts",
+          "phase": 6,
+          "package": "6.8",
+          "baselineStatus": "exists-expand",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [
+            "Q21"
+          ],
+          "defects": [
+            "D13"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t119-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t119-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t119-expected",
+          "titleMarker": "[SL-T119][unit-env] @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "npx vitest run --project unit src/lib/env.test.ts",
+          "suiteCommand": "npm run test:unit",
+          "acceptanceCommand": "npm run test:unit"
+        },
+        {
+          "key": "SL-T119:ci-env-gate",
+          "layer": "ci",
+          "file": ".github/workflows/ci.yml",
+          "phase": 6,
+          "package": "6.8",
+          "baselineStatus": "missing",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [
+            "D13"
+          ],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t119-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t119-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t119-expected",
+          "titleMarker": "SL-T119:ci-env-gate @p1",
+          "owner": "test-implementation-lead",
+          "devCommand": "gh run / job logs",
+          "suiteCommand": "required check env-production-gate",
+          "acceptanceCommand": "required check env-production-gate"
+        }
+      ]
+    },
+    {
+      "id": "SL-T120",
+      "priority": "P2",
+      "canonicalHeadingId": "sl-t120",
+      "implementations": [
+        {
+          "key": "SL-T120:load",
+          "layer": "perf",
+          "file": "scripts/load/messaging-realtime.k6.ts",
+          "phase": 8,
+          "package": "8.2",
+          "baselineStatus": "partial",
+          "implementationStatus": "partial",
+          "disposition": "required",
+          "deferredRecord": null,
+          "decisions": [],
+          "defects": [],
+          "coShipsWith": null,
+          "contractRef": null,
+          "setupRef": "docs/testing/canonical-anchors.md#sl-t120-setup",
+          "stepsRef": "docs/testing/canonical-anchors.md#sl-t120-steps",
+          "expectedRef": "docs/testing/canonical-anchors.md#sl-t120-expected",
+          "titleMarker": "SL-T120:load @p2",
+          "owner": "test-implementation-lead",
+          "devCommand": "npm run test:load:realtime",
+          "suiteCommand": "nightly/release",
+          "acceptanceCommand": "nightly/release"
+        }
+      ]
+    }
+  ]
+}

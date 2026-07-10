@@ -1,4 +1,6 @@
 begin;
+-- SL-T065:db @p0
+-- SL-T077:db @p0
 select plan(3);
 
 \set user_a 'c1111111-1111-1111-1111-111111111111'

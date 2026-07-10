@@ -1,0 +1,6 @@
+
+> samelobby@0.1.0 test:traceability:plan
+> tsx scripts/verify-test-traceability.ts --mode=plan
+
+traceability:plan ΓÇö 120 requirements, 130 implementations
+PASS

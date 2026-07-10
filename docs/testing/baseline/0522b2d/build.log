@@ -1,0 +1,80 @@
+
+> samelobby@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.2.10 (Turbopack)
+- Environments: .env.local
+
+ΓÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 2.6s
+  Running TypeScript ...
+  Finished TypeScript in 4.2s ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/44) ...
+  Generating static pages using 15 workers (11/44) 
+  Generating static pages using 15 workers (22/44) 
+  Generating static pages using 15 workers (33/44) 
+Γ£ô Generating static pages using 15 workers (44/44) in 240ms
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ ╞Æ /admin/audit
+Γö£ ╞Æ /admin/cases/[id]
+Γö£ ╞Æ /admin/catalog
+Γö£ ╞Æ /admin/dashboard
+Γö£ ╞Æ /admin/feature-controls
+Γö£ ╞Æ /admin/reports
+Γö£ ╞Æ /admin/users/[id]
+Γö£ ╞Æ /api/cron/deletion-pipeline
+Γö£ ╞Æ /api/cron/message-purge
+Γö£ ╞Æ /api/cron/play-reminders
+Γö£ ╞Æ /api/health
+Γö£ ╞Æ /api/play/sessions/[id]/calendar
+Γö£ ╞Æ /api/webhooks/stripe
+Γö£ ╞Æ /auth/callback
+Γö£ Γùï /auth/reset-password
+Γö£ ╞Æ /connections
+Γö£ ╞Æ /discover
+Γö£ ╞Æ /discover/search
+Γö£ Γùï /forgot-password
+Γö£ ╞Æ /groups/[id]
+Γö£ ╞Æ /groups/new
+Γö£ Γùï /help
+Γö£ Γùï /how-it-works
+Γö£ ╞Æ /messages
+Γö£ ╞Æ /messages/[id]
+Γö£ ╞Æ /onboarding/attestation
+Γö£ ╞Æ /onboarding/availability
+Γö£ ╞Æ /onboarding/communication
+Γö£ ╞Æ /onboarding/games
+Γö£ ╞Æ /onboarding/goal
+Γö£ ╞Æ /onboarding/identity
+Γö£ ╞Æ /onboarding/preview
+Γö£ ╞Æ /play
+Γö£ ╞Æ /play/invitations/[id]
+Γö£ ╞Æ /play/sessions/[id]
+Γö£ Γùï /pricing
+Γö£ ╞Æ /profile
+Γö£ ╞Æ /profile/[id]
+Γö£ ╞Æ /profile/preview
+Γö£ Γùï /safety
+Γö£ ╞Æ /settings/account
+Γö£ ╞Æ /settings/blocked
+Γö£ ╞Æ /settings/privacy
+Γö£ ╞Æ /settings/safety
+Γö£ ╞Æ /sign-in
+Γö£ ╞Æ /sign-up
+Γö£ Γùï /sign-up/check-email
+Γö£ ╞Æ /subscription
+Γö£ ╞Æ /teammates
+Γöö ╞Æ /teammates/[relationshipId]
+
+
+╞Æ Proxy (Middleware)
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

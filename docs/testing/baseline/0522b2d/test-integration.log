@@ -1,0 +1,103 @@
+
+> samelobby@0.1.0 test:integration
+> tsx scripts/run-with-local-supabase.ts -- vitest run --project integration
+
+
+ RUN  v3.2.7 C:/Users/barne/Desktop/SameLobby
+
+ Γ£ô |integration| tests/integration/play/propose.test.ts (1 test) 1395ms
+   Γ£ô [SL-T063][integration] @p0 play propose > creates a proposed play invitation between connected players  1394ms
+ Γ£ô |integration| tests/integration/messaging/read-state.test.ts (1 test) 1613ms
+   Γ£ô [SL-T052][integration] @p1 messaging read state > updates last_read_at when a recipient opens a conversation  1612ms
+ Γ£ô |integration| tests/integration/admin/evidence.test.ts (1 test) 1624ms
+   Γ£ô [SL-T092][integration] @p0 admin evidence > restricts moderation evidence to safety admins  1623ms
+ Γ£ô |integration| tests/integration/play/propose-atomicity.test.ts (1 test) 1637ms
+   Γ£ô [SL-T064][integration] @p0 play propose atomicity > leaves invitation rows when scheduled slots fail validation (Q10 open)  1636ms
+ Γ£ô |integration| tests/integration/jobs/play-reminders.test.ts (1 test) 1554ms
+   Γ£ô [SL-T071][integration] @p1 play reminder job > creates reminder notifications for sessions in the 24h window  1553ms
+ Γ£ô |integration| tests/integration/messaging/block.test.ts (1 test) 1666ms
+   Γ£ô [SL-T053][integration] @p0 messaging block > prevents blocked users from sending new messages  1665ms
+ Γ£ô |integration| tests/integration/messaging/realtime.test.ts (1 test) 1801ms
+   Γ£ô [SL-T055][realtime-integ] @p0 conversation realtime > delivers new messages to connected conversation members  1801ms
+ Γ£ô |integration| tests/integration/messaging/realtime-authz.test.ts (1 test) 2031ms
+   Γ£ô [SL-T049][realtime] @p0 messaging realtime authz > denies non-members read access to conversation messages  2030ms
+ Γ£ô |integration| tests/integration/connections/send.test.ts (2 tests) 2439ms
+   Γ£ô [SL-T039][integration] @p0 connection send > creates a pending outgoing request visible to sender and recipient  1353ms
+   Γ£ô [SL-T039][integration] @p0 connection send > rejects duplicate pending requests between the same pair  1085ms
+ Γ£ô |integration| tests/integration/messaging/delivery-failure.test.ts (2 tests) 2562ms
+   Γ£ô [SL-T051][notification-db-failure] @p0 message delivery failure > persists messages independently of notification rows (Q07 post-commit)  1486ms
+   Γ£ô [SL-T051][email-postcommit-failure] @p0 message delivery failure > persists in-app notification when email send fails (Q07 post-commit)  1076ms
+ Γ£ô |integration| tests/integration/play/transitions.test.ts (2 tests) 2866ms
+   Γ£ô [SL-T066][integration] @p1 play transitions > declines a proposed invitation  1613ms
+   Γ£ô [SL-T066][integration] @p1 play transitions > cancels a confirmed session  1252ms
+ Γ£ô |integration| tests/integration/moderation/report.test.ts (1 test) 841ms
+   Γ£ô [SL-T086][integration] @p0 moderation report > creates a report and opens a moderation case  840ms
+ Γ£ô |integration| tests/integration/play/feedback.test.ts (1 test) 1317ms
+   Γ£ô [SL-T070][integration] @p1 post-play feedback > stores continuation feedback for a session participant  1316ms
+ Γ£ô |integration| tests/integration/notifications/service.test.ts (1 test) 1137ms
+   Γ£ô [SL-T058][integration] @p1 notification service > inserts an in-app new_message notification for the recipient  1136ms
+ Γ£ô |integration| tests/integration/messaging/send.test.ts (2 tests) 3164ms
+   Γ£ô [SL-T050][integration] @p0 message send > delivers a direct message to the connected recipient  1804ms
+   Γ£ô [SL-T050][integration] @p0 message send > blocks links when links_in_messages is disabled (Q08 open)  1359ms
+ Γ£ô |integration| tests/integration/profile/visibility.test.ts (2 tests) 1262ms
+   Γ£ô [SL-T023][integration] @p0 profile visibility > seeds recommended default disclosure settings for new accounts  325ms
+   Γ£ô [SL-T023][integration] @p0 profile visibility > allows owners to read disclosure settings but hides them from other users  936ms
+ Γ£ô |integration| tests/integration/auth/sign-in.test.ts (2 tests) 849ms
+   Γ£ô [SL-T006][integration] @p0 sign-in > signs in through the password API and reads own account via RLS  478ms
+   Γ£ô [SL-T006][integration] @p0 sign-in > rejects invalid credentials without exposing account rows  370ms
+ Γ£ô |integration| tests/integration/admin/appeals.test.ts (1 test) 1185ms
+   Γ£ô [SL-T093][integration] @p1 admin appeals > lets the subject submit an appeal within the appeal window  1184ms
+ Γ£ô |integration| tests/integration/groups/realtime-authz.test.ts (1 test) 1225ms
+   Γ£ô [SL-T081][realtime] @p0 group realtime authz > denies non-members read access to group conversations (Q12 open)  1223ms
+ Γ£ô |integration| tests/integration/play/sessions.test.ts (1 test) 1447ms
+   Γ£ô [SL-T067][integration] @p0 play sessions > creates a gaming session when a flexible invitation is accepted  1446ms
+ Γ£ô |integration| tests/integration/billing/actions.test.ts (2 tests) 595ms
+   Γ£ô [SL-T104][integration] @p0 billing actions > seeds stripe customer metadata on subscription row  300ms
+ Γ£ô |integration| tests/integration/admin/authorization.test.ts (3 tests) 3459ms
+   Γ£ô [SL-T090][integration] @p0 admin authorization > denies non-admin actors from claiming moderation cases  1290ms
+   Γ£ô [SL-T090][integration] @p0 admin authorization > denies support-scoped admins from claiming moderation cases  1145ms
+   Γ£ô [SL-T090][integration] @p0 admin authorization > allows safety_review admin to claim cases when MFA fixture is enrolled  1023ms
+ Γ£ô |integration| tests/integration/moderation/block-report.test.ts (1 test) 785ms
+   Γ£ô [SL-T088][integration] @p0 block report > rejects reports when a block exists (Q03 current behavior)  784ms
+ Γ£ô |integration| tests/integration/connections/block.test.ts (3 tests) 3651ms
+   Γ£ô [SL-T043][integration] @p1 connection block > prevents blocked users from sending new connection requests  1285ms
+   Γ£ô [SL-T043][integration] @p1 connection block > prevents accepting requests when a block exists  1095ms
+   Γ£ô [SL-T043][integration] @p1 connection block > still allows connected users to remain connected until archived  1269ms
+ Γ£ô |integration| tests/integration/connections/transitions.test.ts (3 tests) 3654ms
+   Γ£ô [SL-T041][integration] @p1 connection transitions > accepts a pending request into a connected relationship  1485ms
+   Γ£ô [SL-T041][integration] @p1 connection transitions > declines a pending incoming request  1096ms
+   Γ£ô [SL-T041][integration] @p1 connection transitions > cancels a pending outgoing request  1072ms
+ Γ£ô |integration| tests/integration/discovery/search.test.ts (1 test) 626ms
+   Γ£ô [SL-T030][integration] @p0 discovery search > returns discoverable profiles matching a display-name query  625ms
+ Γ£ô |integration| tests/integration/auth/registration.test.ts (2 tests) 607ms
+   Γ£ô [SL-T003][integration] @p0 registration > provisions an onboarding account when a user signs up  377ms
+ Γ£ô |integration| tests/integration/auth/rate-limit.test.ts (2 tests) 5ms
+ Γ£ô |integration| tests/integration/support/action-context.self.test.ts (2 tests) 3ms
+ Γ£ô |integration| tests/integration/billing/entitlements.test.ts (2 tests) 591ms
+   Γ£ô [SL-T106][integration] @p1 billing entitlements > recomputes free-tier limits for active accounts  309ms
+ Γ£ô |integration| tests/integration/jobs/idempotency.test.ts (1 test) 81ms
+ Γ£ô |integration| tests/integration/profile/completeness.test.ts (3 tests) 5ms
+ Γ£ô |integration| tests/integration/accounts/attestation.test.ts (1 test) 535ms
+   Γ£ô [SL-T011][integration] @p0 attestation > completes attestation and activates the account  534ms
+ Γ£ô |integration| tests/integration/billing/resubscribe.test.ts (1 test) 337ms
+   Γ£ô [SL-T103][integration] @p0 billing resubscribe > marks canceled accounts read-only until resubscribe (D3)  336ms
+ Γ£ô |integration| tests/integration/accounts/deletion-request.test.ts (1 test) 575ms
+   Γ£ô [SL-T013][integration] @p0 deletion request > requests account deletion and moves account to deletion_pending  574ms
+ Γ£ô |integration| tests/integration/billing/webhook-order.test.ts (1 test) 575ms
+   Γ£ô [SL-T102][integration] @p0 billing webhook order > applies later subscription.updated after initial activation  574ms
+ Γ£ô |integration| tests/integration/groups/create.test.ts (1 test) 598ms
+   Γ£ô [SL-T078][integration] @p0 group create > creates a private group via RPC for an active owner  596ms
+ Γ£ô |integration| tests/integration/profile/onboarding-order.test.ts (1 test) 298ms
+ Γ£ô |integration| tests/integration/accounts/deletion-confirmation.test.ts (1 test) 587ms
+   Γ£ô [SL-T014][integration] @p0 deletion confirmation > confirms deletion request after password re-auth (D2/Q16 current behavior)  586ms
+ Γ£ô |integration| tests/integration/billing/webhooks.test.ts (1 test) 414ms
+   Γ£ô [SL-T101][integration] @p0 billing webhooks > activates subscription state from customer.subscription.updated  413ms
+ Γ£ô |integration| tests/integration/billing/deletion.test.ts (1 test) 595ms
+   Γ£ô [SL-T107][integration] @p0 billing deletion > confirms deletion even when Stripe cancel fails (D2)  593ms
+ Γ£ô |integration| tests/integration/support/alias.self.test.ts (1 test) 2ms
+
+ Test Files  42 passed (42)
+      Tests  61 passed (61)
+   Start at  21:27:13
+   Duration  4.67s (transform 798ms, setup 0ms, collect 4.15s, tests 52.19s, environment 6ms, prepare 4.05s)
+

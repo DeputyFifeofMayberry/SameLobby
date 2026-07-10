@@ -1,0 +1,6 @@
+Listing tests:
+::notice title=≡ƒÄ¡ Playwright Run Summary::  3 did not run
+  [chromium-p0] ΓÇ║ auth\protected-routes.spec.ts:4:7 ΓÇ║ [SL-T001][e2e] @p0 protected routes ΓÇ║ unauthenticated user is redirected to sign-in with next param
+  [chromium-p0] ΓÇ║ auth\protected-routes.spec.ts:11:7 ΓÇ║ [SL-T001][e2e] @p0 protected routes ΓÇ║ authenticated active user can access discover
+  [chromium-p0] ΓÇ║ auth\session-expiry.spec.ts:4:7 ΓÇ║ [SL-T010][e2e] @p0 session expiry ΓÇ║ cleared auth cookies require sign-in again
+Total: 3 tests in 2 files
