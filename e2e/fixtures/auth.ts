@@ -1,5 +1,5 @@
 import { test as base, expect, type Page } from "@playwright/test";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type Session } from "@supabase/supabase-js";
 
 export const SEED_USERS = {
   active: {
@@ -140,25 +140,53 @@ export async function setActiveUserReadOnly(readOnly: boolean): Promise<void> {
 }
 
 export async function signIn(page: Page, email: string, password: string) {
-  const { data, error } = await getAnonClient().auth.signInWithPassword({
-    email,
-    password,
+  const admin = getTestAdmin();
+  const { data: linkData, error: linkError } =
+    await admin.auth.admin.generateLink({
+      type: "magiclink",
+      email,
+    });
+
+  if (linkError || !linkData.properties?.hashed_token) {
+    const { data, error } = await getAnonClient().auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error || !data.session) {
+      throw new Error(
+        `signIn failed: ${JSON.stringify(linkError ?? error ?? "no session")}`,
+      );
+    }
+    await setSessionCookies(page, data.session);
+    await gotoAuthenticatedHome(page);
+    return;
+  }
+
+  const { data, error } = await getAnonClient().auth.verifyOtp({
+    token_hash: linkData.properties.hashed_token,
+    type: "email",
   });
   if (error || !data.session) {
     throw new Error(
-      `signInWithPassword failed: ${error ? JSON.stringify(error) : "no session"}`,
+      `verifyOtp failed: ${JSON.stringify(error ?? "no session")}`,
     );
   }
 
-  const origin = appOrigin(page);
+  await setSessionCookies(page, data.session);
+  await gotoAuthenticatedHome(page);
+}
+
+async function setSessionCookies(page: Page, session: Session) {
   await page.context().addCookies([
     {
       name: authCookieName(),
-      value: JSON.stringify(data.session),
-      url: origin,
+      value: JSON.stringify(session),
+      url: appOrigin(page),
     },
   ]);
+}
 
+async function gotoAuthenticatedHome(page: Page) {
   await page.goto("/discover");
   await page.waitForURL(/\/(discover|onboarding|messages|profile|admin|settings)/, {
     timeout: 30_000,
