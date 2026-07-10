@@ -50,7 +50,7 @@ export function PublicNav() {
           </Link>
           <Link
             href="/sign-up"
-            className="hidden min-h-[var(--touch-min)] items-center rounded-xl bg-[var(--color-lobby-teal)] px-4 py-2 font-semibold text-white transition hover:bg-[#085d56] sm:inline-flex"
+            className="inline-flex min-h-[var(--touch-min)] items-center rounded-xl bg-[var(--color-lobby-teal)] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#085d56] sm:px-4 sm:text-sm"
           >
             Create account
           </Link>

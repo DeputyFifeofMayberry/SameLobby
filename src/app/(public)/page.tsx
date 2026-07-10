@@ -378,7 +378,12 @@ export default function HomePage() {
               className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--color-text-slate)]"
               aria-label="SameLobby trust commitments"
             >
-              {["Private connections", "No swiping", "No paid boosts"].map(
+              {[
+                "Adults 18+",
+                "Private connections",
+                "No swiping",
+                "No paid boosts",
+              ].map(
                 (item) => (
                   <li key={item} className="flex items-center gap-1.5">
                     <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--color-signal-mint)] text-[var(--color-lobby-teal)]">
