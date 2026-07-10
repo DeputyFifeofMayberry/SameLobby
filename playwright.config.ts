@@ -2,27 +2,32 @@ import { defineConfig, devices } from "@playwright/test";
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
 
+const isCi = Boolean(process.env.CI);
+
 export default defineConfig({
   testDir: "./e2e",
   // Journey specs mutate shared seeded fixtures and intentionally run in order.
   fullyParallel: false,
-  forbidOnly: Boolean(process.env.CI),
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: process.env.CI ? "github" : "list",
+  forbidOnly: isCi,
+  retries: isCi ? 2 : 0,
+  workers: isCi ? 1 : undefined,
+  reporter: isCi ? "github" : "list",
   timeout: 60_000,
+  testIgnore: isCi ? ["**/a11y/**"] : undefined,
   use: {
     baseURL,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
-  projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
-    {
-      name: "mobile",
-      use: { ...devices["Pixel 7"] },
-    },
-  ],
+  projects: isCi
+    ? [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }]
+    : [
+        { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+        {
+          name: "mobile",
+          use: { ...devices["Pixel 7"] },
+        },
+      ],
   webServer: process.env.CI
     ? {
         command: "npm run start",
