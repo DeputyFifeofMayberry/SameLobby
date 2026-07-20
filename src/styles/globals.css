@@ -68,6 +68,46 @@ summary::-webkit-details-marker {
   animation: float-y 7s ease-in-out infinite;
 }
 
+/* How-it-works page motion (CSS-only; reduced-motion reset lives in tokens.css) */
+
+/* Marches dashed SVG strokes along their path to suggest flow. */
+@keyframes dash-march {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+.animate-dash {
+  animation: dash-march 1.4s linear infinite;
+}
+
+/* Scroll-linked vertical spine on the steps timeline. Base styles stay at
+   full height; the animation is additive-only so browsers without
+   scroll-timeline support simply show the full spine. */
+@keyframes spine-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .spine-fill {
+    animation: spine-grow linear both;
+    animation-timeline: view();
+  }
+}
+
+/* SMIL traveling pulses cannot be paused by the CSS reset in tokens.css,
+   so they are removed from rendering under reduced motion instead. */
+@media (prefers-reduced-motion: reduce) {
+  .smil-pulse {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
