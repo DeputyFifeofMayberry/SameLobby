@@ -1,11 +1,14 @@
 export type IconName =
+  | "alert"
   | "arrow"
   | "ban"
   | "bell"
   | "calendar"
   | "check"
   | "chat"
+  | "download"
   | "eye"
+  | "flag"
   | "game"
   | "lock"
   | "pause"
@@ -23,6 +26,13 @@ export function Icon({
   className?: string;
 }) {
   const paths: Record<IconName, React.ReactNode> = {
+    alert: (
+      <>
+        <path d="m10.3 3.9-8.5 14.1a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+        <path d="M12 9v4" />
+        <path d="M12 17h.01" />
+      </>
+    ),
     arrow: <path d="M5 12h14m-6-6 6 6-6 6" />,
     ban: (
       <>
@@ -49,10 +59,23 @@ export function Icon({
         <path d="M8 9h8M8 13h5" />
       </>
     ),
+    download: (
+      <>
+        <path d="M12 3v12" />
+        <path d="m7 10 5 5 5-5" />
+        <path d="M5 21h14" />
+      </>
+    ),
     eye: (
       <>
         <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
         <circle cx="12" cy="12" r="3" />
+      </>
+    ),
+    flag: (
+      <>
+        <path d="M4 21V4" />
+        <path d="M4 4h13l-2.5 4L17 12H4" />
       </>
     ),
     game: (

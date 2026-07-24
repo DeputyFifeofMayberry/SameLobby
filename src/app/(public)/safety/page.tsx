@@ -1,16 +1,30 @@
+import type { Metadata } from "next";
+import { FinalCta } from "@/components/landing/FinalCta";
+import { CommunityRules } from "@/components/safety/CommunityRules";
+import { EmergencyNotice } from "@/components/safety/EmergencyNotice";
+import { ModerationFlow } from "@/components/safety/ModerationFlow";
+import { SafetyFaq } from "@/components/safety/SafetyFaq";
+import { SafetyHero } from "@/components/safety/SafetyHero";
+import { VisibilityModel } from "@/components/safety/VisibilityModel";
+import { YourControls } from "@/components/safety/YourControls";
+
+export const metadata: Metadata = {
+  title: "Safety Center",
+  description:
+    "SameLobby is for gamers 18+ looking for platonic gaming friends and teammates. Block and report controls, human review with appeals, and clear layers for who can see what.",
+};
+
 export default function SafetyPage() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16">
-      <h1 className="text-3xl font-bold">Safety Center</h1>
-      <p className="mt-4 text-[var(--color-text-slate)]">
-        SameLobby is for gamers 18+. Platonic gaming friends and teammates. No
-        dating or sexual solicitation. Block and report controls are available
-        throughout the experience.
-      </p>
-      <p className="mt-4 text-sm text-[var(--color-text-slate)]">
-        Policy documents will be published before public registration. This page
-        is a Slice 1 placeholder.
-      </p>
+    <main className="overflow-hidden">
+      <SafetyHero />
+      <EmergencyNotice />
+      <CommunityRules />
+      <YourControls />
+      <ModerationFlow />
+      <VisibilityModel />
+      <SafetyFaq />
+      <FinalCta />
     </main>
   );
 }
